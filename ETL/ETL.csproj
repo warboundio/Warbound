@@ -64,6 +64,9 @@
     <None Update="BlizzardAPI\Endpoints\PetsIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\ProfessionIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     
     <None Update="BlizzardAPI\Endpoints\Toy.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
