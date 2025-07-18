@@ -4,7 +4,7 @@ using Core.Discords;
 using Core.ETL;
 using Core.Logs;
 
-
+// creating main branch
 Logging.Configure();
 _ = ETLRunner.RunLoopAsync();
 
