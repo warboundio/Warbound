@@ -18,10 +18,9 @@ Create **ETL/ETLs/Validation/** subfolder to organize schema validation ETLs:
 
 ## 4. Create Schema Validation ETL
 Create **ETL/ETLs/Validation/SchemaValidationETL.cs** following these requirements:
-- Inherit from `RunnableBlizzardETL`
+- Does *not* inherit from `RunnableBlizzardETL`
 - Include required `RunAsync` entry point signature
-- `GetItemsToProcessAsync`: Return list of endpoint configurations (JSON file path, ID, endpoint URL pattern)
-- `UpdateItemAsync`: For each endpoint, compare local JSON fixture against live API response schema
+- Uses URLs suplied by corresponding NameETL.cs classes to generate the URL instead of hardcoding
 - Use `BlizzardAPIRouter.GetJsonRawAsync(url, forceLiveCall: true)` to bypass cache
 - Log schema differences with appropriate severity levels
 - Handle API failures gracefully (rate limits, timeouts, etc.)
@@ -38,10 +37,10 @@ Implement schema validation that:
 
 ### Endpoint Configurations
 Target the following JSON fixtures and their corresponding API endpoints:
-- **Item.json** (ID: 19019) → `https://us.api.blizzard.com/data/wow/item/19019?namespace=static-us&locale=en_US`
-- **Mount.json** (ID: 35) → `https://us.api.blizzard.com/data/wow/mount/35?namespace=static-us&locale=en_US`  
-- **Pet.json** (ID: 39) → `https://us.api.blizzard.com/data/wow/pet/39?namespace=static-us&locale=en_US`
-- **Toy.json** (ID: 1131) → `https://us.api.blizzard.com/data/wow/toy/1131?namespace=static-us&locale=en_US`
+- **Item.json** (ID: 19019) → ItemEndpoint
+- **Mount.json** (ID: 35) → MountEndpoint
+- **Pet.json** (ID: 39) → PetEndpoint
+- **Toy.json** (ID: 1131) → ToyEndpoint
 
 ### Schema Extraction Approach
 - Parse JSON into `JsonElement` structures
@@ -57,16 +56,13 @@ Target the following JSON fixtures and their corresponding API endpoints:
 - Include endpoint URL, fixture file name, and specific differences in log messages
 
 ### Error Handling
-- Graceful handling of API rate limits and temporary failures
-- Retry logic for transient network issues
-- Fallback behavior when live API is unavailable
+- Do not concern yourself with rate limits or 500 errors. That will be handled by the rate limiter.
 - Clear distinction between API failures vs. schema differences
 
 ## Success Criteria
 - SchemaValidationETL successfully compares all four endpoint schemas
 - Live API calls bypass cached responses using `forceLiveCall: true`
 - Schema differences are logged with appropriate detail and severity
-- ETL follows established `RunnableBlizzardETL` patterns
 - Code integrates cleanly with existing ETL scheduling infrastructure
 - Validation runs without affecting existing data processing ETLs
 
