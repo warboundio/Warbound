@@ -46,7 +46,7 @@ public class SchemaValidationETL
 
     private async Task ValidateEndpointSchemaAsync(string fixtureFile, int id, string endpointType)
     {
-        string fixturePath = Path.Combine("/home/runner/work/Warbound/Warbound/ETL/BlizzardAPI/Endpoints", fixtureFile);
+        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", fixtureFile);
         
         if (!File.Exists(fixturePath))
         {
@@ -79,7 +79,7 @@ public class SchemaValidationETL
         }
     }
 
-    private string GetEndpointUrl(string endpointType, int id)
+    public string GetEndpointUrl(string endpointType, int id)
     {
         return endpointType switch
         {
