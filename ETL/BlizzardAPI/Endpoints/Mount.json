@@ -1,0 +1,23 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/mount/35?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 35,
+  "name": "Ivory Raptor",
+  "creature_displays": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/media/creature-display/6471?namespace=static-11.1.7_61131-us"
+      },
+      "id": 6471
+    }
+  ],
+  "description": "Bred from the fiercest stock anywhere and guaranteed not to bite (much).",
+  "source": {
+    "type": "VENDOR",
+    "name": "Vendor"
+  },
+  "should_exclude_if_uncollected": true
+}

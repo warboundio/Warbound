@@ -1,0 +1,26 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/toy/1131?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 1131,
+  "item": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/item/187344?namespace=static-11.1.7_61131-us"
+    },
+    "name": "Offering Kit Maker",
+    "id": 187344
+  },
+  "source": {
+    "type": "DROP",
+    "name": "Drop"
+  },
+  "source_description": "Treasure: Offering Box\nZone: Korthia",
+  "media": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/media/item/187344?namespace=static-11.1.7_61131-us"
+    },
+    "id": 187344
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/item-appearance/321?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 321,
+  "slot": {
+    "type": "HEAD",
+    "name": "Head"
+  },
+  "item_class": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/item-class/4?namespace=static-11.1.7_61131-us"
+    },
+    "name": "Armor",
+    "id": 4
+  },
+  "item_subclass": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/item-class/4/item-subclass/3?namespace=static-11.1.7_61131-us"
+    },
+    "name": "Mail",
+    "id": 3
+  },
+  "item_display_info_id": 1166,
+  "items": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/item/11735?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ragefury Eyepatch",
+      "id": 11735
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/item/19945?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Lizardscale Eyepatch",
+      "id": 19945
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/item/29979?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Netherstorm Eyepatch",
+      "id": 29979
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/item/153104?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Soggy Mo'arg Eyepatch",
+      "id": 153104
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/item/187914?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Captain Noteo's Unused Eye Patch",
+      "id": 187914
+    }
+  ],
+  "media": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/media/item/134955?namespace=static-11.1.7_61131-us"
+    },
+    "id": 134955
+  }
+}

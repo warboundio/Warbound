@@ -1,0 +1,182 @@
+# .editorconfig for Warbound
+
+root = true
+
+[*.cs]
+
+# Enforce explicit types (no 'var' even for obvious cases)
+
+csharp_style_var_for_built_in_types = false:error
+csharp_style_var_when_type_is_apparent = false:error
+csharp_style_var_elsewhere = false:error
+
+# Prefer inline object creation
+
+csharp_style_implicit_object_creation_when_type_is_apparent = true:error
+
+# Require braces on all conditionals and loops
+
+csharp_prefer_braces = true:error
+
+# Allow expression-bodied methods and prefer for properties
+
+csharp_style_expression_bodied_methods = when_on_single_line:warning
+csharp_style_expression_bodied_properties = true:silent
+
+# Prefer pattern matching, null coalescing, nameof, interpolated strings, etc.
+
+csharp_style_pattern_matching_over_is_with_cast_check = true:error
+csharp_style_pattern_matching_over_as_with_null_check = true:error
+csharp_style_conditional_delegate_call = true:error
+csharp_style_throw_expression = true:warning
+csharp_style_coalesce_expression = true:error
+csharp_style_name_of_expression = true:error
+csharp_style_interpolated_string = true:error
+
+# Newline at end of file
+
+insert_final_newline = true
+end_of_line = crlf
+charset = utf-8
+
+# Using directives and ordering
+
+csharp_using_directive_placement = outside_namespace:error
+dotnet_sort_system_directives_first = true:error
+dotnet_separate_import_directive_groups = true:error
+
+# Maximum of 1 blank line
+
+dotnet_style_allow_multiple_blank_lines = false:error
+
+# Indentation preferences
+
+indent_style = space
+indent_size = 4
+
+# Naming rules
+
+# Private fields with _camelCase
+
+dotnet_naming_style.underscore_camel_case_style.capitalization = camel_case
+dotnet_naming_style.underscore_camel_case_style.required_prefix = _
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.style = underscore_camel_case_style
+dotnet_naming_rule.private_fields_should_be_camel_with_underscore.severity = error
+
+# Constants in UPPER_CASE
+
+dotnet_naming_style.upper_case_style.capitalization = all_upper
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_rule.constants_should_be_upper_case.symbols = constants
+dotnet_naming_rule.constants_should_be_upper_case.style = upper_case_style
+dotnet_naming_rule.constants_should_be_upper_case.severity = error
+
+# Locals in camelCase
+
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+dotnet_naming_symbols.locals.applicable_kinds = local
+dotnet_naming_rule.locals_should_be_camel_case.symbols = locals
+dotnet_naming_rule.locals_should_be_camel_case.style = camel_case_style
+dotnet_naming_rule.locals_should_be_camel_case.severity = error
+
+# Interfaces with I prefix
+
+dotnet_naming_style.interface_prefix_style.capitalization = pascal_case
+dotnet_naming_style.interface_prefix_style.required_prefix = I
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_rule.interfaces_should_be_prefixed.symbols = interfaces
+dotnet_naming_rule.interfaces_should_be_prefixed.style = interface_prefix_style
+dotnet_naming_rule.interfaces_should_be_prefixed.severity = error
+
+# Enums in PascalCase
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_symbols.enums.applicable_kinds = enum
+dotnet_naming_rule.enums_should_be_pascal_case.symbols = enums
+dotnet_naming_rule.enums_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.enums_should_be_pascal_case.severity = error
+
+# Async methods should end in 'Async'
+
+dotnet_naming_style.async_suffix_style.capitalization = pascal_case
+dotnet_naming_style.async_suffix_style.required_suffix = Async
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.required_modifiers = async
+dotnet_naming_rule.async_methods_should_end_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_should_end_with_async.style = async_suffix_style
+dotnet_naming_rule.async_methods_should_end_with_async.severity = error
+
+# Require XML docs on public members only
+dotnet_diagnostic.CA1860.severity = none
+dotnet_diagnostic.CA1816.severity = none
+dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.IDE1006.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1591.severity = none
+dotnet_diagnostic.CS1591.severity = none
+
+# Warnings as errors
+
+dotnet_analyzer_diagnostic.severity = warning
+
+# Best practice rules
+dotnet_diagnostic.IDE0017.severity = none
+dotnet_diagnostic.CA2016.severity = none
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.IDE1006.severity = none
+dotnet_diagnostic.CA1822.severity = none
+dotnet_diagnostic.CS1998.severity = error   # async method lacks await
+dotnet_diagnostic.IDE0290.severity = none
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.IDE0058.severity = none
+
+csharp_style_prefer_switch_expression = true:warning
+csharp_style_prefer_top_level_statements = true:warning
+csharp_style_prefer_file_local_types = true:warning
+csharp_style_prefer_static_local_function = true:warning
+csharp_style_prefer_simplified_interpolation = true:warning
+
+# Nullable reference types
+
+nullable = enable
+
+# Allow modern C# features
+
+csharp_style_namespace_declarations = file_scoped:error
+csharp_indent_labels = one_less_than_current
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+
+[*.{csproj,props,targets}]
+indent_style = space
+indent_size = 2
+
+[*.{json,xml}]
+indent_style = space
+indent_size = 2
+
+[**/*Tests.cs]
+dotnet_diagnostic.IDE0058.severity = none
+dotnet_diagnostic.CA1816.severity = none
+[*.{cs,vb}]
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+end_of_line = crlf
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent

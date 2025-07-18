@@ -1,0 +1,15 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/media/pet/39?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "assets": [
+    {
+      "key": "icon",
+      "value": "https://render.worldofwarcraft.com/us/icons/56/inv_pet_mechanicalsquirrel.jpg",
+      "file_data_id": 656559
+    }
+  ],
+  "id": 39
+}

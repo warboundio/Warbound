@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warbound", "Warbound\Warbound.csproj", "{4FA93F58-57BB-4023-8F14-F5B81BB03C00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETL", "ETL\ETL.csproj", "{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\copilot-instructions.md = .github\copilot-instructions.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{9A182F15-55A4-4670-B53C-3BF9459227D5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{83920ACF-FB66-4BF2-9407-FA028659AC90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{A672C6F1-D36E-4C49-9973-9CB4F64B8648}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACEP", "ACEP\ACEP.csproj", "{8A791A71-8D08-4733-AEB7-13B935177CBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83920ACF-FB66-4BF2-9407-FA028659AC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83920ACF-FB66-4BF2-9407-FA028659AC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83920ACF-FB66-4BF2-9407-FA028659AC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83920ACF-FB66-4BF2-9407-FA028659AC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A791A71-8D08-4733-AEB7-13B935177CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A791A71-8D08-4733-AEB7-13B935177CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A791A71-8D08-4733-AEB7-13B935177CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A791A71-8D08-4733-AEB7-13B935177CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}
+		{9A182F15-55A4-4670-B53C-3BF9459227D5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A672C6F1-D36E-4C49-9973-9CB4F64B8648} = {8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96506A9F-CE4C-4607-ADDF-E8E90505C4A9}
+	EndGlobalSection
+EndGlobal
