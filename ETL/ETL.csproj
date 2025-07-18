@@ -64,6 +64,24 @@
     <None Update="BlizzardAPI\Endpoints\PetsIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\Profession.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\ProfessionMedia.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\ProfessionsIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\ProfessionSkillTier.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\Recipe.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\RecipeMedia.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     
     <None Update="BlizzardAPI\Endpoints\Toy.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
