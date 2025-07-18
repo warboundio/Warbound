@@ -55,7 +55,18 @@ protected override async Task UpdateItemAsync(object item);
 
 Refer to these existing classes for patterns and implementation details.
 
-## 6. Style & Rationale
+## 6. Special Case: Validation ETLs
+
+**Validation ETLs** are a special category that do **not** inherit from `RunnableBlizzardETL`:
+- Located in `ETL.ETLs.Validation` namespace
+- Still require the same `RunAsync` entry point signature
+- Focus on schema validation rather than data processing
+- Use `BlizzardAPIRouter.GetJsonRawAsync(url, forceLiveCall: true)` to bypass cache
+- Example: `SchemaValidationETL` compares JSON fixtures against live API responses
+
+These ETLs handle monitoring and validation tasks that don't fit the standard data processing pattern.
+
+## 7. Style & Rationale
 
 - **Minimal Boilerplate**: base class handles retries, logging, error handling.
 - **Clarity**: split discovery vs. enrichment keeps ETLs focused.
