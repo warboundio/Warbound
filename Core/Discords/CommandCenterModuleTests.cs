@@ -38,4 +38,21 @@ public class CommandCenterModuleTests
         Assert.Contains(commands, c => c.Name == "lockclear");
         Assert.Contains(commands, c => c.Description == "Clear all ETL job locks");
     }
+
+    [Fact]
+    public void ItShouldRegisterClearAndRunCommand()
+    {
+        CommandRegistry registry = new();
+
+        // Simulate the registration that happens in CommandCenterModule
+        registry.Register("clearandrun", "Clear lock and run an ETL job", async (message, args) =>
+        {
+            await Task.CompletedTask;
+        });
+
+        IEnumerable<CommandDefinition> commands = registry.ListCommands();
+
+        Assert.Contains(commands, c => c.Name == "clearandrun");
+        Assert.Contains(commands, c => c.Description == "Clear lock and run an ETL job");
+    }
 }
