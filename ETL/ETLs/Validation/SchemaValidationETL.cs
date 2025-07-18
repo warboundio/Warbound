@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Core.ETL;
 using Core.Logs;
 using ETL.BlizzardAPI.Endpoints;
 using ETL.BlizzardAPI.General;
@@ -12,7 +11,7 @@ namespace ETL.ETLs.Validation;
 
 public class SchemaValidationETL
 {
-    public static async Task RunAsync(ETLJob? job = null)
+    public static async Task RunAsync()
     {
         SchemaValidationETL etl = new();
         await etl.ProcessAsync();
@@ -47,36 +46,23 @@ public class SchemaValidationETL
     private async Task ValidateEndpointSchemaAsync(string fixtureFile, int id, string endpointType)
     {
         string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", fixtureFile);
-        
         if (!File.Exists(fixturePath))
         {
             Logging.Warn(GetType().Name, $"Fixture file not found: {fixturePath}");
             return;
         }
 
-        // Read fixture JSON
         string fixtureJson = await File.ReadAllTextAsync(fixturePath);
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
-        
-        // Get URL from appropriate endpoint
         string liveUrl = GetEndpointUrl(endpointType, id);
-        
         Logging.Info(GetType().Name, $"Validating schema for {fixtureFile} against {liveUrl}");
-        
+
         string liveJson = await BlizzardAPIRouter.GetJsonRawAsync(liveUrl, forceLiveCall: true);
         JsonElement liveElement = JsonSerializer.Deserialize<JsonElement>(liveJson);
-        
-        // Compare schemas
         List<string> differences = CompareSchemas(fixtureElement, liveElement, "");
-        
-        if (differences.Count == 0)
-        {
-            Logging.Info(GetType().Name, $"Schema validation PASSED for {fixtureFile} - schemas match");
-        }
-        else
-        {
-            LogSchemaDifferences(fixtureFile, liveUrl, differences);
-        }
+
+        if (differences.Count == 0) { Logging.Info(GetType().Name, $"Schema validation PASSED for {fixtureFile} - schemas match"); }
+        else { LogSchemaDifferences(fixtureFile, liveUrl, differences); }
     }
 
     public string GetEndpointUrl(string endpointType, int id)
@@ -94,25 +80,16 @@ public class SchemaValidationETL
     public List<string> CompareSchemas(JsonElement fixture, JsonElement live, string path)
     {
         List<string> differences = [];
-        
-        // Check if value types match
+
         if (fixture.ValueKind != live.ValueKind)
         {
             differences.Add($"Type mismatch at {path}: fixture={fixture.ValueKind}, live={live.ValueKind}");
-            return differences; // Can't continue comparing if types differ
+            return differences;
         }
-        
-        switch (fixture.ValueKind)
-        {
-            case JsonValueKind.Object:
-                CompareObjectSchemas(fixture, live, path, differences);
-                break;
-            case JsonValueKind.Array:
-                CompareArraySchemas(fixture, live, path, differences);
-                break;
-            // For primitive types, we only check that the types match (which we already did above)
-        }
-        
+
+        if (fixture.ValueKind == JsonValueKind.Object) { CompareObjectSchemas(fixture, live, path, differences); }
+        else if (fixture.ValueKind == JsonValueKind.Array) { CompareArraySchemas(fixture, live, path, differences); }
+
         return differences;
     }
 
@@ -121,17 +98,10 @@ public class SchemaValidationETL
         // Get all property names from both objects
         HashSet<string> fixtureProps = [];
         HashSet<string> liveProps = [];
-        
-        foreach (JsonProperty prop in fixture.EnumerateObject())
-        {
-            fixtureProps.Add(prop.Name);
-        }
-        
-        foreach (JsonProperty prop in live.EnumerateObject())
-        {
-            liveProps.Add(prop.Name);
-        }
-        
+
+        foreach (JsonProperty prop in fixture.EnumerateObject()) { fixtureProps.Add(prop.Name); }
+        foreach (JsonProperty prop in live.EnumerateObject()) { liveProps.Add(prop.Name); }
+
         // Check for properties missing in live API
         foreach (string prop in fixtureProps)
         {
@@ -140,7 +110,7 @@ public class SchemaValidationETL
                 differences.Add($"Property missing in live API at {(string.IsNullOrEmpty(path) ? prop : $"{path}.{prop}")}");
             }
         }
-        
+
         // Check for new properties in live API
         foreach (string prop in liveProps)
         {
@@ -149,7 +119,7 @@ public class SchemaValidationETL
                 differences.Add($"New property in live API at {(string.IsNullOrEmpty(path) ? prop : $"{path}.{prop}")}");
             }
         }
-        
+
         // Recursively compare common properties
         foreach (string prop in fixtureProps)
         {
@@ -187,7 +157,7 @@ public class SchemaValidationETL
         // Categorize differences by severity
         List<string> errors = [];
         List<string> warnings = [];
-        
+
         foreach (string diff in differences)
         {
             if (diff.Contains("missing in live API") || diff.Contains("Type mismatch"))
@@ -199,12 +169,12 @@ public class SchemaValidationETL
                 warnings.Add(diff);
             }
         }
-        
+
         if (errors.Count > 0)
         {
             Logging.Warn(GetType().Name, $"Schema validation FAILED for {fixtureFile} ({url}) - {errors.Count} critical differences: {string.Join("; ", errors)}");
         }
-        
+
         if (warnings.Count > 0)
         {
             Logging.Warn(GetType().Name, $"Schema validation WARNING for {fixtureFile} ({url}) - {warnings.Count} minor differences: {string.Join("; ", warnings)}");

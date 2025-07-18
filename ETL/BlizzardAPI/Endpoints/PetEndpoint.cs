@@ -24,14 +24,14 @@ public class PetEndpoint : BaseBlizzardEndpoint<Pet>
         petObj.IsBattlePet = json.GetProperty("is_battlepet").GetBoolean();
         petObj.IsAllianceOnly = json.GetProperty("is_alliance_only").GetBoolean();
         petObj.IsHordeOnly = json.GetProperty("is_horde_only").GetBoolean();
-        
+
         string sourceType = string.Empty;
         if (json.TryGetProperty("source", out JsonElement sourceElement) && sourceElement.TryGetProperty("type", out JsonElement typeElement))
         {
             sourceType = typeElement.GetString() ?? string.Empty;
         }
         petObj.SourceType = sourceType;
-        
+
         petObj.Icon = json.GetProperty("icon").GetString()!;
         petObj.Status = ETLStateType.COMPLETE;
         petObj.LastUpdatedUtc = DateTime.UtcNow;
