@@ -1,0 +1,93 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/profession/index?namespace=static-us&locale=en_US"
+    }
+  },
+  "professions": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/164?namespace=static-us&locale=en_US"
+      },
+      "name": "Blacksmithing",
+      "id": 164
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/165?namespace=static-us&locale=en_US"
+      },
+      "name": "Leatherworking",
+      "id": 165
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/171?namespace=static-us&locale=en_US"
+      },
+      "name": "Alchemy",
+      "id": 171
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/182?namespace=static-us&locale=en_US"
+      },
+      "name": "Herbalism",
+      "id": 182
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/186?namespace=static-us&locale=en_US"
+      },
+      "name": "Mining",
+      "id": 186
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/197?namespace=static-us&locale=en_US"
+      },
+      "name": "Tailoring",
+      "id": 197
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/202?namespace=static-us&locale=en_US"
+      },
+      "name": "Engineering",
+      "id": 202
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/333?namespace=static-us&locale=en_US"
+      },
+      "name": "Enchanting",
+      "id": 333
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/393?namespace=static-us&locale=en_US"
+      },
+      "name": "Skinning",
+      "id": 393
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/755?namespace=static-us&locale=en_US"
+      },
+      "name": "Jewelcrafting",
+      "id": 755
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/773?namespace=static-us&locale=en_US"
+      },
+      "name": "Inscription",
+      "id": 773
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/profession/794?namespace=static-us&locale=en_US"
+      },
+      "name": "Archaeology",
+      "id": 794
+    }
+  ]
+}
