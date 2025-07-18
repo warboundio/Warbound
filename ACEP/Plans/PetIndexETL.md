@@ -1,5 +1,5 @@
-# ACEP Execution Action: Create Pet Index ETL
-This action will scaffold and implement a new ETL that retrieves the World of Warcraft Pet Index from Blizzard's Developer API.
+# ACEP Plan: Create Pet Index ETL
+This plan will scaffold and implement a new ETL that retrieves the World of Warcraft Pet Index from Blizzard's Developer API.
 
 ## 1. Read Endpoint Instructions
 - Open and follow **ETL/BlizzardAPI/Endpoints/_Endpoints.Agent.md** to understand how to define a new endpoint and its data model.

@@ -1,5 +1,5 @@
-# ACEP Execution Action: Create Pet Enrichment ETL
-This action will extend the existing Pet domain model and implement an enrichment ETL that retrieves detailed World of Warcraft Pet data from Blizzard's Developer API.
+# ACEP Plan: Create Pet Enrichment ETL
+This plan will extend the existing Pet domain model and implement an enrichment ETL that retrieves detailed World of Warcraft Pet data from Blizzard's Developer API.
 
 ## 1. Read Endpoint Instructions
 - Open and follow **ETL/BlizzardAPI/Endpoints/_Endpoints.Agent.md** to understand how to create an enrichment endpoint for detailed Pet data.

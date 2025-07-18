@@ -1,6 +1,6 @@
-# ACEP Execution Action: Refactor Endpoint Object Construction Pattern
+# ACEP Plan: Refactor Endpoint Object Construction Pattern
 
-This action will refactor all existing Blizzard API endpoints to follow the new fail-fast parsing pattern established in `PetIndexEndpoint.cs`, removing object initializer syntax and default values to ensure clear error identification during JSON parsing failures.
+This plan will refactor all existing Blizzard API endpoints to follow the new fail-fast parsing pattern established in `PetIndexEndpoint.cs`, removing object initializer syntax and default values to ensure clear error identification during JSON parsing failures.
 
 ## 1. Read Current Documentation
 - Review **ETL/BlizzardAPI/Endpoints/_Endpoints.Agent.md** to understand the updated parsing conventions:
