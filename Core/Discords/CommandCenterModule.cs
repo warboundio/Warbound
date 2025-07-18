@@ -137,8 +137,6 @@ public class CommandCenterModule : ChannelHandler
         try
         {
             Logging.Info(nameof(CommandCenterModule), $"Clear and run requested for job: {jobName}");
-
-            // Phase 1: Clear lock for the specific job
             await message.Channel.SendMessageAsync($"🔓 Clearing lock for {jobName}...");
 
             using (ETLContext db = new())
@@ -152,34 +150,18 @@ public class CommandCenterModule : ChannelHandler
                     return;
                 }
 
-                // Clear lock for this specific job only
                 job.LockOwner = null;
                 job.LockAcquiredAt = null;
                 await db.SaveChangesAsync();
 
-                await message.Channel.SendMessageAsync($"✅ Lock cleared for {jobName}");
                 Logging.Info(nameof(CommandCenterModule), $"Lock cleared for job: {jobName}");
             }
 
-            // Phase 2: Run the job manually
-            await message.Channel.SendMessageAsync($"🚀 Starting manual run for {jobName}...");
-
             bool lockAcquired = await ETLRunner.RunJobManuallyAsync(jobName);
-
-            if (lockAcquired)
-            {
-                await message.Channel.SendMessageAsync($"✅ {jobName} kicked off successfully");
-                Logging.Info(nameof(CommandCenterModule), $"Clear and run completed successfully for job: {jobName}");
-            }
-            else
-            {
-                await message.Channel.SendMessageAsync($"❌ Failed to start {jobName} - could not acquire lock");
-                Logging.Warn(nameof(CommandCenterModule), $"Clear and run failed to acquire lock for job: {jobName}");
-            }
+            if (!lockAcquired) { Logging.Warn(nameof(CommandCenterModule), $"Clear and run failed to acquire lock for job: {jobName}"); }
         }
         catch (Exception ex)
         {
-            await message.Channel.SendMessageAsync($"❌ Error in clearandrun for `{jobName}`: {ex.Message}");
             Logging.Error(nameof(CommandCenterModule), $"Clear and run failed for job: {jobName}", ex);
         }
     }
