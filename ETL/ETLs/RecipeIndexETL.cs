@@ -28,7 +28,7 @@ public class RecipeIndexETL : RunnableBlizzardETL
         {
             // Parse semicolon-delimited SkillTiers field
             string[] skillTierIds = profession.SkillTiers.Split(';', StringSplitOptions.RemoveEmptyEntries);
-            
+
             foreach (string skillTierIdStr in skillTierIds)
             {
                 if (int.TryParse(skillTierIdStr, out int skillTierId))
@@ -36,7 +36,7 @@ public class RecipeIndexETL : RunnableBlizzardETL
                     // Fetch all recipes for this profession/skill tier combination
                     RecipeIndexEndpoint endpoint = new(profession.Id, skillTierId);
                     List<Recipe> recipesFromApi = await endpoint.GetAsync();
-                    
+
                     // Filter to only new recipes that don't already exist
                     List<Recipe> newRecipesForTier = [.. recipesFromApi.Where(recipe => !existingRecipeIds.Contains(recipe.Id))];
                     newRecipes.AddRange(newRecipesForTier);

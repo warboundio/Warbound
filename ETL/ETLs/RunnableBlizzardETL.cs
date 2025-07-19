@@ -152,7 +152,14 @@ public abstract class RunnableBlizzardETL : IAsyncDisposable
                 int processed = instance._processedCount;
                 double percent = total == 0 ? 100.0 : Math.Round(100 * ((double)processed / total), 2);
 
-                Logging.Info(instance.GetType().Name, $"Processed: {processed}/{total} ({percent}% complete)");
+                if (total == 0)
+                {
+                    Logging.Info(instance.GetType().Name, $"Loading Data");
+                }
+                else
+                {
+                    Logging.Info(instance.GetType().Name, $"Processed: {processed}/{total} ({percent}% complete)");
+                }
             }
             catch (OperationCanceledException) { break; }
             catch (Exception ex)
