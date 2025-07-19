@@ -31,7 +31,8 @@ public class RecipeEndpoint : BaseBlizzardEndpoint<Recipe>
 
         if (json.TryGetProperty("crafted_quantity", out JsonElement craftedQuantityElement) && craftedQuantityElement.TryGetProperty("value", out JsonElement craftedQuantityValueElement))
         {
-            recipe.CraftedQuantity = craftedQuantityValueElement.GetInt32();
+            string craftedQuantityString = craftedQuantityValueElement.ToString();
+            recipe.CraftedQuantity = (int)double.Parse(craftedQuantityString);
         }
 
         StringBuilder reagentsBuilder = new();

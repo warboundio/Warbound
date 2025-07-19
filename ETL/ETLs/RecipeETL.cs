@@ -23,10 +23,10 @@ public class RecipeETL : RunnableBlizzardETL
     protected override async Task UpdateItemAsync(object item)
     {
         Recipe recipe = (Recipe)item;
-        RecipeEndpoint endpoint = new(recipe.Id);
-        
+
         try
         {
+            RecipeEndpoint endpoint = new(recipe.Id);
             Recipe enriched = await endpoint.GetAsync();
 
             recipe.Name = enriched.Name;

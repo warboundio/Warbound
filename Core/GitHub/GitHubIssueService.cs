@@ -1,8 +1,23 @@
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Net.Http.Headers;
+using System.Reflection.PortableExecutable;
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.Json;
+using System.Text.Unicode;
+using Castle.Components.DictionaryAdapter.Xml;
 using Core.Logs;
 using Core.Settings;
+using Discord;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using NetTopologySuite.Algorithm;
+using NetTopologySuite.Geometries;
+using Octokit;
+using Octokit.Internal;
+using static System.Net.WebRequestMethods;
 
 namespace Core.GitHub;
 
@@ -43,7 +58,31 @@ public static class GitHubIssueService
         string url = $"https://api.github.com/repos/{OWNER}/{REPO}/issues";
         using HttpResponseMessage response = await client.PostAsync(url, content);
 
-        response.EnsureSuccessStatusCode();
+        // {StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+  //      {
+  //      Date: Sat, 19 Jul 2025 18:55:12 GMT
+  //        X - GitHub - Media - Type: github.v3; format = json
+  //        X - RateLimit - Limit: 60
+  //        X - RateLimit - Remaining: 58
+  //        X - RateLimit - Reset: 1752954886
+  //        X - RateLimit - Used: 2
+  //        X - RateLimit - Resource: core
+  //        Access - Control - Expose - Headers: ETag, Link, Location, Retry - After, X - GitHub - OTP, X - RateLimit - Limit, X - RateLimit - Remaining, X - RateLimit - Used, X - RateLimit - Resource, X - RateLimit - Reset, X - OAuth - Scopes, X - Accepted - OAuth - Scopes, X - Poll - Interval, X - GitHub - Media - Type, X - GitHub - SSO, X - GitHub - Request - Id, Deprecation, Sunset
+  //        Access - Control - Allow - Origin: *
+  //Strict - Transport - Security: max - age = 31536000; includeSubdomains; preload
+  //        X - Frame - Options: deny
+  //        X - Content - Type - Options: nosniff
+  //        X - XSS - Protection: 0
+  //        Referrer - Policy: origin - when - cross - origin, strict - origin - when - cross - origin
+  //        Content - Security - Policy: default - src 'none'
+  //        Vary: Accept - Encoding, Accept, X - Requested - With
+  //        X - GitHub - Request - Id: C00F: 2BD6D: E22261: 1CDA0E8: 687BEA10
+  //Server: github.com
+  //        Content - Type: application / json; charset = utf - 8
+  //        Content - Length: 95
+  //      }
+  //  }
+    response.EnsureSuccessStatusCode();
         
         string responseContent = await response.Content.ReadAsStringAsync();
         using JsonDocument document = JsonDocument.Parse(responseContent);
