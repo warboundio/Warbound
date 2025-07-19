@@ -16,6 +16,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<Realm> Realms => Set<Realm>();
     public DbSet<ItemMedia> ItemMedias => Set<ItemMedia>();
     public DbSet<Recipe> Recipes => Set<Recipe>();
+    public DbSet<RecipeMedia> RecipeMedias => Set<RecipeMedia>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
