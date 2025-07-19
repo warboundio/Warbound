@@ -107,23 +107,9 @@ public void Add_Ints_ReturnsCorrectSum()
 In order to operate as an agent in our DUCA codebase follow these steps:
 
 1. **Ingest the GitHub Issue**  
-   - Every GitHub Issue in this pipeline contains **only** a link to the real action to be taken on a PLAN (e.g. `/DUCA/Plans/______.md`).  
+   - Most every GitHub Issue in this pipeline contains a link to the real action to be taken on a PLAN (e.g. `/DUCA/Plans/______.md`).  
    - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and DUCA PLAN to be completed.
+   - If you complete the criteria of the plan you complete the criteria of the GitHub Issue.
 
-2. **Load Context Profiles**  
-   - Before opening or editing **any** code file, look for DUCA files:  
-     - **File‑level**: `X.Agent.md` sitting next to `X.cs`
-        - Example: Core/Logs/Logging.cs is accompanied by `Core/Logs/Logging.Agent.md`
-     - **Namespace‑level**: `__Namespace.Agent.md` in the same folder
-        - Example: Core/ETL has a file named Core/ETL/_ETL.Agent.md as an overview for that namespace.
-   - These files contain context about how to use the code, conventions, and patterns that must be followed.
-   - If there is confusion read all `X.Agent.md` files in the directory to make an educated decision.
-
-3. **Editing Context Profiles**
-   - When working on an *DUCA Plan* you must:
-     - Review the Plan and understand the ethos and purpose behind the changes to the codebase.
-     - Modify and update the DUCA markdown files (if they exist) (do not create .md files unless the Plan explicitly asks for it) for the class or the namespace to reflect the changes you are making.
-     - If there is a follow up Plan to be written. Only write it after all of the current Plans's code is complete and tested and ready for it's pull request.
-
-4. **Testing**
-   - When writing tests do not write any integration tests or mocking unless explicitly specified in the Plan text.
+2. **Read /DUCA/DUCA.md**
+   - Familiarize yourself with the DUCA system. You are a developer you are writing the plans and executing them. Ensure you understand the context and rules of engagement.
