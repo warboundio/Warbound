@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Core.ETL;
 using ETL.BlizzardAPI.Endpoints;
@@ -22,14 +24,23 @@ public class RecipeETL : RunnableBlizzardETL
     {
         Recipe recipe = (Recipe)item;
         RecipeEndpoint endpoint = new(recipe.Id);
-        Recipe enriched = await endpoint.GetAsync();
+        
+        try
+        {
+            Recipe enriched = await endpoint.GetAsync();
 
-        recipe.Name = enriched.Name;
-        recipe.CraftedItemId = enriched.CraftedItemId;
-        recipe.CraftedQuantity = enriched.CraftedQuantity;
-        recipe.Reagents = enriched.Reagents;
-        recipe.Status = ETLStateType.COMPLETE;
-        recipe.LastUpdatedUtc = System.DateTime.UtcNow;
+            recipe.Name = enriched.Name;
+            recipe.CraftedItemId = enriched.CraftedItemId;
+            recipe.CraftedQuantity = enriched.CraftedQuantity;
+            recipe.Reagents = enriched.Reagents;
+            recipe.Status = ETLStateType.COMPLETE;
+            recipe.LastUpdatedUtc = System.DateTime.UtcNow;
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            recipe.Status = ETLStateType.INVALID;
+            recipe.LastUpdatedUtc = System.DateTime.UtcNow;
+        }
 
         SaveBuffer.Add(recipe);
     }
