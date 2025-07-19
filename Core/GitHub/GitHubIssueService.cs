@@ -1,30 +1,16 @@
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Net.Http.Headers;
-using System.Reflection.PortableExecutable;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.Json;
-using System.Text.Unicode;
-using Castle.Components.DictionaryAdapter.Xml;
 using Core.Logs;
+using Core.Services;
 using Core.Settings;
-using Discord;
-using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using NetTopologySuite.Algorithm;
-using NetTopologySuite.Geometries;
-using Octokit;
-using Octokit.Internal;
-using static System.Net.WebRequestMethods;
 
 namespace Core.GitHub;
 
 /// <summary>
 /// Service for creating GitHub issues programmatically using GitHub REST API
 /// </summary>
-public static class GitHubIssueService
+public class GitHubIssueService : IGitHubIssueService
 {
     private const string OWNER = "warboundio";
     private const string REPO = "warbound";
@@ -32,19 +18,30 @@ public static class GitHubIssueService
     private const string STATUS_FIELD_ID = "PVTSSF_lAHODRaglc4A-QJyzgxtltU";
     private const string COLUMN_ID = "47fc9ee4";
 
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public GitHubIssueService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    // Static compatibility method for backward compatibility
+    public static Task<int> CreateAsync(string title, string body)
+    {
+        var service = ServiceProvider.GetService<IGitHubIssueService>();
+        return service.Create(title, body);
+    }
+
     /// <summary>
     /// Creates a GitHub issue with specified title and body, and attaches it to the project
     /// </summary>
     /// <param name="title">Issue title</param>
     /// <param name="body">Issue body content</param>
     /// <returns>GitHub issue number</returns>
-    public static async Task<int> Create(string title, string body)
+    public async Task<int> Create(string title, string body)
     {
-        using HttpClient client = new();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApplicationSettings.Instance.GithubToken);
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("WarboundETL");
-
+        using HttpClient client = _httpClientFactory.CreateClient("GitHubAPI");
+        
         // Create the issue
         var issue = new
         {
@@ -58,31 +55,7 @@ public static class GitHubIssueService
         string url = $"https://api.github.com/repos/{OWNER}/{REPO}/issues";
         using HttpResponseMessage response = await client.PostAsync(url, content);
 
-        // {StatusCode: 401, ReasonPhrase: 'Unauthorized', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
-  //      {
-  //      Date: Sat, 19 Jul 2025 18:55:12 GMT
-  //        X - GitHub - Media - Type: github.v3; format = json
-  //        X - RateLimit - Limit: 60
-  //        X - RateLimit - Remaining: 58
-  //        X - RateLimit - Reset: 1752954886
-  //        X - RateLimit - Used: 2
-  //        X - RateLimit - Resource: core
-  //        Access - Control - Expose - Headers: ETag, Link, Location, Retry - After, X - GitHub - OTP, X - RateLimit - Limit, X - RateLimit - Remaining, X - RateLimit - Used, X - RateLimit - Resource, X - RateLimit - Reset, X - OAuth - Scopes, X - Accepted - OAuth - Scopes, X - Poll - Interval, X - GitHub - Media - Type, X - GitHub - SSO, X - GitHub - Request - Id, Deprecation, Sunset
-  //        Access - Control - Allow - Origin: *
-  //Strict - Transport - Security: max - age = 31536000; includeSubdomains; preload
-  //        X - Frame - Options: deny
-  //        X - Content - Type - Options: nosniff
-  //        X - XSS - Protection: 0
-  //        Referrer - Policy: origin - when - cross - origin, strict - origin - when - cross - origin
-  //        Content - Security - Policy: default - src 'none'
-  //        Vary: Accept - Encoding, Accept, X - Requested - With
-  //        X - GitHub - Request - Id: C00F: 2BD6D: E22261: 1CDA0E8: 687BEA10
-  //Server: github.com
-  //        Content - Type: application / json; charset = utf - 8
-  //        Content - Length: 95
-  //      }
-  //  }
-    response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
         
         string responseContent = await response.Content.ReadAsStringAsync();
         using JsonDocument document = JsonDocument.Parse(responseContent);
@@ -100,7 +73,7 @@ public static class GitHubIssueService
         return issueNumber;
     }
 
-    private static async Task AddIssueToProject(HttpClient client, string issueId)
+    private async Task AddIssueToProject(HttpClient client, string issueId)
     {
         try
         {
@@ -154,7 +127,7 @@ public static class GitHubIssueService
         }
     }
 
-    private static async Task UpdateProjectItemStatus(HttpClient client, string projectItemId)
+    private async Task UpdateProjectItemStatus(HttpClient client, string projectItemId)
     {
         try
         {
