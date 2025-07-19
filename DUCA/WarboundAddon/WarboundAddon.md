@@ -1,90 +1,90 @@
-﻿# Warbound.io Addon
+﻿
+# Warbound.io Addon
 
 ## Overview
 
-A single, modular Lua addon that provides three distinct features:
+The Warbound addon is a modular, event-driven Lua addon designed to collect and serialize meaningful **collection** and **gameplay** data from World of Warcraft. This data is stored locally in SavedVariables and offloaded to the Warbound client for analysis, display, and goal tracking on the web.
 
-1. **Collections (Core)** – Serialize in‑game collection data (transmogs, pets, mounts, recipes, toys).
-2. **Background Data (Data)** – Capture contextual metadata (quest/item sources, vendor IDs, etc.) for each collectible.
-3. **Guidance (Guide)** – In‑game UI to walk players through active goals, with coordinates and copy‑to‑clipboard links tied to the website.
+The addon focuses on two distinct areas:
 
-Modules load only when needed, so users install once and enable or disable features via a simple config.
+1. **User Data (Collections)** – Tracks what the player has collected.
+2. **Game Data (Background Metadata)** – Captures context about where things come from in the world.
 
----
-
-## Modules
-
-### 1. Core Module: Collections
-
-* Hooks into collection events (`ADDON_LOADED`, `PLAYER_LOGOUT`, update events) to rebuild full snapshots of each category.
-* Gathers collected item IDs for:
-  * Transmogs
-  * Pets
-  * Mounts
-  * Recipes
-  * Toys
-* Uses Base90 encoding to compress each ID list into a minimal-length string.
-
-### 2. Data Module: Background Metadata
-
-* Listens to quest completions, vendor interactions, drop events, and other hooks.
-* Maps each collected ID to its source (quest ID, NPC vendor, drop table, etc.).
-* Emits lightweight events or stores mappings in a transient table for the client to consume.
-
-### 3. Guide Module: Goal Assistance
-
-* Reads the Core snapshot and active goal definitions (provided by the website).
-* Displays a step‑by‑step guide in‑game:
-
-  * Target coordinates
-  * Recommended zones
-  * Copy‑to‑clipboard commands (e.g. `/wb copy MOUNT_HERALDOFGLOW`)
-* Load‑on‑demand via slash commands or config toggles.
+These systems power the core value of Warbound.io: understanding and guiding the collecting journey in WoW.
 
 ---
 
-## SavedVariables Structure
+## Feature Categories
 
-All persistent data remains in a single SavedVariables table, with only the Core module writing to it:
+### 1. 📦 Collections (User Data)
 
+This is the backbone of the addon. It monitors the player's collection state in real time and builds a minimal snapshot of their unlocks.
+
+**Scope:**
+- Transmogs
+- Pets
+- Mounts
+- Recipes
+- Toys
+
+**Key Concepts:**
+- Each collection category is encoded into a compact string (e.g., using Base90) representing all unlocked IDs.
+- The encoded strings are stored in `SavedVariables` under a unified table.
+- On key game events (e.g. learning an appearance, recipe, or mount), the addon rebuilds the relevant string snapshot.
+- Updates are low-cost and can be optimized later. Simplicity comes first.
+
+**SavedVariables Example:**
 ```lua
 WarboundData = {
-  account_id = "<account identifier>",
+  account_id = "<account-identifier>",
   seed       = <random-seed-int>,
 
-  -- Encoded snapshots for each collection category:
-  transmogs = "<base90-string>",
-  pets      = "<base90-string>",
-  mounts    = "<base90-string>",
-  recipes   = "<base90-string>",
-  toys      = "<base90-string>",
+  transmogs = "<encoded>",
+  pets      = "<encoded>",
+  mounts    = "<encoded>",
+  recipes   = "<encoded>",
+  toys      = "<encoded>",
 }
 ```
 
-## Encoding Details
+---
 
-* Base90 encoding is tuned solely for minimal string length.
-* Each encoded string fully represents its category’s state.
+### 2. 🧠 Background Metadata (Game Data)
+
+This system captures *contextual world data* — what items are available where, how they're obtained, and what conditions apply.
+
+**Use Cases:**
+- Vendor item lists (including costs, reputation requirements)
+- Quest and encounter sources
+- World drops and dungeon trash
+- Zone and map context
+- NPC info (ID, location, etc.)
+
+**Behavior:**
+- Listens to vendor interactions, loot events, and other relevant sources.
+- Skips data capture when the player is at a mailbox (to avoid false item source attribution).
+- Stores data in memory for the Warbound client to consume.
+- Future-proofed to track rep/faction requirements where possible.
+
+This module is about empowering Warbound.io to guide players accurately through the game world without relying on external scraped sources.
 
 ---
 
-## Load‑On‑Demand & Configuration
+## Logging & UX (Optional)
 
-* `.toc` entries load modules only when their slash commands or events fire.
-* A simple in‑addon config lets users enable/disable the Data or Guide modules.
+While not a formal third module, the addon will support a clean logging system to:
 
----
+- Report collection gains (e.g., “+3 transmogs!”) at the end of dungeons or farming sessions.
+- Use a dedicated, uncluttered chat channel (`/wb log`) for these summaries.
+- Enable opt-in features like instance tracking or goal completion celebrations.
 
-## Installation & Usage
-
-1. Copy the `Warbound` folder to `Interface/AddOns`.
-2. Launch WoW; the addon initializes Core by default.
-3. Use `/wb core` to view collection status, `/wb data` to inspect metadata, and `/wb guide <goal>` for on‑screen guidance.
+The intention is not to build a heavy in-game interface — Warbound's experience is web-first. But the in-game logging will provide clarity and fun feedback loops where they make sense.
 
 ---
 
-## Extensibility
+## Philosophy
 
-* Add new collection categories by updating Core’s encoder and adding a field.
-* Plug additional metadata sources into the Data module via event hooks.
-* Extend Guide with new UI panels or hotkeys.
+- **Modular & Minimal** – Each system is load-on-demand and can be toggled independently.
+- **Efficient by Default** – Storage is compact, updates are lightweight, and client syncs are batched.
+- **Trustworthy Data** – All collection and source data is observed firsthand — never scraped.
+- **Opt-In Guidance** – Any UI or feedback in-game will be intentionally minimal, focused, and user-controlled.

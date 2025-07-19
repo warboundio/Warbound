@@ -113,3 +113,6 @@ In order to operate as an agent in our DUCA codebase follow these steps:
 
 2. **Read /DUCA/DUCA/DUCA.md**
    - Familiarize yourself with the DUCA system. You are a developer you are writing the plans and executing them. Ensure you understand the context and rules of engagement.
+
+3. **Read each /DUCA/Project/Project.md**
+    - All of these projects work together to create one cohesive product. The context and information you find in terms of how the data is used may influence your implementation.

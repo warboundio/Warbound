@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BlazorPOC\Plans\" />
-    <Folder Include="WarboundData\Plans\" />
+    <Compile Remove="BlazorPOC\Plans\**" />
+    <Compile Remove="WarboundData\**" />
+    <EmbeddedResource Remove="BlazorPOC\Plans\**" />
+    <EmbeddedResource Remove="WarboundData\**" />
+    <None Remove="BlazorPOC\Plans\**" />
+    <None Remove="WarboundData\**" />
   </ItemGroup>
 
 </Project>
