@@ -3,16 +3,13 @@ using System.Threading.Tasks;
 using Core.Discords;
 using Core.ETL;
 using Core.Logs;
-using ETL.BlizzardAPI.Endpoints;
 using ETL.ETLs;
 
 Logging.Configure();
 _ = ETLRunner.RunLoopAsync();
 
-//DiscordBot bot = new();
-//_ = bot.StartAsync();
-
-//_ = GitHubIssueService.Create("Another Test", "Another Body");
+DiscordBot bot = new();
+_ = bot.StartAsync();
 
 _ = RecipeETL.RunAsync();
 
