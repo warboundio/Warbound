@@ -103,15 +103,15 @@ public void Add_Ints_ReturnsCorrectSum()
 }
 ```
 
-## ACEP: Agentic Context & Execution Pipeline
-In order to operate as an agent in our ACEP codebase follow these steps:
+## DUCA: Distributed Universal Contextual Agents
+In order to operate as an agent in our DUCA codebase follow these steps:
 
 1. **Ingest the GitHub Issue**  
-   - Every GitHub Issue in this pipeline contains **only** a link to the real action to be taken on a PLAN (e.g. `/ACEP/Plans/______.md`).  
-   - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and ACEP PLAN to be completed.
+   - Every GitHub Issue in this pipeline contains **only** a link to the real action to be taken on a PLAN (e.g. `/DUCA/Plans/______.md`).  
+   - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and DUCA PLAN to be completed.
 
 2. **Load Context Profiles**  
-   - Before opening or editing **any** code file, look for ACEP files:  
+   - Before opening or editing **any** code file, look for DUCA files:  
      - **File‑level**: `X.Agent.md` sitting next to `X.cs`
         - Example: Core/Logs/Logging.cs is accompanied by `Core/Logs/Logging.Agent.md`
      - **Namespace‑level**: `__Namespace.Agent.md` in the same folder
@@ -120,9 +120,9 @@ In order to operate as an agent in our ACEP codebase follow these steps:
    - If there is confusion read all `X.Agent.md` files in the directory to make an educated decision.
 
 3. **Editing Context Profiles**
-   - When working on an *ACEP Plan* you must:
+   - When working on an *DUCA Plan* you must:
      - Review the Plan and understand the ethos and purpose behind the changes to the codebase.
-     - Modify and update the ACEP markdown files (if they exist) (do not create .md files unless the Plan explicitly asks for it) for the class or the namespace to reflect the changes you are making.
+     - Modify and update the DUCA markdown files (if they exist) (do not create .md files unless the Plan explicitly asks for it) for the class or the namespace to reflect the changes you are making.
      - If there is a follow up Plan to be written. Only write it after all of the current Plans's code is complete and tested and ready for it's pull request.
 
 4. **Testing**

@@ -1,4 +1,4 @@
-# ACEP Plan: Create Pet Index ETL
+# DUCA Plan: Create Pet Index ETL
 This plan will scaffold and implement a new ETL that retrieves the World of Warcraft Pet Index from Blizzard's Developer API.
 
 ## 1. Read Endpoint Instructions

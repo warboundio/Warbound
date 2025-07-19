@@ -1,4 +1,4 @@
-# ACEP Plan: Create Pet Enrichment ETL
+# DUCA Plan: Create Pet Enrichment ETL
 This plan will extend the existing Pet domain model and implement an enrichment ETL that retrieves detailed World of Warcraft Pet data from Blizzard's Developer API.
 
 ## 1. Read Endpoint Instructions

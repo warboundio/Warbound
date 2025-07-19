@@ -1,4 +1,4 @@
-# ACEP Plan: Refactor Endpoint Object Construction Pattern
+# DUCA Plan: Refactor Endpoint Object Construction Pattern
 
 This plan will refactor all existing Blizzard API endpoints to follow the new fail-fast parsing pattern established in `PetIndexEndpoint.cs`, removing object initializer syntax and default values to ensure clear error identification during JSON parsing failures.
 

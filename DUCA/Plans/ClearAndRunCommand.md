@@ -1,4 +1,4 @@
-# ACEP Plan: Add '!clearandrun' Discord Command
+# DUCA Plan: Add '!clearandrun' Discord Command
 
 This plan will add a new Discord bot command `!clearandrun` to the CommandCenterModule that combines lock clearing and manual ETL job execution in a single operation. This command provides developers with a powerful tool to immediately resolve stuck ETL jobs without requiring separate lock clearing and run commands.
 
