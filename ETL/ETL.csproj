@@ -67,6 +67,9 @@
     <None Update="BlizzardAPI\Endpoints\Profession.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\ProfessionIndex.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="BlizzardAPI\Endpoints\ProfessionMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
