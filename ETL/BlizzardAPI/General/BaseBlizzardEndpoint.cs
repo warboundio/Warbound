@@ -2,6 +2,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Logs;
+using Core.Services;
 
 namespace ETL.BlizzardAPI.General;
 
@@ -13,7 +14,8 @@ public abstract class BaseBlizzardEndpoint<T>
     public async Task<T> GetAsync()
     {
         string url = BuildUrl();
-        JsonElement json = await BlizzardAPIRouter.GetJsonAsync(url, false);
+        var router = ServiceProvider.GetService<IBlizzardAPIRouter>();
+        JsonElement json = await router.GetJsonAsync(url, false);
 
         try { return Parse(json); }
         catch (Exception ex)

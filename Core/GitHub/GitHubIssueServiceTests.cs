@@ -1,4 +1,7 @@
 using Core.GitHub;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
+using Moq;
 
 namespace Core.GitHub;
 
@@ -13,7 +16,7 @@ public class GitHubIssueServiceTests
         
         Assert.NotNull(method);
         Assert.Equal(typeof(Task<int>), method.ReturnType);
-        Assert.True(method.IsStatic);
+        Assert.False(method.IsStatic);
         
         var parameters = method.GetParameters();
         Assert.Equal(2, parameters.Length);
@@ -24,9 +27,23 @@ public class GitHubIssueServiceTests
     }
 
     [Fact]
-    public void ItShouldBeStaticClass()
+    public void ItShouldImplementInterface()
     {
         Type serviceType = typeof(GitHubIssueService);
-        Assert.True(serviceType.IsAbstract && serviceType.IsSealed);
+        Type interfaceType = typeof(IGitHubIssueService);
+        
+        Assert.True(interfaceType.IsAssignableFrom(serviceType));
+    }
+    
+    [Fact]
+    public void ItShouldRequireHttpClientFactory()
+    {
+        // Verify constructor requires IHttpClientFactory
+        var constructors = typeof(GitHubIssueService).GetConstructors();
+        var constructor = constructors.FirstOrDefault(c => c.GetParameters().Length == 1);
+        
+        Assert.NotNull(constructor);
+        var parameter = constructor.GetParameters()[0];
+        Assert.Equal(typeof(IHttpClientFactory), parameter.ParameterType);
     }
 }

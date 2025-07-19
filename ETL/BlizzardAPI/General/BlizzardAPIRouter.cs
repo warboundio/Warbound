@@ -7,63 +7,68 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Extensions;
 using Core.Logs;
+using Core.Services;
 
 namespace ETL.BlizzardAPI.General;
 
-public static class BlizzardAPIRouter
+public class BlizzardAPIRouterImplementation : IBlizzardAPIRouter
 {
-    private static CancellationToken _token = CancellationToken.None;
-    public static void SetCancellationToken(CancellationToken token) => _token = token;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IBlizzardTokenProvider _tokenProvider;
+    private readonly ConcurrentQueue<Func<Task>> _retryQueue = new();
+    private readonly ConcurrentQueue<Func<Task>> _highPriorityQueue = new();
+    private readonly ConcurrentQueue<Func<Task>> _lowPriorityQueue = new();
 
-    private static readonly HttpClient _httpClient = new();
-    private static readonly ConcurrentQueue<Func<Task>> _retryQueue = new();
-    private static readonly ConcurrentQueue<Func<Task>> _highPriorityQueue = new();
-    private static readonly ConcurrentQueue<Func<Task>> _lowPriorityQueue = new();
-
-    private static DateTime _backoffUntil = DateTime.MinValue;
-    private static int _dripRate = 135;
-    private static readonly TimeSpan _dispatchInterval = TimeSpan.FromMilliseconds(_dripRate);
+    private CancellationToken _token = CancellationToken.None;
+    private DateTime _backoffUntil = DateTime.MinValue;
+    private int _dripRate = 135;
+    private readonly TimeSpan _dispatchInterval;
 
     public const string FOLDER_PATH = @"C:\Applications\Warbound\blizzardapi\";
 
-    static BlizzardAPIRouter()
+    public BlizzardAPIRouterImplementation(IHttpClientFactory httpClientFactory, IBlizzardTokenProvider tokenProvider)
     {
+        _httpClientFactory = httpClientFactory;
+        _tokenProvider = tokenProvider;
+        _dispatchInterval = TimeSpan.FromMilliseconds(_dripRate);
         _ = Task.Run(ProcessQueueAsync);
     }
 
-    public static Task<JsonElement> GetJsonAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
+    public void SetCancellationToken(CancellationToken token) => _token = token;
+
+    public Task<JsonElement> GetJsonAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
     {
         TaskCompletionSource<JsonElement> tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
         Enqueue(() => ExecuteJobAsync(url, tcs, forceLiveCall), priority);
         return tcs.Task;
     }
 
-    public static Task<string> GetJsonRawAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
+    public Task<string> GetJsonRawAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
     {
         TaskCompletionSource<string> tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
         Enqueue(() => ExecuteRawJobAsync(url, tcs, forceLiveCall), priority);
         return tcs.Task;
     }
 
-    private static void Enqueue(Func<Task> job, PriorityLevel priority)
+    private void Enqueue(Func<Task> job, PriorityLevel priority)
     {
         if (priority == PriorityLevel.HIGH) { _highPriorityQueue.Enqueue(job); }
         else { _lowPriorityQueue.Enqueue(job); }
     }
 
-    private static async Task ExecuteJobAsync(string url, TaskCompletionSource<JsonElement> tcs, bool forceLiveCall)
+    private async Task ExecuteJobAsync(string url, TaskCompletionSource<JsonElement> tcs, bool forceLiveCall)
     {
         JsonElement result = await InternalGetJsonAsync(url, forceLiveCall);
         tcs.SetResult(result);
     }
 
-    private static async Task ExecuteRawJobAsync(string url, TaskCompletionSource<string> tcs, bool forceLiveCall)
+    private async Task ExecuteRawJobAsync(string url, TaskCompletionSource<string> tcs, bool forceLiveCall)
     {
         string result = await InternalGetJsonRawAsync(url, forceLiveCall);
         tcs.SetResult(result);
     }
 
-    private static async Task ProcessQueueAsync()
+    private async Task ProcessQueueAsync()
     {
         while (true)
         {
@@ -108,13 +113,13 @@ public static class BlizzardAPIRouter
         }
     }
 
-    private static async Task<JsonElement> InternalGetJsonAsync(string url, bool forceLiveCall)
+    private async Task<JsonElement> InternalGetJsonAsync(string url, bool forceLiveCall)
     {
         string json = await InternalGetJsonRawAsync(url, forceLiveCall);
         return JsonSerializer.Deserialize<JsonElement>(json);
     }
 
-    private static async Task<string> InternalGetJsonRawAsync(string url, bool forceLiveCall)
+    private async Task<string> InternalGetJsonRawAsync(string url, bool forceLiveCall)
     {
         string hashFileName = url.Hash();
         string filePath = Path.Combine(FOLDER_PATH, $"{hashFileName}.json");
@@ -124,15 +129,16 @@ public static class BlizzardAPIRouter
             return await File.ReadAllTextAsync(filePath, _token);
         }
 
-        string token = BlizzardTokenProvider.Instance.GetAccessToken();
+        string token = await _tokenProvider.GetAccessTokenAsync();
 
+        using HttpClient client = _httpClientFactory.CreateClient("BlizzardAPI");
         HttpRequestMessage request = new(HttpMethod.Get, url);
         request.Headers.Authorization = new("Bearer", token);
         HttpResponseMessage? response = null;
 
         try
         {
-            response = await _httpClient.SendAsync(request, _token);
+            response = await client.SendAsync(request, _token);
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();
@@ -144,5 +150,31 @@ public static class BlizzardAPIRouter
             ex.Data["Response"] = response;
             throw;
         }
+    }
+}
+
+/// <summary>
+/// Static facade for BlizzardAPIRouter to maintain backward compatibility
+/// </summary>
+public static class BlizzardAPIRouter
+{
+    public const string FOLDER_PATH = BlizzardAPIRouterImplementation.FOLDER_PATH;
+
+    public static void SetCancellationToken(CancellationToken token)
+    {
+        var router = ServiceProvider.GetServiceOrDefault<IBlizzardAPIRouter>();
+        router?.SetCancellationToken(token);
+    }
+
+    public static Task<JsonElement> GetJsonAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
+    {
+        var router = ServiceProvider.GetService<IBlizzardAPIRouter>();
+        return router.GetJsonAsync(url, forceLiveCall, priority);
+    }
+
+    public static Task<string> GetJsonRawAsync(string url, bool forceLiveCall = false, PriorityLevel priority = PriorityLevel.LOW)
+    {
+        var router = ServiceProvider.GetService<IBlizzardAPIRouter>();
+        return router.GetJsonRawAsync(url, forceLiveCall, priority);
     }
 }
