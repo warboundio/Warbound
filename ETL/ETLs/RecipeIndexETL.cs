@@ -14,12 +14,15 @@ public class RecipeIndexETL : RunnableBlizzardETL
 
     protected override async Task<List<object>> GetItemsToProcessAsync()
     {
+        // Get existing recipe IDs to filter out duplicates
+        HashSet<int> existingRecipeIds = await Context.Recipes.Select(r => r.Id).ToHashSetAsync();
+
         // Get all professions that have skill tiers defined
         List<Profession> professionsWithSkillTiers = await Context.Professions
             .Where(p => !string.IsNullOrEmpty(p.SkillTiers))
             .ToListAsync();
 
-        List<(int professionId, int skillTierId)> professionSkillTierPairs = [];
+        List<Recipe> newRecipes = [];
 
         foreach (Profession profession in professionsWithSkillTiers)
         {
@@ -30,34 +33,26 @@ public class RecipeIndexETL : RunnableBlizzardETL
             {
                 if (int.TryParse(skillTierIdStr, out int skillTierId))
                 {
-                    // Check if recipes already exist for this profession/skill tier combination
-                    bool recipesExist = await Context.Recipes
-                        .AnyAsync(r => r.ProfessionId == profession.Id && r.SkillTierId == skillTierId);
+                    // Fetch all recipes for this profession/skill tier combination
+                    RecipeIndexEndpoint endpoint = new(profession.Id, skillTierId);
+                    List<Recipe> recipesFromApi = await endpoint.GetAsync();
                     
-                    if (!recipesExist)
-                    {
-                        professionSkillTierPairs.Add((profession.Id, skillTierId));
-                    }
+                    // Filter to only new recipes that don't already exist
+                    List<Recipe> newRecipesForTier = [.. recipesFromApi.Where(recipe => !existingRecipeIds.Contains(recipe.Id))];
+                    newRecipes.AddRange(newRecipesForTier);
                 }
             }
         }
 
-        return [.. professionSkillTierPairs.Cast<object>()];
+        return [.. newRecipes.Cast<object>()];
     }
 
     protected override async Task UpdateItemAsync(object item)
     {
-        await Task.Run(async () =>
+        await Task.Run(() =>
         {
-            (int professionId, int skillTierId) = ((int, int))item;
-            
-            RecipeIndexEndpoint endpoint = new(professionId, skillTierId);
-            List<Recipe> recipes = await endpoint.GetAsync();
-            
-            foreach (Recipe recipe in recipes)
-            {
-                SaveBuffer.Add(recipe);
-            }
+            Recipe recipe = (Recipe)item;
+            SaveBuffer.Add(recipe);
         });
     }
 }
