@@ -33,8 +33,7 @@ public class CommandCenterModule : ChannelHandler
     {
         try
         {
-            GitHubIssueService issueService = new();
-            await issueService.Create(args[0], string.Join(' ', args.Skip(1)));
+            await GitHubIssueService.Create(args[0], string.Join(' ', args.Skip(1)));
             await message.Channel.SendMessageAsync($"Issue Successfully Created.");
         }
         catch (Exception ex)
