@@ -1,0 +1,1 @@
+in program.cs the discord bot is commented out. we need it to run. please take away the comments.
