@@ -1,12 +1,4 @@
-﻿# DUCA: Distributed Universal Contextual Agents
-
-DUCA is the framework powering autonomous Copilot Agents in this codebase. It defines the structure, expectations, and context required for agents to reliably execute code changes based on well-scoped Plans.
-
-This document provides guidance for both **contributors** (who write Plans and context files) and **agents** (who execute the Plans).
-
----
-
-## 🔧 For Contributors
+﻿## 🔧 For Contributors
 
 ### What is a DUCA Plan?
 
@@ -22,9 +14,8 @@ A **Plan** is a single markdown file describing a self-contained unit of work. I
 * Refactor logic to follow a new pattern
 * Validate behavior using an existing fixture or tool
 
-Plans are created by the same developers who execute them. The goal is to distill **why** the change matters and point to **where** relevant logic or context lives — not to prescribe how to do it.
-
-> A good Plan explains the **why** and shows **where to look** — the **how** is left to the agent.
+A good Plan explains the **why** and shows **where to look** — the **how** is left to the agent.
+> **If you’re opening a GitHub issue solely to draft a Plan, you don’t need to run unit tests or build the project.**
 
 ### Where Do Plans Live?
 
@@ -43,8 +34,6 @@ Examples:
 * `Core/Security/Encryption.Agent.md` defines how encryption must be handled
 
 > 🔍 **Whenever you use or change a file, check if there's a `X.Agent.md` file next to it.** That's where the rules live.
-
-These context files are critical to the DUCA system. Contributors must update them when Plans introduce behavior changes or establish new expectations.
 
 ### Tips for Writing Good Plans
 
