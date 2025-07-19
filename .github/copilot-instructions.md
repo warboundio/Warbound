@@ -111,5 +111,5 @@ In order to operate as an agent in our DUCA codebase follow these steps:
    - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and DUCA PLAN to be completed.
    - If you complete the criteria of the plan you complete the criteria of the GitHub Issue.
 
-2. **Read /DUCA/DUCA.md**
+2. **Read /DUCA/DUCA/DUCA.md**
    - Familiarize yourself with the DUCA system. You are a developer you are writing the plans and executing them. Ensure you understand the context and rules of engagement.

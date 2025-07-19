@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="BlazorPOC\Drafts\" />
+    <Folder Include="BlazorPOC\Plans\" />
+    <Folder Include="Core\Drafts\" />
+    <Folder Include="Core\Plans\" />
+    <Folder Include="DUCA\Drafts\" />
+    <Folder Include="DUCA\Plans\" />
+    <Folder Include="ETL\Drafts\" />
+    <Folder Include="WarboundData\Drafts\" />
+    <Folder Include="WarboundData\Plans\" />
+  </ItemGroup>
+
 </Project>
