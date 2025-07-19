@@ -40,7 +40,7 @@ public class GitHubIssueService : IGitHubIssueService
     /// <returns>GitHub issue number</returns>
     public async Task<int> Create(string title, string body)
     {
-        using HttpClient client = _httpClientFactory.CreateClient("GitHubAPI");
+        using System.Net.Http.HttpClient client = _httpClientFactory.CreateClient("GitHubAPI");
         
         // Create the issue
         var issue = new
@@ -73,7 +73,7 @@ public class GitHubIssueService : IGitHubIssueService
         return issueNumber;
     }
 
-    private async Task AddIssueToProject(HttpClient client, string issueId)
+    private async Task AddIssueToProject(System.Net.Http.HttpClient client, string issueId)
     {
         try
         {
@@ -127,7 +127,7 @@ public class GitHubIssueService : IGitHubIssueService
         }
     }
 
-    private async Task UpdateProjectItemStatus(HttpClient client, string projectItemId)
+    private async Task UpdateProjectItemStatus(System.Net.Http.HttpClient client, string projectItemId)
     {
         try
         {

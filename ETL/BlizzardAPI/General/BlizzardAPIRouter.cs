@@ -131,7 +131,7 @@ public class BlizzardAPIRouterImplementation : IBlizzardAPIRouter
 
         string token = await _tokenProvider.GetAccessTokenAsync();
 
-        using HttpClient client = _httpClientFactory.CreateClient("BlizzardAPI");
+        using System.Net.Http.HttpClient client = _httpClientFactory.CreateClient("BlizzardAPI");
         HttpRequestMessage request = new(HttpMethod.Get, url);
         request.Headers.Authorization = new("Bearer", token);
         HttpResponseMessage? response = null;

@@ -11,6 +11,9 @@ using ETL.BlizzardAPI.General;
 using ETL.ETLs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Http;
+using Polly;
+using Polly.Extensions.Http;
 
 // Configure logging
 Logging.Configure();
