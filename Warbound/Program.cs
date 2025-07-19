@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Core.Discords;
 using Core.ETL;
 using Core.Logs;
-using ETL.ETLs;
+using Data.ETLs;
 
 Logging.Configure();
 _ = ETLRunner.RunLoopAsync();
