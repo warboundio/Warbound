@@ -12,6 +12,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<Mount> Mounts => Set<Mount>();
     public DbSet<Pet> Pets => Set<Pet>();
     public DbSet<Profession> Professions => Set<Profession>();
+    public DbSet<ProfessionMedia> ProfessionMedias => Set<ProfessionMedia>();
     public DbSet<Realm> Realms => Set<Realm>();
     public DbSet<ItemMedia> ItemMedias => Set<ItemMedia>();
 
