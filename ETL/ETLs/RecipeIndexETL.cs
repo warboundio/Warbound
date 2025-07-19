@@ -14,14 +14,8 @@ public class RecipeIndexETL : RunnableBlizzardETL
 
     protected override async Task<List<object>> GetItemsToProcessAsync()
     {
-        // Get existing recipe IDs to filter out duplicates
         HashSet<int> existingRecipeIds = await Context.Recipes.Select(r => r.Id).ToHashSetAsync();
-
-        // Get all professions that have skill tiers defined
-        List<Profession> professionsWithSkillTiers = await Context.Professions
-            .Where(p => !string.IsNullOrEmpty(p.SkillTiers))
-            .ToListAsync();
-
+        List<Profession> professionsWithSkillTiers = await Context.Professions.Where(p => !string.IsNullOrEmpty(p.SkillTiers)).ToListAsync();
         List<Recipe> newRecipes = [];
 
         foreach (Profession profession in professionsWithSkillTiers)

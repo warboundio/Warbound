@@ -23,20 +23,29 @@ public class RecipeEndpoint : BaseBlizzardEndpoint<Recipe>
         Recipe recipe = new();
         recipe.Id = json.GetProperty("id").GetInt32();
         recipe.Name = json.GetProperty("name").GetString()!;
-        recipe.CraftedItemId = json.GetProperty("crafted_item").GetProperty("id").GetInt32();
-        recipe.CraftedQuantity = json.GetProperty("crafted_quantity").GetProperty("value").GetInt32();
-        
-        // Parse reagents array into semicolon-delimited string
-        StringBuilder reagentsBuilder = new();
-        JsonElement reagentsArray = json.GetProperty("reagents");
-        foreach (JsonElement reagentElement in reagentsArray.EnumerateArray())
+
+        if (json.TryGetProperty("crafted_item", out JsonElement craftedItemElement) && craftedItemElement.TryGetProperty("id", out JsonElement craftedItemIdElement))
         {
-            int reagentId = reagentElement.GetProperty("reagent").GetProperty("id").GetInt32();
-            int quantity = reagentElement.GetProperty("quantity").GetInt32();
-            reagentsBuilder.Append($"{reagentId}:{quantity};");
+            recipe.CraftedItemId = craftedItemIdElement.GetInt32();
         }
-        recipe.Reagents = reagentsBuilder.ToString();
-        
+
+        if (json.TryGetProperty("crafted_quantity", out JsonElement craftedQuantityElement) && craftedQuantityElement.TryGetProperty("value", out JsonElement craftedQuantityValueElement))
+        {
+            recipe.CraftedQuantity = craftedQuantityValueElement.GetInt32();
+        }
+
+        StringBuilder reagentsBuilder = new();
+        if (json.TryGetProperty("reagents", out JsonElement reagentsArray) && reagentsArray.ValueKind == JsonValueKind.Array && reagentsArray.GetArrayLength() > 0)
+        {
+            foreach (JsonElement reagentElement in reagentsArray.EnumerateArray())
+            {
+                int reagentId = reagentElement.GetProperty("reagent").GetProperty("id").GetInt32();
+                int quantity = reagentElement.GetProperty("quantity").GetInt32();
+                reagentsBuilder.Append($"{reagentId}:{quantity};");
+            }
+            recipe.Reagents = reagentsBuilder.ToString();
+        }
+
         recipe.Status = ETLStateType.COMPLETE;
         recipe.LastUpdatedUtc = DateTime.UtcNow;
 
