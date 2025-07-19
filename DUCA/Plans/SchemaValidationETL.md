@@ -1,4 +1,4 @@
-# ACEP Plan: Create Blizzard API Schema Validation ETL
+# DUCA Plan: Create Blizzard API Schema Validation ETL
 
 This plan will create an automated schema validation ETL that monitors Blizzard API endpoints for schema changes, replacing the need for manual integration tests. The system will run on a scheduled basis to ensure our JSON fixtures remain synchronized with live API responses.
 
