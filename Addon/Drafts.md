@@ -2,7 +2,7 @@
 
 ## Draft: Initialize SavedVariables Format
 ### Agent
-Create the foundational SavedVariables table structure (`WarboundData`) to hold account ID, seed, and encoded data strings for each collection category. Include dummy values and a clear schema layout.
+Create the foundational SavedVariables table structure (`WarboundData`) to hold encoded data strings for each collection category. Include an empty string to define a clear schema layout.
 
 ## Draft: Implement Transmog Collection Snapshot
 ### Agent

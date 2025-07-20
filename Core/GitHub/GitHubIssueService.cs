@@ -33,7 +33,7 @@ public sealed class GitHubIssueService : IDisposable
     private readonly GitHubPullRequestInspector _inspector = new();
     private readonly GitHubPullRequestStatusChecker _manager = new();
 
-    public GitHubIssueService()
+    private GitHubIssueService()
     {
         _client = new HttpClient();
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApplicationSettings.Instance.GithubToken);
@@ -42,7 +42,7 @@ public sealed class GitHubIssueService : IDisposable
         _copilotAssigner = new GitHubCopilotAssigner();
     }
 
-    public async Task<int> CreateIssueAsync(string title, string body)
+    private async Task<int> CreateIssueAsync(string title, string body)
     {
         object issue = new { title, body };
         string json = JsonSerializer.Serialize(issue);
@@ -62,7 +62,7 @@ public sealed class GitHubIssueService : IDisposable
         return issueNumber;
     }
 
-    public async Task AddLabelsAsync(int issueNumber, params string[] labels)
+    private async Task AddLabelsAsync(int issueNumber, params string[] labels)
     {
         if (labels == null || labels.Length == 0)
         {
@@ -87,7 +87,7 @@ public sealed class GitHubIssueService : IDisposable
         }
     }
 
-    public async Task AssignToCopilotAsync(int issueNumber) => await _copilotAssigner.AssignToCopilotAsync(issueNumber);
+    private async Task AssignToCopilotAsync(int issueNumber) => await _copilotAssigner.AssignToCopilotAsync(issueNumber);
 
     public void Dispose()
     {

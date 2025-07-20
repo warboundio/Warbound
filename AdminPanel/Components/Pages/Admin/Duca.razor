@@ -1,4 +1,5 @@
 @page "/admin/duca"
+@using Core.GitHub
 @rendermode InteractiveServer
 
 <PageTitle>DUCA Workflow Panel</PageTitle>
@@ -63,9 +64,8 @@
         !string.IsNullOrWhiteSpace(WorkflowTitle) &&
         !string.IsNullOrWhiteSpace(WorkflowBody);
 
-    private void HandleSubmit()
+    private async Task HandleSubmit()
     {
-        // Placeholder for future workflow creation logic
-        // This will be implemented in a future enhancement
+        int issueId = await GitHubIssueService.Create($"{SelectedProject} | {WorkflowTitle}", WorkflowBody, true, "agent-work");
     }
 }
