@@ -75,7 +75,12 @@ The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, a
    - Avoid XML comments unless really important
    - Code should be self-documenting
 
-8. **Testing Guidelines**:
+8. **Class Design**:
+   - Avoid static classes - classes should be instantiated instead of being static
+   - Static ways to access functionality is fine, but avoid classes with all static methods
+   - Prefer instance-based design for better testability and flexibility
+
+9. **Testing Guidelines**:
    - Write functional tests that verify actual behavior, not trivial assertions
    - Tests can create/modify files in `C:\Applications\Warbound\temp` for validation
    - Do not modify application settings, environment variables, or actual system files

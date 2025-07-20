@@ -2,7 +2,7 @@ using Core.Logs;
 
 namespace Addon;
 
-public static class LuaPublisher
+public class LuaPublisher
 {
     private const string ADDON_NAME = "WarboundIO";
     private static readonly string[] DEFAULT_WOW_PATHS = [
@@ -10,21 +10,20 @@ public static class LuaPublisher
         @"C:\Program Files (x86)\World of Warcraft\_ptr_\Interface\AddOns"
     ];
 
-    public static bool Publish() => Publish(null, null);
+    private string? _customSourcePath;
 
-    public static bool Publish(string? customSourcePath, string[]? customTargetPaths)
+    public LuaPublisher(string? customSourcePath = null)
+    {
+        _customSourcePath = customSourcePath;
+    }
+
+    public static bool Publish()
     {
         try
         {
-            string luaSourcePath = customSourcePath ?? FindLuaSourcePath();
-            string[] wowPaths = customTargetPaths ?? DEFAULT_WOW_PATHS;
-
-            foreach (string wowBasePath in wowPaths)
-            {
-                PublishToWowDirectory(luaSourcePath, wowBasePath);
-            }
-
-            Logging.Info(nameof(LuaPublisher), "LUA publishing completed successfully");
+            LuaPublisher publisher = new();
+            publisher.Publish(DEFAULT_WOW_PATHS[0]);
+            publisher.Publish(DEFAULT_WOW_PATHS[1]);
             return true;
         }
         catch (Exception ex)
@@ -34,7 +33,23 @@ public static class LuaPublisher
         }
     }
 
-    private static string FindLuaSourcePath()
+    public void Publish(string targetFolder)
+    {
+        string luaSourcePath = _customSourcePath ?? FindLuaSourcePath();
+        string targetDir = Path.Combine(targetFolder, ADDON_NAME);
+
+        if (Directory.Exists(targetDir))
+        {
+            Directory.Delete(targetDir, recursive: true);
+        }
+
+        Directory.CreateDirectory(targetDir);
+        CopyDirectory(luaSourcePath, targetDir);
+        
+        Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
+    }
+
+    private string FindLuaSourcePath()
     {
         string currentDir = Directory.GetCurrentDirectory();
         DirectoryInfo? dir = new(currentDir);
@@ -52,12 +67,8 @@ public static class LuaPublisher
         throw new DirectoryNotFoundException("Could not find Addon/LUA source directory");
     }
 
-    private static void PublishToWowDirectory(string sourceDir, string wowBasePath)
+    private void CopyDirectory(string sourceDir, string targetDir)
     {
-        string targetDir = Path.Combine(wowBasePath, ADDON_NAME);
-        
-        Directory.CreateDirectory(targetDir);
-
         foreach (string file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
         {
             string relativePath = Path.GetRelativePath(sourceDir, file);
@@ -71,7 +82,5 @@ public static class LuaPublisher
 
             File.Copy(file, targetFile, overwrite: true);
         }
-
-        Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
     }
 }
