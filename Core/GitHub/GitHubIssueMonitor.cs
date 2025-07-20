@@ -103,14 +103,12 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 
                 if (!prStatus.Exists || !prStatus.IsOpen)
                 {
-                    // PR doesn't exist or is closed/merged - remove from database and tracking
                     await RemoveIssueAsync(issueId);
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Removed completed issue #{issueId} from monitoring");
                 }
                 else if (prStatus.WaitingForYou)
                 {
-                    // PR is waiting for developer action - update database and move to waiting collection
                     issue.WaitingForYou = true;
                     await UpdateIssueStatusAsync(issueId, true);
                     _waitingIssues[issueId] = issue;
@@ -125,11 +123,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             }
         }
 
-        // Remove processed issues from tracking
-        foreach (int issueId in issuesToRemove)
-        {
-            _issueTracker.Remove(issueId);
-        }
+        foreach (int issueId in issuesToRemove) { _issueTracker.Remove(issueId); }
     }
 
     public async Task AddIssueAsync(int issueId, string name)
@@ -165,11 +159,8 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         try
         {
             List<GitHubIssue> activeWorkflows = [];
-            
-            // Add running workflows (in active tracker)
+
             activeWorkflows.AddRange(_issueTracker.Values);
-            
-            // Add waiting workflows
             activeWorkflows.AddRange(_waitingIssues.Values);
             
             return activeWorkflows;
@@ -214,8 +205,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 context.GitHubIssues.Remove(issue);
                 await context.SaveChangesAsync();
             }
-            
-            // Also remove from waiting collection if it exists there
+
             _waitingIssues.Remove(issueId);
         }
         catch (Exception ex)
