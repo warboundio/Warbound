@@ -23,7 +23,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await LoadOutstandingIssuesAsync();
-        
+
         _monitoringTimer = new Timer(
             CheckIssuesCallback,
             null,
@@ -53,9 +53,9 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         {
             using IServiceScope scope = _scopeFactory.CreateScope();
             using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-            
+
             List<GitHubIssue> issues = await Task.Run(() => context.GitHubIssues.ToList());
-            
+
             foreach (GitHubIssue issue in issues)
             {
                 if (issue.WaitingForYou)
@@ -67,7 +67,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                     _issueTracker[issue.IssueId] = issue;
                 }
             }
-            
+
             Logging.Info(nameof(GitHubIssueMonitor), $"Loaded {issues.Count} outstanding issues for monitoring");
         }
         catch (Exception ex)
@@ -91,17 +91,16 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             int issueId = issueEntry.Key;
             GitHubIssue issue = issueEntry.Value;
 
-            // Skip if not past initial delay
-            if (now.Subtract(issue.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES)
-            {
-                continue;
-            }
+            bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
+            if (isInsideInitialDelay) { continue; }
+
 
             try
             {
                 PullRequestStatus prStatus = await GitHubIssueService.GetPullRequestStatusAsync(issueId);
 
-                if (!prStatus.Exists || !prStatus.IsOpen)
+                bool isClosedOrMerged = !prStatus.Exists || !prStatus.IsOpen;
+                if (isClosedOrMerged)
                 {
                     await RemoveIssueAsync(issueId);
                     issuesToRemove.Add(issueId);
@@ -115,6 +114,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Issue #{issueId} is waiting for developer action, stopped monitoring");
                 }
+
                 // If PR exists, is open, and not waiting for developer, continue monitoring
             }
             catch (Exception ex)
@@ -123,7 +123,11 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             }
         }
 
-        foreach (int issueId in issuesToRemove) { _issueTracker.Remove(issueId); }
+        foreach (int issueId in issuesToRemove)
+        {
+            _issueTracker.Remove(issueId);
+            await GitHubIssueService.CloseIssueIfPrMergedAsync(issueId);
+        }
     }
 
     public async Task AddIssueAsync(int issueId, string name)
@@ -132,7 +136,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         {
             using IServiceScope scope = _scopeFactory.CreateScope();
             using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-            
+
             GitHubIssue issue = new()
             {
                 IssueId = issueId,
@@ -144,8 +148,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             context.GitHubIssues.Add(issue);
             await context.SaveChangesAsync();
             
-            _issueTracker[issueId] = issue;
-            
+            _issueTracker[issueId] = issue;            
             Logging.Info(nameof(GitHubIssueMonitor), $"Added issue #{issueId} to monitoring: {name}");
         }
         catch (Exception ex)
@@ -178,7 +181,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         {
             using IServiceScope scope = _scopeFactory.CreateScope();
             using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-            
+
             GitHubIssue? issue = await Task.Run(() => context.GitHubIssues.FirstOrDefault(i => i.IssueId == issueId));
             if (issue != null)
             {
@@ -198,7 +201,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         {
             using IServiceScope scope = _scopeFactory.CreateScope();
             using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-            
+
             GitHubIssue? issue = await Task.Run(() => context.GitHubIssues.FirstOrDefault(i => i.IssueId == issueId));
             if (issue != null)
             {

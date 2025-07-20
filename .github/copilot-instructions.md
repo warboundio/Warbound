@@ -30,6 +30,20 @@ When generating code for this repository, please follow these style rules:
 
 ---
 
+## Self Documenting Code
+
+- We always prefer definine a boolean that defines the logic like this: bool isClosedOrMerged = !prStatus.Exists || !prStatus.IsOpen;
+- Over using a conditional like this: if (!prStatus.Exists || !prStatus.IsOpen)
+- Notice how our boolean is named to document what it does (we always want to assume the more positive language) instead of what it doesn't do (is not existing or is not open)
+- If you feel like you should comment code, you probably didn't name your variables well enough or didn't break out your methods enough
+- Method names and variable names *are the comments*
+- This allows developers to quickly understand the flow of logic without being concerned with the details.
+
+## Another Good Example:
+- bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
+- if (isInsideInitialDelay) { continue; }
+___
+
 ## Expressions & Language Features
 
 - Prefer expression-bodied **methods** and **properties** when appropriate.

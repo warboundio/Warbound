@@ -17,8 +17,8 @@ public sealed class GitHubIssueService : IDisposable
         await SERVICE.AddLabelsAsync(issueNumber, labels);
         await SERVICE._projectAssigner.SetIssueStatusAsync(issueNumber: issueNumber, projectNumber: PROJECT_NUMBER, statusName: STATUS_NAME);
         if (assignToCopilot) { await SERVICE.AssignToCopilotAsync(issueNumber); }
-        
-        if (Monitor != null) { await Monitor.AddIssueAsync(issueNumber, title); }        
+
+        if (Monitor != null) { await Monitor.AddIssueAsync(issueNumber, title); }
         return issueNumber;
     }
 
