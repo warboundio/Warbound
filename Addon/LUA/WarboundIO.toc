@@ -2,6 +2,7 @@
 ## Title: WarboundIO
 ## Author: warbound.io
 ## Version: 0.0.1
+## SavedVariables: WarboundData
 
 WarboundIO.lua
 Tools/Base90.lua
