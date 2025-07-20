@@ -38,7 +38,7 @@ public static class ETLRunner
 
     private static async Task RunOnceAsync()
     {
-        using ETLContext db = new();
+        using CoreContext db = new();
         List<ETLJob> jobs = await db.Jobs.ToListAsync();
 
         foreach (ETLJob job in jobs)
@@ -70,7 +70,7 @@ public static class ETLRunner
         return nextEst <= nowEst;
     }
 
-    private static async Task<bool> TryAcquireLockAsync(ETLContext db, ETLJob job)
+    private static async Task<bool> TryAcquireLockAsync(CoreContext db, ETLJob job)
     {
         DateTime utcNow = DateTime.UtcNow;
 
@@ -97,7 +97,7 @@ public static class ETLRunner
 
     private static async Task RunJobAsync(ETLJob job)
     {
-        using ETLContext db = new();
+        using CoreContext db = new();
 
         Logging.Info("ETLRunner", $"🟡 Starting ETL: {job.Name}");
         Stopwatch sw = Stopwatch.StartNew();
@@ -128,7 +128,7 @@ public static class ETLRunner
 
     public static async Task<bool> RunJobManuallyAsync(string jobName)
     {
-        using ETLContext db = new();
+        using CoreContext db = new();
         ETLJob? job = await db.Jobs.FirstOrDefaultAsync(j => j.Name == jobName);
 
         if (job is null) { return false; }

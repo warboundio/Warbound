@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Core.Migrations
 {
-    [DbContext(typeof(ETLContext))]
+    [DbContext(typeof(CoreContext))]
     [Migration("20250715181529_AddingETLTables")]
     partial class AddingETLTables
     {

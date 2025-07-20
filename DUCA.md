@@ -40,6 +40,7 @@ GitHub issue body *is* the instruction.
 ✅ Update `Project.md` if appropriate  
 ✅ Remove any matching Drafts
 
+
 **Workflow 3: PI (Plan → Implementation)**  
 The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, and then implements it.  
 ✅ Keep Plan in `Plans/`  
@@ -47,6 +48,15 @@ The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, a
 ✅ Actual implementation can not begin until the developer requests changes after reviewing the initial PR that is just the plan.
 
 ---
+
+### Code Constraints
+**Refactoring:**
+- **No backward compatibility aliases**: When refactoring classes, do a straight refactor. Do not create alias classes for backward compatibility.
+- **Complete reference updates**: Update all references to the old class name throughout the codebase.
+
+**Database:**
+- **No automatic Entity Framework migrations**: Do not create migration files. Developers handle database changes manually.
+- **Entity definition only**: Define entities in code but let developers manage the actual database schema changes.
 
 ### Execution Rules
 

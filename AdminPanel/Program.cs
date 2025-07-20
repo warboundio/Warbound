@@ -1,10 +1,15 @@
 using AdminPanel.Components;
+using Core.ETL;
+using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Register CoreContext for dependency injection
+builder.Services.AddDbContext<CoreContext>();
 
 WebApplication app = builder.Build();
 

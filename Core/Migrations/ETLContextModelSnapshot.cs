@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Core.Migrations
 {
-    [DbContext(typeof(ETLContext))]
-    partial class ETLContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CoreContext))]
+    partial class CoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

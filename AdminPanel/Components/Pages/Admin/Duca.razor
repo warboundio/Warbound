@@ -1,5 +1,7 @@
 @page "/admin/duca"
 @using Core.GitHub
+@using Core.ETL
+@using Core.Logs
 @rendermode InteractiveServer
 
 <PageTitle>DUCA Workflow Panel</PageTitle>
@@ -45,10 +47,34 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary" @onclick="HandleSubmit" disabled="@(!IsFormValid)">
-                        Create Workflow
+                    <button type="button" class="btn btn-primary" @onclick="HandleSubmit" disabled="@(!IsFormValid || IsSubmitting)">
+                        @if (IsSubmitting)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <text> Creating...</text>
+                        }
+                        else
+                        {
+                            <text>Create Workflow</text>
+                        }
                     </button>
                 </div>
+
+                @if (!string.IsNullOrEmpty(SuccessMessage))
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @SuccessMessage
+                        <button type="button" class="btn-close" @onclick="() => SuccessMessage = string.Empty"></button>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @ErrorMessage
+                        <button type="button" class="btn-close" @onclick="() => ErrorMessage = string.Empty"></button>
+                    </div>
+                }
             </form>
         </div>
     </div>
@@ -58,6 +84,9 @@
     private string SelectedProject = "";
     private string WorkflowTitle = "";
     private string WorkflowBody = "";
+    private string SuccessMessage = "";
+    private string ErrorMessage = "";
+    private bool IsSubmitting = false;
 
     private bool IsFormValid => 
         !string.IsNullOrWhiteSpace(SelectedProject) &&
@@ -66,6 +95,47 @@
 
     private async Task HandleSubmit()
     {
-        int issueId = await GitHubIssueService.Create($"{SelectedProject} | {WorkflowTitle}", WorkflowBody, true, "agent-work");
+        if (!IsFormValid || IsSubmitting)
+        {
+            return;
+        }
+
+        IsSubmitting = true;
+        ErrorMessage = string.Empty;
+        SuccessMessage = string.Empty;
+
+        try
+        {
+            string issueTitle = $"{SelectedProject} | {WorkflowTitle}";
+            int issueId = await GitHubIssueService.Create(issueTitle, WorkflowBody, true, "agent-work");
+            
+            // Store the issue in the database
+            using CoreContext db = new();
+            GitHubIssue gitHubIssue = new()
+            {
+                IssueId = issueId,
+                Name = issueTitle,
+                CreatedAt = DateTime.UtcNow,
+                WaitingForYou = false
+            };
+
+            db.GitHubIssues.Add(gitHubIssue);
+            await db.SaveChangesAsync();
+
+            // Clear form and show success message
+            SelectedProject = "";
+            WorkflowTitle = "";
+            WorkflowBody = "";
+            SuccessMessage = $"✅ Successfully created GitHub issue #{issueId}: <a href=\"https://github.com/warboundio/warbound/issues/{issueId}\" target=\"_blank\" class=\"alert-link\">View Issue</a>";
+        }
+        catch (Exception ex)
+        {
+            Logging.Error(nameof(HandleSubmit), $"Failed to create GitHub issue: {ex.Message}", ex);
+            ErrorMessage = $"❌ Failed to create GitHub issue: {ex.Message}";
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
     }
 }
