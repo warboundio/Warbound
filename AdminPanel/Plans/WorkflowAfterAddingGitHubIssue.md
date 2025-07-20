@@ -7,7 +7,7 @@ After successfully creating a GitHub issue through the DUCA workflow panel, the 
 ## Context
 
 The AdminPanel DUCA workflow creates GitHub issues but lacks:
-- User feedback on successful creation
+- Feedback to the user on successful creation
 - Local persistence of issue metadata
 - Connection between created issues and their development status
 - Form state management after submission
@@ -63,9 +63,7 @@ This plan establishes the foundation for tracking GitHub issues through their en
 
 ## Edge Cases & Testing Needs
 
-- Handle GitHub API failures gracefully
-- Ensure database constraints prevent duplicate issue tracking
-- Test form behavior with network timeouts
+- Handle GitHub API failures gracefully. Try catch and use Logging.Error -> as wlel as show the error in the UI
 - Validate proper form clearing across all field types
 - Confirm success message displays correct issue information
 
