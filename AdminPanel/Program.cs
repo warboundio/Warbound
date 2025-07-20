@@ -1,6 +1,7 @@
 using AdminPanel.Components;
 using Core;
 using Core.GitHub;
+using Core.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddDbContext<CoreContext>();
 // Register GitHubIssueMonitor as hosted service and singleton for access
 builder.Services.AddSingleton<GitHubIssueMonitor>();
 builder.Services.AddHostedService<GitHubIssueMonitor>(provider => provider.GetRequiredService<GitHubIssueMonitor>());
+
+// Register DraftService as singleton
+builder.Services.AddSingleton<DraftService>();
 
 WebApplication app = builder.Build();
 

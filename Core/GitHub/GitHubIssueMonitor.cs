@@ -91,7 +91,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             int issueId = issueEntry.Key;
             GitHubIssue issue = issueEntry.Value;
 
-            bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
+            bool isInsideInitialDelay = now.Subtract(issue.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES;
             if (isInsideInitialDelay) { continue; }
 
 
