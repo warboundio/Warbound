@@ -1,5 +1,4 @@
-
-# Warbound Blazor POC – Vision & Direction
+# Warbound Admin Panel – Vision & Direction
 
 ## Purpose
 

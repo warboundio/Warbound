@@ -1,5 +1,4 @@
-﻿
-# Warbound.io Addon
+﻿# Warbound.io Addon
 
 ## Overview
 
