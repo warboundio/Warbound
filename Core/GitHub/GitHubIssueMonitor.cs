@@ -150,6 +150,30 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         }
     }
 
+    public async Task<List<GitHubIssue>> GetActiveWorkflowsAsync()
+    {
+        try
+        {
+            using IServiceScope scope = _scopeFactory.CreateScope();
+            using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
+            
+            // Get all issues that are either in the tracker (running) or waiting for developer
+            List<int> activeIssueIds = _issueTracker.Keys.ToList();
+            List<GitHubIssue> waitingIssues = await Task.Run(() => 
+                context.GitHubIssues.Where(i => i.WaitingForYou).ToList());
+            
+            List<GitHubIssue> runningIssues = await Task.Run(() =>
+                context.GitHubIssues.Where(i => activeIssueIds.Contains(i.IssueId)).ToList());
+            
+            return runningIssues.Concat(waitingIssues).ToList();
+        }
+        catch (Exception ex)
+        {
+            Logging.Error(nameof(GitHubIssueMonitor), $"Failed to get active workflows: {ex.Message}", ex);
+            return new List<GitHubIssue>();
+        }
+    }
+
     private async Task UpdateIssueStatusAsync(int issueId, bool waitingForYou)
     {
         try
