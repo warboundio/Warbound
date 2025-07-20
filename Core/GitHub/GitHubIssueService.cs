@@ -9,6 +9,7 @@ namespace Core.GitHub;
 public sealed class GitHubIssueService : IDisposable
 {
     private static readonly GitHubIssueService SERVICE = new();
+    public static GitHubIssueMonitor? Monitor { get; set; }
 
     public static async Task<int> Create(string title, string body, bool assignToCopilot, params string[] labels)
     {
@@ -16,6 +17,8 @@ public sealed class GitHubIssueService : IDisposable
         await SERVICE.AddLabelsAsync(issueNumber, labels);
         await SERVICE._projectAssigner.SetIssueStatusAsync(issueNumber: issueNumber, projectNumber: PROJECT_NUMBER, statusName: STATUS_NAME);
         if (assignToCopilot) { await SERVICE.AssignToCopilotAsync(issueNumber); }
+        
+        if (Monitor != null) { await Monitor.AddIssueAsync(issueNumber, title); }        
         return issueNumber;
     }
 

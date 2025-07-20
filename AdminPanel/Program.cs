@@ -1,5 +1,6 @@
 using AdminPanel.Components;
 using Core;
+using Core.GitHub;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,14 @@ builder.Services.AddRazorComponents()
 // Register CoreContext for dependency injection
 builder.Services.AddDbContext<CoreContext>();
 
+// Register GitHubIssueMonitor as hosted service and singleton for access
+builder.Services.AddSingleton<GitHubIssueMonitor>();
+builder.Services.AddHostedService<GitHubIssueMonitor>(provider => provider.GetRequiredService<GitHubIssueMonitor>());
+
 WebApplication app = builder.Build();
+
+// Set up the monitor reference for GitHubIssueService
+GitHubIssueService.Monitor = app.Services.GetRequiredService<GitHubIssueMonitor>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
