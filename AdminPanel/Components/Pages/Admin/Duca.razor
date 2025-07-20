@@ -3,6 +3,9 @@
 @using Core.ETL
 @using Core.GitHub
 @using Core.Logs
+@using Core.Models
+@using Core.Services
+@inject DraftService DraftService
 @rendermode InteractiveServer
 
 <PageTitle>DUCA Workflow Panel</PageTitle>
@@ -22,6 +25,25 @@
                         <option value="Data">Data</option>
                     </select>
                 </div>
+
+                @if (!string.IsNullOrEmpty(SelectedProject))
+                {
+                    List<DraftItem> projectDrafts = DraftService.GetDraftsByProject(SelectedProject);
+                    if (projectDrafts.Count > 0)
+                    {
+                        <div class="mb-3">
+                            <h6>Active Workflows</h6>
+                            <div class="draft-stubs-container">
+                                @foreach (DraftItem draft in projectDrafts)
+                                {
+                                    <div class="draft-stub" @onclick="() => LoadDraft(draft)">
+                                        @draft.Title
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
 
                 <div class="mb-3">
                     <label for="workflowTitle" class="form-label">Workflow Title</label>
@@ -110,6 +132,12 @@
         !string.IsNullOrWhiteSpace(WorkflowTitle) &&
         !string.IsNullOrWhiteSpace(WorkflowBody);
 
+    private void LoadDraft(DraftItem draft)
+    {
+        WorkflowTitle = draft.Title;
+        WorkflowBody = draft.Text;
+    }
+
     private async Task HandleSubmit()
     {
         if (!IsFormValid || IsSubmitting)
@@ -157,3 +185,28 @@
         }
     }
 }
+
+<style>
+    .draft-stubs-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .draft-stub {
+        padding: 8px 12px;
+        border: 2px dashed #6c757d;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+    }
+
+    .draft-stub:hover {
+        background-color: #e9ecef;
+        border-color: #495057;
+    }
+</style>
