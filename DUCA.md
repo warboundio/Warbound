@@ -84,6 +84,7 @@ Each task consists of:
 * Tests are added as instructed and follow naming rules.
 * Code compiles, tests pass.
 * PR is created with no extra scope or side work.
+* If the plan was generated via a Roadmap task and you are executing that plan, the Roadmap documentation is updated to remove the task and the Project.md is updated to reflect the current state of the project.
 
 ---
 

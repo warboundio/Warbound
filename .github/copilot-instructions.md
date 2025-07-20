@@ -116,4 +116,5 @@ In order to operate as an agent in our DUCA codebase follow these steps:
 
 3. **Read each ProjectName/ProjectName.md**
    - All of these projects work together to create one cohesive product. The context and information you find in terms of how the data is used may influence your implementation.
+   - Additionally read each Roadmap.md file for the project you are working on to understand the current state of the project and its goals.
    - When implementing a feature from a project's Roadmap.md, promote that feature description to the ProjectName.md file to reflect current state.
