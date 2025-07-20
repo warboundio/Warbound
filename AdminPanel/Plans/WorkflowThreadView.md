@@ -24,10 +24,9 @@ The existing infrastructure provides:
 ### In Scope
 
 1. **Workflow Thread Display Component**
-   - Real-time list view of all active workflows from GitHubIssues table
+   - Real-time list view of all active workflows from GitHubIssueMonitor
    - Visual status indicators for different workflow states
    - Direct links to GitHub issues and pull requests
-   - Responsive design for different screen sizes
 
 2. **Visual State Management**
    - **Running State**: Greyed background with animated spinner loader
@@ -37,7 +36,7 @@ The existing infrastructure provides:
 
 3. **Real-time Updates**
    - Periodic refresh mechanism to reflect GitHubIssueMonitor changes
-   - Update frequency aligned with monitoring intervals (30-second cycles)
+   - Update frequency (10-second cycles)
    - Smooth UI transitions between states
 
 4. **User Interactions**
@@ -48,7 +47,7 @@ The existing infrastructure provides:
 5. **GitHub Integration**
    - Retrieve pull request URLs from GitHub API
    - Display issue and PR numbers with direct links
-   - Handle cases where PRs don't exist yet or are closed
+   - Handle cases where PRs don't exist yet or are closed (no don't do this - this is why we have a 5 minute timer to wait to check)
 
 6. **Layout Integration**
    - Seamless integration into existing Duca.razor page
@@ -214,60 +213,22 @@ Each workflow card will display:
 
 ### Error Handling
 
-- Graceful handling of GitHub API failures
-- Fallback to issue URLs when PR URLs unavailable
-- Logging of errors without disrupting UI
 - Display of "Unable to load" states when appropriate
-
-### Performance Considerations
-
-- Efficient database queries using existing DbContext
-- Minimal payload for periodic updates
-- CSS animations using hardware acceleration
-- Debounced refresh mechanisms to prevent excessive API calls
-
-### Accessibility
-
-- Proper ARIA labels for screen readers
-- Keyboard navigation support
-- High contrast ratio for visual states
-- Descriptive text for status indicators
-
-## Edge Cases & Testing Strategy
 
 ### Edge Cases
 
 1. **No Active Workflows**: Display empty state message
 2. **GitHub API Unavailable**: Fall back to issue links
-3. **Database Connection Issues**: Show error state with retry option
-4. **Large Number of Workflows**: Consider pagination if needed
-5. **Rapid State Changes**: Prevent UI flickering during updates
-
-### Error Scenarios
-
-- GitHub rate limiting during URL resolution
-- Network timeouts during periodic refresh
-- Database connectivity issues
-- Invalid issue IDs or missing GitHub resources
-
-### Testing Approach
-
-Since this is primarily UI functionality with external dependencies:
-- Manual testing of visual states and transitions
-- Verification of GitHub link generation
-- Testing of periodic refresh behavior
-- Browser compatibility testing
-- Responsive design validation
 
 ## Success Criteria
 
 ### Functional Requirements
 
-- Display all active workflows from GitHubIssues table
+- Display all active workflows from GitHubIssueManager
 - Show correct visual state based on WaitingForYou field
 - Navigate to correct GitHub URLs when clicked
-- Update automatically every 30 seconds
-- Handle empty states and error conditions gracefully
+- Update automatically every 10 seconds
+- Handle empty states gracefully
 
 ### User Experience Requirements
 
@@ -281,8 +242,6 @@ Since this is primarily UI functionality with external dependencies:
 
 - Seamless integration with existing Duca.razor page
 - Proper disposal of timers and resources
-- Efficient database queries without performance impact
-- No console errors or JavaScript exceptions
 - Clean separation of concerns between components
 
 ### Visual Requirements
