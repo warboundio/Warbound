@@ -33,15 +33,15 @@ public sealed class GitHubPullRequestStatusChecker : IDisposable
         if (_prNumberCache.TryGetValue(issueNumber, out int cachedPrNumber)) { return cachedPrNumber; }
 
         string query = $@"
-        query {{
-          repository(owner: ""{OWNER}"", name: ""{REPO}"") {{
-            pullRequests(first: 5, headRefName: ""copilot/fix-{issueNumber}"") {{
-              nodes {{
-                number
+            query {{
+              repository(owner: ""{OWNER}"", name: ""{REPO}"") {{
+                pullRequests(first: 5, headRefName: ""copilot/fix-{issueNumber}"") {{
+                  nodes {{
+                    number
+                  }}
+                }}
               }}
-            }}
-          }}
-        }}";
+            }}";
 
         var requestBody = new { query };
         StringContent content = new(JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8, "application/json");
