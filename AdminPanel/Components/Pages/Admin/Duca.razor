@@ -85,6 +85,7 @@
     private string SelectedProject = "";
     private string WorkflowTitle = "";
     private string WorkflowBody = "";
+    private bool IsPlanRequired = false;
     private string SuccessMessage = "";
     private string ErrorMessage = "";
     private bool IsSubmitting = false;
@@ -108,9 +109,10 @@
         try
         {
             string issueTitle = $"{SelectedProject} | {WorkflowTitle}";
-            int issueId = await GitHubIssueService.Create(issueTitle, WorkflowBody, true, "agent-work");
+
+            GitHubIssueWriter issueWriter = new(SelectedProject, WorkflowTitle, WorkflowBody, IsPlanRequired);
+            int issueId = await GitHubIssueService.Create(issueTitle, issueWriter.ToString(), true, "agent-work");
             
-            // Store the issue in the database
             using CoreContext db = new();
             GitHubIssue gitHubIssue = new()
             {
@@ -123,7 +125,6 @@
             db.GitHubIssues.Add(gitHubIssue);
             await db.SaveChangesAsync();
 
-            // Clear form and show success message
             SelectedProject = "";
             WorkflowTitle = "";
             WorkflowBody = "";

@@ -25,30 +25,6 @@ Draft text always get removed from `/Project/Drafts.md` when implemented, regard
 
 ## 🤖 For Agents
 
-### Workflows
-
-**Workflow 1: DPI (Draft → Plan → Implementation)**  
-Agent writes a Plan from a Draft. Developer reviews it in a PR. Once approved (via "Request Changes"), the same agent implements it.  
-✅ Remove the Draft from `Drafts.md`  
-✅ Keep the Plan in `Plans/`  
-✅ Update `Project.md` to reflect the new feature
-✅ Actual implementation can not begin until the developer requests changes after reviewing the initial PR that is just the plan.
-
-**Workflow 2: One Shot (Direct Implementation)**  
-GitHub issue body *is* the instruction.  
-✅ Implement directly  
-✅ Update `Project.md` if appropriate  
-✅ Remove any matching Drafts
-
-
-**Workflow 3: PI (Plan → Implementation)**  
-The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, and then implements it.  
-✅ Keep Plan in `Plans/`  
-✅ Update `Project.md`
-✅ Actual implementation can not begin until the developer requests changes after reviewing the initial PR that is just the plan.
-
----
-
 ### Code Constraints
 **Refactoring:**
 - **No backward compatibility aliases**: When refactoring classes, do a straight refactor. Do not create alias classes for backward compatibility.
@@ -92,12 +68,20 @@ The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, a
    - Prefer instance-based design for better testability and flexibility
 
 9. **Testing Guidelines**:
-   - Write functional tests that verify actual behavior, not trivial assertions
+   - Write tests aimed at functions. We want to avoid integration tests. The smaller the unit test, the better.
+   - Do not test trivial assertions like it returns true or false. Each test should be meaningful or it should not exist.
    - Tests can create/modify files in `C:\Applications\Warbound\temp` for validation
    - Do not modify application settings, environment variables, or actual system files
    - Clean up any test artifacts after test completion
    - Only one test should perform file system operations due to parallel execution
    - Tests should verify real functionality, not just return value types
+
+10. **Boy Scout Rule**: If your pull request is including edits to a file, that edit is eligible to be 'cleaned up'. 
+	- The Boy Scout Rule states that you should leave the code cleaner than you found it.
+	- So if anything no longer fits our coding standards, please correct it.
+	- This does not include refactoring, adding new logic, or changing functionality.
+	- Things like renaming variables, removing unused variables, and correcting formatting issues are all acceptable.
+	- If the context of a method has changed, that method's name should be updated to reflect the new context.
 
 ### Agent Context Files
 
