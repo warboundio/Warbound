@@ -9,6 +9,7 @@
 * Link relevant `*.Agent.md` files  
 * Define scope and boundaries
 * Highlight edge cases and testing needs
+* Do not blow up the scope of the original draft or plan - we'll have additional agents to improve the code later
 
 ### Drafts
 
@@ -18,7 +19,6 @@
 ### <Agent> or <Developer>
 Brief scope description with clear boundaries.
 ```
-
 ---
 
 ## 🤖 For Agents
@@ -37,7 +37,7 @@ Brief scope description with clear boundaries.
 * Update `*.Agent.md` files when needed
 * Code compiles, tests pass
 * Remove completed drafts from `/Project/Drafts.md`
-* Update `/Project/Project.md` to reflect current state
+* Update `/Project/Project.md` to reflect current state of the code (do not update to denote that a plan was made, only update when the code is complete and the plan is done))
 
 ---
 
