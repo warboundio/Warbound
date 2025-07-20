@@ -66,11 +66,22 @@ The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, a
 
 6. Write strong unit tests for C#. Unless explicitly told not to. LUA and Blazor Display code is not required to test.
 
-7. **Logging and Comments**:
+7. **Fail-Fast Philosophy**:
+   - Code should be fail-fast - assume the happy path and throw exceptions when things go wrong
+   - Avoid excessive try/catch blocks and defensive programming
+   - Only the public API entry points should have try/catch for graceful error handling
+   - Internal methods should throw exceptions rather than returning false/null for errors
    - Use the Core.Logs.Logging system, never Console.WriteLine
    - Avoid XML comments unless really important
    - Code should be self-documenting
-   - Follow existing project patterns for error handling and communication
+
+8. **Testing Guidelines**:
+   - Write functional tests that verify actual behavior, not trivial assertions
+   - Tests can create/modify files in `C:\Applications\Warbound\temp` for validation
+   - Do not modify application settings, environment variables, or actual system files
+   - Clean up any test artifacts after test completion
+   - Only one test should perform file system operations due to parallel execution
+   - Tests should verify real functionality, not just return value types
 
 ### Agent Context Files
 

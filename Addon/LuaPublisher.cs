@@ -5,29 +5,27 @@ namespace Addon;
 public static class LuaPublisher
 {
     private const string ADDON_NAME = "WarboundIO";
-    private static readonly string[] WOW_PATHS = [
+    private static readonly string[] DEFAULT_WOW_PATHS = [
         @"C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns",
         @"C:\Program Files (x86)\World of Warcraft\_ptr_\Interface\AddOns"
     ];
 
-    public static bool Publish()
+    public static bool Publish() => Publish(null, null);
+
+    public static bool Publish(string? customSourcePath, string[]? customTargetPaths)
     {
         try
         {
-            string? luaSourcePath = FindLuaSourcePath();
-            if (luaSourcePath == null)
+            string luaSourcePath = customSourcePath ?? FindLuaSourcePath();
+            string[] wowPaths = customTargetPaths ?? DEFAULT_WOW_PATHS;
+
+            foreach (string wowBasePath in wowPaths)
             {
-                Logging.Error(nameof(LuaPublisher), "Could not find Addon/LUA source directory");
-                return false;
+                PublishToWowDirectory(luaSourcePath, wowBasePath);
             }
 
-            bool anySuccess = false;
-            foreach (string wowBasePath in WOW_PATHS)
-            {
-                if (PublishToWowDirectory(luaSourcePath, wowBasePath)) { anySuccess = true; }
-            }
-
-            return anySuccess;
+            Logging.Info(nameof(LuaPublisher), "LUA publishing completed successfully");
+            return true;
         }
         catch (Exception ex)
         {
@@ -36,7 +34,7 @@ public static class LuaPublisher
         }
     }
 
-    private static string? FindLuaSourcePath()
+    private static string FindLuaSourcePath()
     {
         string currentDir = Directory.GetCurrentDirectory();
         DirectoryInfo? dir = new(currentDir);
@@ -51,49 +49,29 @@ public static class LuaPublisher
             dir = dir.Parent;
         }
 
-        return null;
+        throw new DirectoryNotFoundException("Could not find Addon/LUA source directory");
     }
 
-    private static bool PublishToWowDirectory(string sourceDir, string wowBasePath)
+    private static void PublishToWowDirectory(string sourceDir, string wowBasePath)
     {
-        try
-        {
-            if (!Directory.Exists(wowBasePath))
-            {
-                Logging.Warn(nameof(LuaPublisher), $"WoW directory not found: {wowBasePath}");
-                return false;
-            }
+        string targetDir = Path.Combine(wowBasePath, ADDON_NAME);
+        
+        Directory.CreateDirectory(targetDir);
 
-            string targetDir = Path.Combine(wowBasePath, ADDON_NAME);
+        foreach (string file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
+        {
+            string relativePath = Path.GetRelativePath(sourceDir, file);
+            string targetFile = Path.Combine(targetDir, relativePath);
             
-            if (!Directory.Exists(targetDir))
+            string? targetSubDir = Path.GetDirectoryName(targetFile);
+            if (targetSubDir != null)
             {
-                Directory.CreateDirectory(targetDir);
-                Logging.Info(nameof(LuaPublisher), $"Created directory: {targetDir}");
+                Directory.CreateDirectory(targetSubDir);
             }
 
-            foreach (string file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
-            {
-                string relativePath = Path.GetRelativePath(sourceDir, file);
-                string targetFile = Path.Combine(targetDir, relativePath);
-                
-                string? targetSubDir = Path.GetDirectoryName(targetFile);
-                if (targetSubDir != null && !Directory.Exists(targetSubDir))
-                {
-                    Directory.CreateDirectory(targetSubDir);
-                }
-
-                File.Copy(file, targetFile, overwrite: true);
-                Logging.Info(nameof(LuaPublisher), $"Copied: {relativePath} -> {targetFile}");
-            }
-
-            Logging.Info(nameof(LuaPublisher), $"Successfully published to: {targetDir}");
-            return true;
+            File.Copy(file, targetFile, overwrite: true);
         }
-        catch (Exception ex)
-        {
-            Logging.Error(nameof(LuaPublisher), $"Error publishing to {wowBasePath}", ex);
-            return false;
-        }
+
+        Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
     }
 }
