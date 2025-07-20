@@ -1,17 +1,17 @@
-# DUCA Admin Panel Drafts
+﻿# DUCA Admin Panel Drafts
 
 ## Draft: Implement Workflow Panel Scaffolding
 ### Agent
-Create `/Admin/Duca.razor` component with navigation. Include project dropdown (Addon, AdminPanel, Data) and Title/Body input fields.
+Create the initial Blazor admin panel page for managing DUCA workflows. This includes a new /Admin/Duca.razor component and navigation updates to include this page. It should have a drop down for all major projects (Addon, AdminPanel, Data). It should have a 'Title' text box and 'Body' text area. 
 
 ## Draft: Implement Core/GitHub/GitHubIssueService
 ### Agent
-Create GitHub API integration for issue management. Include Entity Framework object for tracking progress.
+This class allows us to create and manage GitHub issues via the GitHub API. We're going to need an object to store in Entity Framework and track it's progress.
 
 ## Draft: Implement Workflow Thread View
 ### Agent
-Create live view showing workflow state with GitHub issue/PR links, review status, and CI state. Add 30-second polling.
+Create a live view that shows the state of a running workflow, including links to the associated GitHub issue and pull request, review status, and CI state. Add a polling mechanism to update the view every 30 seconds.
 
 ## Draft: Implement Draft Stubs
 ### Agent
-Create UI for selecting draft stubs. Developer adds supplemental details before creating GitHub issue for Plan generation.
+Ideally every draft should be a 'stub' in the UI that can be selected. The developer will then add in the body additional details and requirements. Following that, a GitHub issue will be created to create a Plan for the draft with the supplemental information.
