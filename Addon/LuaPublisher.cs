@@ -38,14 +38,10 @@ public class LuaPublisher
         string luaSourcePath = _customSourcePath ?? FindLuaSourcePath();
         string targetDir = Path.Combine(targetFolder, ADDON_NAME);
 
-        if (Directory.Exists(targetDir))
-        {
-            Directory.Delete(targetDir, recursive: true);
-        }
+        if (Directory.Exists(targetDir)) { Directory.Delete(targetDir, recursive: true); }
+        else { Directory.CreateDirectory(targetDir); }
 
-        Directory.CreateDirectory(targetDir);
-        CopyDirectory(luaSourcePath, targetDir);
-        
+        CopyDirectory(luaSourcePath, targetDir);        
         Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
     }
 
@@ -57,10 +53,7 @@ public class LuaPublisher
         while (dir != null)
         {
             string addonLuaPath = Path.Combine(dir.FullName, "Addon", "LUA");
-            if (Directory.Exists(addonLuaPath))
-            {
-                return addonLuaPath;
-            }
+            if (Directory.Exists(addonLuaPath)) { return addonLuaPath; }
             dir = dir.Parent;
         }
 
@@ -75,10 +68,7 @@ public class LuaPublisher
             string targetFile = Path.Combine(targetDir, relativePath);
             
             string? targetSubDir = Path.GetDirectoryName(targetFile);
-            if (targetSubDir != null)
-            {
-                Directory.CreateDirectory(targetSubDir);
-            }
+            if (targetSubDir != null) { Directory.CreateDirectory(targetSubDir); }
 
             File.Copy(file, targetFile, overwrite: true);
         }
