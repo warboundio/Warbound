@@ -107,12 +107,13 @@ public void Add_Ints_ReturnsCorrectSum()
 In order to operate as an agent in our DUCA codebase follow these steps:
 
 1. **Ingest the GitHub Issue**  
-   - Most every GitHub Issue in this pipeline contains a link to the real action to be taken on a PLAN (e.g. `/DUCA/Plans/______.md`).  
+   - Most every GitHub Issue in this pipeline contains a link to the real action to be taken on a PLAN (e.g. `Project/Plans/______.md`).  
    - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and DUCA PLAN to be completed.
    - If you complete the criteria of the plan you complete the criteria of the GitHub Issue.
 
-2. **Read /DUCA/DUCA/DUCA.md**
+2. **Read /DUCA.md**
    - Familiarize yourself with the DUCA system. You are a developer you are writing the plans and executing them. Ensure you understand the context and rules of engagement.
 
-3. **Read each /DUCA/Project/Project.md**
-    - All of these projects work together to create one cohesive product. The context and information you find in terms of how the data is used may influence your implementation.
+3. **Read each ProjectName/ProjectName.md**
+   - All of these projects work together to create one cohesive product. The context and information you find in terms of how the data is used may influence your implementation.
+   - When implementing a feature from a project's Roadmap.md, promote that feature description to the ProjectName.md file to reflect current state.
