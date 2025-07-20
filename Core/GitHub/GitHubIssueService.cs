@@ -6,17 +6,22 @@ using Core.Settings;
 
 namespace Core.GitHub;
 
-internal sealed class GitHubIssueService : IDisposable
+public sealed class GitHubIssueService : IDisposable
 {
+    private static readonly GitHubIssueService SERVICE = new();
+
     public static async Task<int> Create(string title, string body, bool assignToCopilot, params string[] labels)
     {
-        using GitHubIssueService service = new();
-        int issueNumber = await service.CreateIssueAsync(title, body);
-        await service.AddLabelsAsync(issueNumber, labels);
-        await service._projectAssigner.SetIssueStatusAsync(issueNumber: issueNumber, projectNumber: PROJECT_NUMBER, statusName: STATUS_NAME);
-        if (assignToCopilot) { await service.AssignToCopilotAsync(issueNumber); }
+        int issueNumber = await SERVICE.CreateIssueAsync(title, body);
+        await SERVICE.AddLabelsAsync(issueNumber, labels);
+        await SERVICE._projectAssigner.SetIssueStatusAsync(issueNumber: issueNumber, projectNumber: PROJECT_NUMBER, statusName: STATUS_NAME);
+        if (assignToCopilot) { await SERVICE.AssignToCopilotAsync(issueNumber); }
         return issueNumber;
     }
+
+    public static async Task<PullRequestStatus> GetPullRequestStatusAsync(int issueNumber) => await SERVICE._inspector.GetPullRequestStatusAsync(issueNumber: issueNumber);
+
+    public static async Task<bool> IsPullRequestMergedAsync(int issueNumber) => await SERVICE._manager.IsPullRequestMergedAsync(issueNumber: issueNumber);
 
     private const int PROJECT_NUMBER = 1;
     private const string STATUS_NAME = "Agents in Progress";
@@ -25,6 +30,8 @@ internal sealed class GitHubIssueService : IDisposable
     private readonly HttpClient _client;
     private readonly GitHubCopilotAssigner _copilotAssigner;
     private readonly GitHubProjectAssigner _projectAssigner = new();
+    private readonly GitHubPullRequestInspector _inspector = new();
+    private readonly GitHubPullRequestStatusChecker _manager = new();
 
     public GitHubIssueService()
     {
@@ -86,5 +93,6 @@ internal sealed class GitHubIssueService : IDisposable
     {
         _client.Dispose();
         _copilotAssigner.Dispose();
+        _inspector.Dispose();
     }
 }
