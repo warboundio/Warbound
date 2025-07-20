@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.ETL;
 using Core.Logs;
-using EFCore.BulkExtensions;
 using Data.BlizzardAPI;
+using EFCore.BulkExtensions;
 
 namespace Data.ETLs;
 

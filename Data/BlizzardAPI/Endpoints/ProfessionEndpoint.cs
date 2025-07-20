@@ -23,9 +23,7 @@ public class ProfessionEndpoint : BaseBlizzardEndpoint<Profession>
         string skillTiers = string.Empty;
         if (json.TryGetProperty("skill_tiers", out JsonElement skillTiersElement))
         {
-            int[] skillTierIds = skillTiersElement.EnumerateArray()
-                .Select(tier => tier.GetProperty("id").GetInt32())
-                .ToArray();
+            int[] skillTierIds = [.. skillTiersElement.EnumerateArray().Select(tier => tier.GetProperty("id").GetInt32())];
             skillTiers = string.Join(";", skillTierIds);
         }
 

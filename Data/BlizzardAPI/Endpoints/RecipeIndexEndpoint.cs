@@ -22,7 +22,7 @@ public class RecipeIndexEndpoint : BaseBlizzardEndpoint<List<Recipe>>
     public override List<Recipe> Parse(JsonElement json)
     {
         List<Recipe> recipes = [];
-        
+
         if (json.TryGetProperty("categories", out JsonElement categories))
         {
             foreach (JsonElement category in categories.EnumerateArray())

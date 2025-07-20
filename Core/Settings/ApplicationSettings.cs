@@ -14,6 +14,7 @@ public sealed record SettingsDto
     public string BattleNetClientId { get; set; } = string.Empty;
     public string BattleNetSecretId { get; set; } = string.Empty;
     public string GithubToken { get; set; } = string.Empty;
+    public string GithubClassicPAT { get; set; } = string.Empty;
 }
 
 public sealed class ApplicationSettings
@@ -34,6 +35,7 @@ public sealed class ApplicationSettings
     public string BattleNetClientId => GetSecret(dto => dto.BattleNetClientId);
     public string BattleNetSecretId => GetSecret(dto => dto.BattleNetSecretId);
     public string GithubToken => GetSecret(dto => dto.GithubToken);
+    public string GithubClassicPAT => GetSecret(dto => dto.GithubClassicPAT);
 
     public ApplicationSettings() : this(_defaultDirectory, _defaultFileName) { }
 
