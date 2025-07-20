@@ -1,89 +1,29 @@
-﻿# Warbound.io Addon
+# Warbound Addon
 
 ## Overview
 
-The Warbound addon is a modular, event-driven Lua addon designed to collect and serialize meaningful **collection** and **gameplay** data from World of Warcraft. This data is stored locally in SavedVariables and offloaded to the Warbound client for analysis, display, and goal tracking on the web.
-
-The addon focuses on two distinct areas:
-
-1. **User Data (Collections)** – Tracks what the player has collected.
-2. **Game Data (Background Metadata)** – Captures context about where things come from in the world.
-
-These systems power the core value of Warbound.io: understanding and guiding the collecting journey in WoW.
+The Warbound addon project is designed to provide a C# utility for managing and publishing World of Warcraft addon files. This project enables the publishing of Lua addon code from a development subfolder directly into the World of Warcraft addons directory for testing and deployment.
 
 ---
 
-## Feature Categories
+## Current Implementation
 
-### 1. 📦 Collections (User Data)
-
-This is the backbone of the addon. It monitors the player's collection state in real time and builds a minimal snapshot of their unlocks.
-
-**Scope:**
-- Transmogs
-- Pets
-- Mounts
-- Recipes
-- Toys
-
-**Key Concepts:**
-- Each collection category is encoded into a compact string (e.g., using Base90) representing all unlocked IDs.
-- The encoded strings are stored in `SavedVariables` under a unified table.
-- On key game events (e.g. learning an appearance, recipe, or mount), the addon rebuilds the relevant string snapshot.
-- Updates are low-cost and can be optimized later. Simplicity comes first.
-
-**SavedVariables Example:**
-```lua
-WarboundData = {
-  account_id = "<account-identifier>",
-  seed       = <random-seed-int>,
-
-  transmogs = "<encoded>",
-  pets      = "<encoded>",
-  mounts    = "<encoded>",
-  recipes   = "<encoded>",
-  toys      = "<encoded>",
-}
-```
+The addon project currently contains:
+- Basic C# project structure (.csproj file)
+- Project documentation and roadmap files
 
 ---
 
-### 2. 🧠 Background Metadata (Game Data)
+## Core Functionality
 
-This system captures *contextual world data* — what items are available where, how they're obtained, and what conditions apply.
+### Publishing System
 
-**Use Cases:**
-- Vendor item lists (including costs, reputation requirements)
-- Quest and encounter sources
-- World drops and dungeon trash
-- Zone and map context
-- NPC info (ID, location, etc.)
-
-**Behavior:**
-- Listens to vendor interactions, loot events, and other relevant sources.
-- Skips data capture when the player is at a mailbox (to avoid false item source attribution).
-- Stores data in memory for the Warbound client to consume.
-- Future-proofed to track rep/faction requirements where possible.
-
-This module is about empowering Warbound.io to guide players accurately through the game world without relying on external scraped sources.
-
----
-
-## Logging & UX (Optional)
-
-While not a formal third module, the addon will support a clean logging system to:
-
-- Report collection gains (e.g., “+3 transmogs!”) at the end of dungeons or farming sessions.
-- Use a dedicated, uncluttered chat channel (`/wb log`) for these summaries.
-- Enable opt-in features like instance tracking or goal completion celebrations.
-
-The intention is not to build a heavy in-game interface — Warbound's experience is web-first. But the in-game logging will provide clarity and fun feedback loops where they make sense.
+The primary function of this project is to facilitate the development workflow for World of Warcraft addons by providing automated publishing capabilities that move Lua addon files from the development environment into the appropriate World of Warcraft addon directory.
 
 ---
 
 ## Philosophy
 
-- **Modular & Minimal** – Each system is load-on-demand and can be toggled independently.
-- **Efficient by Default** – Storage is compact, updates are lightweight, and client syncs are batched.
-- **Trustworthy Data** – All collection and source data is observed firsthand — never scraped.
-- **Opt-In Guidance** – Any UI or feedback in-game will be intentionally minimal, focused, and user-controlled.
+- **Development Workflow Focus** – Streamlines the process of testing and deploying addon code during development.
+- **Automation First** – Reduces manual file management overhead when working with WoW addon development.
+- **Utility Tool** – Serves as a supporting tool in the broader Warbound development ecosystem.

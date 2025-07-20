@@ -19,7 +19,7 @@ A good Plan explains the **why** and shows **where to look** — the **how** is 
 
 ### Where Do Plans Live?
 
-All Plans live under `/DUCA/Project/Plans/`. Issues should link directly to these.
+All Plans live under `Project/Plans/` within each project folder. Issues should link directly to these.
 
 ### Context Lives in `*.Agent.md` Files
 
@@ -27,7 +27,7 @@ To reduce boilerplate in every Plan, we encode long-lived context in dedicated m
 
 * `X.Agent.md` files live next to source files (file-level context)
 * `_Namespace.Agent.md` files live in a folder (namespace-level context)
-* `DUCA/Project/Project.md` files provide project-wide context
+* `Project/Project.md` files provide project-wide context
 
 Examples:
 
