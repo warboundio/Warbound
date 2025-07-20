@@ -108,6 +108,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Plans\" />
   </ItemGroup>
 
 </Project>

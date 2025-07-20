@@ -1,5 +1,9 @@
 ﻿# DUCA Admin Panel Drafts
 
+## Draft: Clearer Validation on the 'Create Issue' Submission
+### Agent
+Instead of disabling the form let's add a validation message and not submit. "Application Is Missing" or something like that for a validation message. Same thing when it's completed. Let's clear the form and have a success message.
+
 ## Draft: Worklow After Adding a GitHub Issue
 ### Agent
 After an issue has been created by hitting submit we need to clear the fields. Show a success message. And insert it into the database. Let's convert ETLContext -> CoreContext. Let's add an object for 'GithHubIssue' that follows the same schema as ETLJob and the table name should be github_issue. Let's have the Issue id. The DateTime Created. a string with max length for the name. I'm looking at the PullRequestStatus object. We also want 'WaitingForYou' to be stored (default false). When we first insert this we should only fill out the id (issue id), the datetime created, and the name. the other fields will be updated later.
