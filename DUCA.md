@@ -75,6 +75,9 @@ Draft text always get removed from `/Project/Drafts.md` when implemented, regard
    - Clean up any test artifacts after test completion
    - Only one test should perform file system operations due to parallel execution
    - Tests should verify real functionality, not just return value types
+   - Do not create any mocks to test functionality
+   - Do not create any integration tests
+   - DO include a example of the functionality working in Warbound/Program.cs (commented out)
 
 10. **Boy Scout Rule**: If your pull request is including edits to a file, that edit is eligible to be 'cleaned up'. 
 	- The Boy Scout Rule states that you should leave the code cleaner than you found it.

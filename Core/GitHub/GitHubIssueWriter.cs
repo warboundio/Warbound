@@ -1,4 +1,5 @@
 using System.Text;
+using Octokit;
 
 namespace Core.GitHub;
 
@@ -53,6 +54,8 @@ public class GitHubIssueWriter
 
         if (IsPlanRequired) { sb.AppendLine($"Let's begin with the plan. Please create a PR that documents required changes to the codebase to implement the developer's request."); }
         if (!IsPlanRequired) { sb.AppendLine($"Let's begin with the implementation. Please create a PR that implements the developer's request."); }
+
+        if (WorkflowTitle.Contains("Draft")) { sb.AppendLine($"Please review the appropriate {SelectedProject}/DraftsX.md files and look for a draft that matches this github issue description and title: '{WorkflowTitle}'. Please remove that draft as it is no longer needed."); }
 
         return sb.ToString();
     }
