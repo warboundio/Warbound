@@ -23,6 +23,12 @@ public sealed class GitHubIssueService : IDisposable
 
     public static async Task<bool> IsPullRequestMergedAsync(int issueNumber) => await SERVICE._manager.IsPullRequestMergedAsync(issueNumber: issueNumber);
 
+    public static async Task CloseIssueIfPrMergedAsync(int issueNumber)
+    {
+        bool isMerged = await SERVICE._manager.IsPullRequestMergedAsync(issueNumber);
+        if (isMerged) { await SERVICE.CloseIssueAsync(issueNumber); }
+    }
+
     private const int PROJECT_NUMBER = 1;
     private const string STATUS_NAME = "Agents in Progress";
     private const string OWNER = "warboundio";
@@ -88,6 +94,17 @@ public sealed class GitHubIssueService : IDisposable
     }
 
     private async Task AssignToCopilotAsync(int issueNumber) => await _copilotAssigner.AssignToCopilotAsync(issueNumber);
+
+    private async Task CloseIssueAsync(int issueNumber)
+    {
+        string url = $"https://api.github.com/repos/{OWNER}/{REPO}/issues/{issueNumber}";
+        object update = new { state = "closed" };
+        string json = JsonSerializer.Serialize(update);
+        using StringContent content = new(json, Encoding.UTF8, "application/json");
+        using HttpResponseMessage response = await _client.PatchAsync(url, content);
+        response.EnsureSuccessStatusCode();
+        Logging.Info(nameof(GitHubIssueService), $"Closed GitHub issue #{issueNumber}");
+    }
 
     public void Dispose()
     {

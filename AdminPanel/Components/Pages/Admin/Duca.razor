@@ -47,6 +47,16 @@
                     </div>
                 </div>
 
+                <div class="form-check mb-3">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="isPlanRequired"
+                           @bind="IsPlanRequired" />
+                    <label class="form-check-label" for="isPlanRequired">
+                        Plan document required for this workflow
+                    </label>
+                </div>
+
                 <div class="mb-3">
                     <button type="button" class="btn btn-primary" @onclick="HandleSubmit" disabled="@(!IsFormValid || IsSubmitting)">
                         @if (IsSubmitting)
@@ -64,8 +74,10 @@
                 @if (!string.IsNullOrEmpty(SuccessMessage))
                 {
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        @SuccessMessage
-                        <button type="button" class="btn-close" @onclick="() => SuccessMessage = string.Empty"></button>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @((MarkupString)SuccessMessage)
+                            <button type="button" class="btn-close" @onclick="() => SuccessMessage = string.Empty"></button>
+                        </div>
                     </div>
                 }
 
@@ -128,6 +140,7 @@
             SelectedProject = "";
             WorkflowTitle = "";
             WorkflowBody = "";
+            IsPlanRequired = false;
             SuccessMessage = $"✅ Successfully created GitHub issue #{issueId}: <a href=\"https://github.com/warboundio/warbound/issues/{issueId}\" target=\"_blank\" class=\"alert-link\">View Issue</a>";
         }
         catch (Exception ex)
