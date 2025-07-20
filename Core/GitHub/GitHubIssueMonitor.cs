@@ -9,7 +9,6 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly Dictionary<int, GitHubIssue> _issueTracker = [];
-    private readonly Dictionary<int, GitHubIssue> _waitingIssues = [];
     private Timer? _monitoringTimer;
     private const int INITIAL_DELAY_MINUTES = 5;
     private const int CHECK_INTERVAL_SECONDS = 30;
@@ -58,14 +57,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 
             foreach (GitHubIssue issue in issues)
             {
-                if (issue.WaitingForYou)
-                {
-                    _waitingIssues[issue.IssueId] = issue;
-                }
-                else
-                {
-                    _issueTracker[issue.IssueId] = issue;
-                }
+                _issueTracker[issue.IssueId] = issue;
             }
 
             Logging.Info(nameof(GitHubIssueMonitor), $"Loaded {issues.Count} outstanding issues for monitoring");
@@ -91,9 +83,9 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             int issueId = issueEntry.Key;
             GitHubIssue issue = issueEntry.Value;
 
-            bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
+            bool isInsideInitialDelay = now.Subtract(issue.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES;
             if (isInsideInitialDelay) { continue; }
-
+            if (issue.WaitingForYou) { continue; }
 
             try
             {
@@ -105,14 +97,6 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                     await RemoveIssueAsync(issueId);
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Removed completed issue #{issueId} from monitoring");
-                }
-                else if (prStatus.WaitingForYou)
-                {
-                    issue.WaitingForYou = true;
-                    await UpdateIssueStatusAsync(issueId, true);
-                    _waitingIssues[issueId] = issue;
-                    issuesToRemove.Add(issueId);
-                    Logging.Info(nameof(GitHubIssueMonitor), $"Issue #{issueId} is waiting for developer action, stopped monitoring");
                 }
 
                 // If PR exists, is open, and not waiting for developer, continue monitoring
@@ -147,8 +131,8 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 
             context.GitHubIssues.Add(issue);
             await context.SaveChangesAsync();
-            
-            _issueTracker[issueId] = issue;            
+
+            _issueTracker[issueId] = issue;
             Logging.Info(nameof(GitHubIssueMonitor), $"Added issue #{issueId} to monitoring: {name}");
         }
         catch (Exception ex)
@@ -164,34 +148,13 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             List<GitHubIssue> activeWorkflows = [];
 
             activeWorkflows.AddRange(_issueTracker.Values);
-            activeWorkflows.AddRange(_waitingIssues.Values);
-            
+
             return activeWorkflows;
         }
         catch (Exception ex)
         {
             Logging.Error(nameof(GitHubIssueMonitor), $"Failed to get active workflows: {ex.Message}", ex);
-            return new List<GitHubIssue>();
-        }
-    }
-
-    private async Task UpdateIssueStatusAsync(int issueId, bool waitingForYou)
-    {
-        try
-        {
-            using IServiceScope scope = _scopeFactory.CreateScope();
-            using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-
-            GitHubIssue? issue = await Task.Run(() => context.GitHubIssues.FirstOrDefault(i => i.IssueId == issueId));
-            if (issue != null)
-            {
-                issue.WaitingForYou = waitingForYou;
-                await context.SaveChangesAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            Logging.Error(nameof(GitHubIssueMonitor), $"Failed to update issue #{issueId} status: {ex.Message}", ex);
+            return [];
         }
     }
 
@@ -209,7 +172,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 await context.SaveChangesAsync();
             }
 
-            _waitingIssues.Remove(issueId);
+            _issueTracker.Remove(issueId);
         }
         catch (Exception ex)
         {

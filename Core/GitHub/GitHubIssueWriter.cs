@@ -1,5 +1,4 @@
 using System.Text;
-using Octokit;
 
 namespace Core.GitHub;
 
@@ -30,13 +29,14 @@ public class GitHubIssueWriter
 
         int stepNumber = 1;
         sb.AppendLine($"There are {numberOfSteps} steps to complete this issue:");
-        if(IsPlanRequired)
+        if (IsPlanRequired)
         {
             sb.AppendLine($"# Step {stepNumber} | **Plan**: Create a plan for the issue in the {SelectedProject} project.");
             sb.AppendLine($"Your first pull request should only consist of this plan. After you submit this pull request a developer will review it and make edits.");
             sb.AppendLine($"If you see 'requested changes' that means that the developer has approved your plan and is ready for implementation. Please review the developers comments to confirm.");
             sb.AppendLine($"Ensure your plan speaks to every required change and (if necessary) it's purpose. You will not be able to extend your scope after we move away from this step.");
             sb.AppendLine($"Once you have moved onto the implementation stage the plan is immutable.");
+            sb.AppendLine($"Please Review Core/Plans/PlanTemplate.md to understand the structure of the plan.");
             sb.AppendLine("");
             stepNumber++;
         }

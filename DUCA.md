@@ -2,14 +2,10 @@
 
 ### Plans & Context
 
-**Plans** live in `Project/Plans/` and describe work units. Focus on implementation details that need developer approval. Context lives in `*.Agent.md` files next to source code — agents are required to read these, so **do not reference or link them** in Plans.
+**Plans** live in `Project/Plans/` and describe work units. Focus on implementation details that need developer approval. Context lives in `*.Agent.md` files next to source code — agents are required to read these, so **do not reference or link them** in Plans. Please check Core/Plans/PlanTemplate.md for the template used for Plans.
 
 **Writing Plans:**
 * Focus only on what the developer needs to approve
-* Define scope, edge cases, and testing strategy
-* Include file and method hints if relevant
-* Avoid boilerplate and redundant documentation
-* Do not over-document or explain how the system works — agents already know
 
 ### Drafts
 
