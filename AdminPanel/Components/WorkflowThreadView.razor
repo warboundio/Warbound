@@ -58,17 +58,17 @@
     private List<GitHubIssue> activeWorkflows = new();
     private Timer? refreshTimer;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await LoadActiveWorkflows();
+        LoadActiveWorkflows();
         StartPeriodicRefresh();
     }
 
-    private async Task LoadActiveWorkflows()
+    private void LoadActiveWorkflows()
     {
         try
         {
-            activeWorkflows = await GitHubIssueMonitor.GetActiveWorkflowsAsync();
+            activeWorkflows = GitHubIssueMonitor.GetActiveWorkflows();
             StateHasChanged();
         }
         catch (Exception)
@@ -121,9 +121,9 @@
     {
         refreshTimer = new Timer(async _ => 
         {
-            await InvokeAsync(async () =>
+            await InvokeAsync(() =>
             {
-                await LoadActiveWorkflows();
+                LoadActiveWorkflows();
             });
         }, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
     }

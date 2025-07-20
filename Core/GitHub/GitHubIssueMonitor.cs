@@ -8,7 +8,8 @@ namespace Core.GitHub;
 public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly Dictionary<int, DateTime> _issueTracker = [];
+    private readonly Dictionary<int, GitHubIssue> _issueTracker = [];
+    private readonly Dictionary<int, GitHubIssue> _waitingIssues = [];
     private Timer? _monitoringTimer;
     private const int INITIAL_DELAY_MINUTES = 5;
     private const int CHECK_INTERVAL_SECONDS = 30;
@@ -57,7 +58,14 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             
             foreach (GitHubIssue issue in issues)
             {
-                _issueTracker[issue.IssueId] = issue.CreatedAt;
+                if (issue.WaitingForYou)
+                {
+                    _waitingIssues[issue.IssueId] = issue;
+                }
+                else
+                {
+                    _issueTracker[issue.IssueId] = issue;
+                }
             }
             
             Logging.Info(nameof(GitHubIssueMonitor), $"Loaded {issues.Count} outstanding issues for monitoring");
@@ -78,13 +86,13 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         List<int> issuesToRemove = [];
         DateTime now = DateTime.UtcNow;
 
-        foreach (KeyValuePair<int, DateTime> issueEntry in _issueTracker.ToList())
+        foreach (KeyValuePair<int, GitHubIssue> issueEntry in _issueTracker.ToList())
         {
             int issueId = issueEntry.Key;
-            DateTime createdAt = issueEntry.Value;
+            GitHubIssue issue = issueEntry.Value;
 
             // Skip if not past initial delay
-            if (now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES)
+            if (now.Subtract(issue.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES)
             {
                 continue;
             }
@@ -102,8 +110,10 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 }
                 else if (prStatus.WaitingForYou)
                 {
-                    // PR is waiting for developer action - update database and stop monitoring
+                    // PR is waiting for developer action - update database and move to waiting collection
+                    issue.WaitingForYou = true;
                     await UpdateIssueStatusAsync(issueId, true);
+                    _waitingIssues[issueId] = issue;
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Issue #{issueId} is waiting for developer action, stopped monitoring");
                 }
@@ -140,7 +150,7 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             context.GitHubIssues.Add(issue);
             await context.SaveChangesAsync();
             
-            _issueTracker[issueId] = issue.CreatedAt;
+            _issueTracker[issueId] = issue;
             
             Logging.Info(nameof(GitHubIssueMonitor), $"Added issue #{issueId} to monitoring: {name}");
         }
@@ -150,22 +160,19 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         }
     }
 
-    public async Task<List<GitHubIssue>> GetActiveWorkflowsAsync()
+    public List<GitHubIssue> GetActiveWorkflows()
     {
         try
         {
-            using IServiceScope scope = _scopeFactory.CreateScope();
-            using CoreContext context = scope.ServiceProvider.GetRequiredService<CoreContext>();
+            List<GitHubIssue> activeWorkflows = [];
             
-            // Get all issues that are either in the tracker (running) or waiting for developer
-            List<int> activeIssueIds = _issueTracker.Keys.ToList();
-            List<GitHubIssue> waitingIssues = await Task.Run(() => 
-                context.GitHubIssues.Where(i => i.WaitingForYou).ToList());
+            // Add running workflows (in active tracker)
+            activeWorkflows.AddRange(_issueTracker.Values);
             
-            List<GitHubIssue> runningIssues = await Task.Run(() =>
-                context.GitHubIssues.Where(i => activeIssueIds.Contains(i.IssueId)).ToList());
+            // Add waiting workflows
+            activeWorkflows.AddRange(_waitingIssues.Values);
             
-            return runningIssues.Concat(waitingIssues).ToList();
+            return activeWorkflows;
         }
         catch (Exception ex)
         {
@@ -207,6 +214,9 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 context.GitHubIssues.Remove(issue);
                 await context.SaveChangesAsync();
             }
+            
+            // Also remove from waiting collection if it exists there
+            _waitingIssues.Remove(issueId);
         }
         catch (Exception ex)
         {
