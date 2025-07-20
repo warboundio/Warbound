@@ -45,6 +45,44 @@ Examples:
 * **Include testing expectations.** Especially unit tests — the more the better.
 * **Avoid prescribing exact implementations.** Let the agent choose how.
 
+# DUCA Drafts: Definition and Guidelines
+
+## What is a Draft?
+
+In the DUCA framework, a **Draft** is a self-contained, unit of work that is designed to be implemented in a **single pull request**. Drafts are the building blocks of agent-executed development, bridging the gap between high-level plans and concrete implementation. It does not have to be a complete plan but it should have a complete scope. Developers will grab a draft from the UI, add supplemental information, and then create a GitHub issue to create a Plan for the draft.
+
+Drafts should describe **what** to do, not **how** to do it. They serve as prompts for developers to line up work for the agents.
+
+---
+
+## Characteristics of a Good Draft
+
+A good draft is Atomic, descriptive, independent, actionable, and scoped for one pull request.
+It should follow a specific format:
+## Draft: <Title>
+### <Agent> or <Developer>
+A brief description of the work to be done, including any relevant context or requirements. It's major focus is to provide a clear scope.
+
+---
+
+## Examples
+
+### ✅ Good Draft
+## Draft: Implement Pet Collection Snapshot
+### Agent
+Track unlocked battle pets and companions. Encode them via Base90 and store the string in `WarboundData.pets`. Includes relevant event hooks.
+
+### ❌ Bad Draft
+## Draft: Improve collection system
+### Agent
+Make it better and faster. Add missing stuff. Maybe Base90?
+
+---
+
+## Usage
+Drafts will be used to as a way to quickly kick off a new creation of a Plan. That plan will be confirmed by a developer and then assigned to an agent for implementation.
+When working a draft, the agent should 'clean up' the draft by removing it from the `/Project/Drafts.md` or `/Project/DraftX.md` file and updating the `/Project/Project.md` to reflect the current state of the project.
+
 ---
 
 ## 🤖 For Agents
@@ -84,7 +122,8 @@ Each task consists of:
 * Tests are added as instructed and follow naming rules.
 * Code compiles, tests pass.
 * PR is created with no extra scope or side work.
-* If the plan was generated via a Roadmap task and you are executing that plan, the Roadmap documentation is updated to remove the task and the Project.md is updated to reflect the current state of the project.
+* Review the drafts for the projects you are working on to understand the overall goals for the project.
+* If you are compelting a draft, ensure you remove the draft from the /Project/Drafts.md or /Project/DraftX.md file and update the Project/Project.md to reflect the current state of the project.
 
 ---
 

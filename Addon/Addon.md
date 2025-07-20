@@ -10,7 +10,7 @@ The Warbound addon project is designed to provide a C# utility for managing and 
 
 The addon project currently contains:
 - Basic C# project structure (.csproj file)
-- Project documentation and roadmap files
+- Project documentation and draft files
 
 ---
 
