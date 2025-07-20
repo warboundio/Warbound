@@ -1,6 +1,5 @@
 using AdminPanel.Components;
-using Core.ETL;
-using Microsoft.EntityFrameworkCore;
+using Core;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

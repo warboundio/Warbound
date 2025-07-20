@@ -1,7 +1,8 @@
+using Core.ETL;
 using Core.Settings;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.ETL;
+namespace Core;
 
 public class CoreContext : DbContext
 {
@@ -17,8 +18,5 @@ public class CoreContext : DbContext
             .Options;
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<ETLJob>().HasIndex(x => x.Name).IsUnique();
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<ETLJob>().HasIndex(x => x.Name).IsUnique();
 }

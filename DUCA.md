@@ -53,6 +53,7 @@ The GitHub issue *is* the draft. Agent creates a Plan in PR, gets it approved, a
 **Refactoring:**
 - **No backward compatibility aliases**: When refactoring classes, do a straight refactor. Do not create alias classes for backward compatibility.
 - **Complete reference updates**: Update all references to the old class name throughout the codebase.
+- **Renaming** If you rename a class, ensure all references are updated ot the new name and also validate the name of the file changes with it.
 
 **Database:**
 - **No automatic Entity Framework migrations**: Do not create migration files. Developers handle database changes manually.
