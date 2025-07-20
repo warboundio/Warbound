@@ -21,15 +21,10 @@ public static class LuaPublisher
                 return false;
             }
 
-            Logging.Info(nameof(LuaPublisher), $"Found LUA source directory: {luaSourcePath}");
-
             bool anySuccess = false;
             foreach (string wowBasePath in WOW_PATHS)
             {
-                if (PublishToWowDirectory(luaSourcePath, wowBasePath))
-                {
-                    anySuccess = true;
-                }
+                if (PublishToWowDirectory(luaSourcePath, wowBasePath)) { anySuccess = true; }
             }
 
             return anySuccess;
