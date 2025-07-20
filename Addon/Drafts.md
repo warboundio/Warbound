@@ -1,9 +1,5 @@
 # Warbound Addon Drafts
 
-## Draft: Initialize SavedVariables Format
-### Agent
-Create the foundational SavedVariables table structure (`WarboundData`) to hold encoded data strings for each collection category. Include an empty string to define a clear schema layout.
-
 ## Draft: Implement Transmog Collection Snapshot
 ### Agent
 Track unlocked transmog appearances. Encode appearance IDs via Base90 and store the result in `WarboundData.transmogs`. Includes relevant event hooks.
