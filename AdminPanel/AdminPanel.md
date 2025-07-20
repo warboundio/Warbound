@@ -22,6 +22,7 @@ The AdminPanel currently consists of a basic Blazor Server application with:
 - Interactive server components enabled
 - Basic routing and error handling
 - Default template pages (Home, Counter, Weather)
+- DUCA workflow panel scaffolding (planned for implementation)
 
 ---
 
