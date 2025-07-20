@@ -27,7 +27,7 @@ To reduce boilerplate in every Plan, we encode long-lived context in dedicated m
 
 * `X.Agent.md` files live next to source files (file-level context)
 * `_Namespace.Agent.md` files live in a folder (namespace-level context)
-* `Project/Project.md` files provide project-wide context
+* `ProjectName/ProjectName.md` files provide project-wide context
 
 Examples:
 
