@@ -42,7 +42,6 @@ The existing infrastructure provides:
 
 5. **State Management**
    - Track monitoring state per issue (waiting, checking, stopped)
-   - Handle different PR states (waiting, approved, closed, non-existent)
    - Proper disposal and cleanup
 
 ### Out of Scope
@@ -54,16 +53,6 @@ The existing infrastructure provides:
 - Performance optimization for large issue volumes
 - Custom scheduling beyond the specified intervals
 
-## DUCA Constraints
-
-### Database Operations
-- **No automatic Entity Framework migrations**: Do not create migration files. Developers handle database changes manually.
-- **Entity definition only**: Work with existing GitHubIssue entity structure.
-
-### Code Design
-- **Instance-based design**: Avoid static classes - GitHubIssueMonitor should be instantiated
-- **Fail-fast philosophy**: Assume happy path, throw exceptions for errors
-- **Use Core.Logs.Logging**: Never Console.WriteLine for logging
 
 ## Technical Approach
 
@@ -127,24 +116,14 @@ builder.Services.AddHostedService<GitHubIssueMonitor>();
 ## Edge Cases & Testing Needs
 
 ### Edge Cases
-- GitHub API rate limiting or failures during status checks
-- Database connection issues during monitoring cycles
-- Service shutdown during active monitoring operations
-- Issues created while service is starting up
-- Multiple rapid issue creations
+- If rate limiting or database connection issues occur - simply ignore them and try again on the next loop/check/30 seconds
 
 ### Error Handling
-- Graceful degradation when GitHub API is unavailable
-- Retry logic for transient database failures
-- Proper logging of all error conditions using Core.Logs.Logging
 - Continue monitoring other issues if one fails
+- If any errors occur during the 30 second check just call Logging.Error and move forward.
 
 ### Testing Strategy
-- Unit tests for timing logic and status processing
-- Unit tests for database operations with in-memory context
-- Unit tests for PR status interpretation
-- Integration tests for full monitoring cycle
-- Mock GitHubIssueService for testing different PR states
+- No testing is required
 
 ## Success Criteria
 
