@@ -34,6 +34,9 @@ public static class Logging
     public static void Warn(string classOrApplication, string message) =>
         Log.Warning($"{classOrApplication} | {message}", []);
 
+    public static void Error(string classOrApplication, string message) =>
+        Log.Error($"{classOrApplication} | {message}", []);
+
     public static void Error(string classOrApplication, string message, Exception ex) =>
         Log.Error(ex, $"{classOrApplication} | {message}", []);
 
