@@ -1,0 +1,135 @@
+@using Core.ETL
+@using Core.GitHub
+@inject GitHubIssueMonitor GitHubIssueMonitor
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+@rendermode InteractiveServer
+
+<div class="workflow-threads">
+    <h4>Active Workflows</h4>
+    @if (activeWorkflows.Any())
+    {
+        @foreach (GitHubIssue workflow in activeWorkflows)
+        {
+            <div class="workflow-card @GetWorkflowCssClass(workflow)" 
+                 @onclick="() => NavigateToPullRequest(workflow)">
+                <div class="workflow-content">
+                    <div class="workflow-header">
+                        <h6 class="workflow-title">@workflow.Name</h6>
+                        <div class="workflow-status">
+                            @if (workflow.WaitingForYou)
+                            {
+                                <span class="status-indicator waiting">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-indicator running">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="workflow-details">
+                        <small class="text-muted">
+                            Issue #@workflow.IssueId • @GetRelativeTime(workflow.CreatedAt)
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="no-workflows">
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                <p class="mt-2">No active workflows</p>
+                <small>New workflows will appear here when created</small>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<GitHubIssue> activeWorkflows = new();
+    private Timer? refreshTimer;
+
+    protected override void OnInitialized()
+    {
+        LoadActiveWorkflows();
+        StartPeriodicRefresh();
+    }
+
+    private void LoadActiveWorkflows()
+    {
+        try
+        {
+            activeWorkflows = GitHubIssueMonitor.GetActiveWorkflows();
+            StateHasChanged();
+        }
+        catch (Exception)
+        {
+            // Handle errors silently for now, could add error state later
+            activeWorkflows = new List<GitHubIssue>();
+        }
+    }
+
+    private string GetWorkflowCssClass(GitHubIssue workflow)
+    {
+        return workflow.WaitingForYou ? "workflow-waiting" : "workflow-running";
+    }
+
+    private string GetRelativeTime(DateTime createdAt)
+    {
+        TimeSpan elapsed = DateTime.UtcNow - createdAt;
+        
+        if (elapsed.TotalMinutes < 1)
+        {
+            return "just now";
+        }
+        if (elapsed.TotalMinutes < 60)
+        {
+            return $"{(int)elapsed.TotalMinutes} min ago";
+        }
+        if (elapsed.TotalHours < 24)
+        {
+            return $"{(int)elapsed.TotalHours} hour{((int)elapsed.TotalHours == 1 ? "" : "s")} ago";
+        }
+        return $"{(int)elapsed.TotalDays} day{((int)elapsed.TotalDays == 1 ? "" : "s")} ago";
+    }
+
+    private async Task NavigateToPullRequest(GitHubIssue workflow)
+    {
+        try
+        {
+            PullRequestStatus prStatus = await GitHubIssueService.GetPullRequestStatusAsync(workflow.IssueId);
+            string url = prStatus.Exists ? prStatus.Url : $"https://github.com/warboundio/warbound/issues/{workflow.IssueId}";
+            await JSRuntime.InvokeVoidAsync("open", url, "_blank");
+        }
+        catch
+        {
+            string fallbackUrl = $"https://github.com/warboundio/warbound/issues/{workflow.IssueId}";
+            await JSRuntime.InvokeVoidAsync("open", fallbackUrl, "_blank");
+        }
+    }
+
+    private void StartPeriodicRefresh()
+    {
+        refreshTimer = new Timer(async _ => 
+        {
+            await InvokeAsync(() =>
+            {
+                LoadActiveWorkflows();
+            });
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
+    }
+
+    public void Dispose()
+    {
+        refreshTimer?.Dispose();
+    }
+}

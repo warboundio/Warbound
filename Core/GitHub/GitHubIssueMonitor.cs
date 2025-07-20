@@ -8,7 +8,8 @@ namespace Core.GitHub;
 public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly Dictionary<int, DateTime> _issueTracker = [];
+    private readonly Dictionary<int, GitHubIssue> _issueTracker = [];
+    private readonly Dictionary<int, GitHubIssue> _waitingIssues = [];
     private Timer? _monitoringTimer;
     private const int INITIAL_DELAY_MINUTES = 5;
     private const int CHECK_INTERVAL_SECONDS = 30;
@@ -57,7 +58,14 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 
             foreach (GitHubIssue issue in issues)
             {
-                _issueTracker[issue.IssueId] = issue.CreatedAt;
+                if (issue.WaitingForYou)
+                {
+                    _waitingIssues[issue.IssueId] = issue;
+                }
+                else
+                {
+                    _issueTracker[issue.IssueId] = issue;
+                }
             }
 
             Logging.Info(nameof(GitHubIssueMonitor), $"Loaded {issues.Count} outstanding issues for monitoring");
@@ -78,13 +86,14 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         List<int> issuesToRemove = [];
         DateTime now = DateTime.UtcNow;
 
-        foreach (KeyValuePair<int, DateTime> issueEntry in _issueTracker.ToList())
+        foreach (KeyValuePair<int, GitHubIssue> issueEntry in _issueTracker.ToList())
         {
             int issueId = issueEntry.Key;
-            DateTime createdAt = issueEntry.Value;
+            GitHubIssue issue = issueEntry.Value;
 
             bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
             if (isInsideInitialDelay) { continue; }
+
 
             try
             {
@@ -99,8 +108,9 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 }
                 else if (prStatus.WaitingForYou)
                 {
-                    // PR is waiting for developer action - update database and stop monitoring
+                    issue.WaitingForYou = true;
                     await UpdateIssueStatusAsync(issueId, true);
+                    _waitingIssues[issueId] = issue;
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Issue #{issueId} is waiting for developer action, stopped monitoring");
                 }
@@ -137,14 +147,31 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
 
             context.GitHubIssues.Add(issue);
             await context.SaveChangesAsync();
-
-            _issueTracker[issueId] = issue.CreatedAt;
-
+            
+            _issueTracker[issueId] = issue;            
             Logging.Info(nameof(GitHubIssueMonitor), $"Added issue #{issueId} to monitoring: {name}");
         }
         catch (Exception ex)
         {
             Logging.Error(nameof(GitHubIssueMonitor), $"Failed to add issue #{issueId} to monitoring: {ex.Message}", ex);
+        }
+    }
+
+    public List<GitHubIssue> GetActiveWorkflows()
+    {
+        try
+        {
+            List<GitHubIssue> activeWorkflows = [];
+
+            activeWorkflows.AddRange(_issueTracker.Values);
+            activeWorkflows.AddRange(_waitingIssues.Values);
+            
+            return activeWorkflows;
+        }
+        catch (Exception ex)
+        {
+            Logging.Error(nameof(GitHubIssueMonitor), $"Failed to get active workflows: {ex.Message}", ex);
+            return new List<GitHubIssue>();
         }
     }
 
@@ -181,6 +208,8 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                 context.GitHubIssues.Remove(issue);
                 await context.SaveChangesAsync();
             }
+
+            _waitingIssues.Remove(issueId);
         }
         catch (Exception ex)
         {

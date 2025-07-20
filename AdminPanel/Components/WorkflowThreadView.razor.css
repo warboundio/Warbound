@@ -1,0 +1,117 @@
+.workflow-threads {
+    padding: 1rem;
+}
+
+.workflow-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+}
+
+.workflow-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-running {
+    background-color: #f8f9fa;
+    opacity: 0.8;
+    border-color: #6c757d;
+}
+
+.workflow-waiting {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.workflow-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.workflow-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.workflow-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #495057;
+    flex: 1;
+    margin-right: 0.5rem;
+    word-break: break-word;
+}
+
+.workflow-waiting .workflow-title {
+    color: #155724;
+}
+
+.workflow-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.status-indicator.waiting {
+    color: #28a745;
+}
+
+.status-indicator.running {
+    color: #6c757d;
+}
+
+.workflow-details {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.no-workflows {
+    border: 2px dashed #dee2e6;
+    border-radius: 0.375rem;
+    padding: 2rem;
+    margin-top: 1rem;
+}
+
+.no-workflows .bi-inbox {
+    opacity: 0.5;
+}
+
+/* Animation for running workflows */
+.workflow-running {
+    position: relative;
+}
+
+.workflow-running::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+    border-radius: 0.375rem;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
