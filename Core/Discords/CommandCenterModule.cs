@@ -80,7 +80,7 @@ public class CommandCenterModule : ChannelHandler
     {
         try
         {
-            using ETLContext db = new();
+            using CoreContext db = new();
             List<ETLJob> jobs = await db.Jobs.ToListAsync();
 
             if (!jobs.Any())
@@ -102,7 +102,7 @@ public class CommandCenterModule : ChannelHandler
     {
         try
         {
-            using ETLContext db = new();
+            using CoreContext db = new();
             List<ETLJob> jobs = await db.Jobs.ToListAsync();
 
             foreach (ETLJob job in jobs)
@@ -138,7 +138,7 @@ public class CommandCenterModule : ChannelHandler
             Logging.Info(nameof(CommandCenterModule), $"Clear and run requested for job: {jobName}");
             await message.Channel.SendMessageAsync($"🔓 Clearing lock for {jobName}...");
 
-            using (ETLContext db = new())
+            using (CoreContext db = new())
             {
                 ETLJob? job = await db.Jobs.FirstOrDefaultAsync(j => j.Name == jobName);
 

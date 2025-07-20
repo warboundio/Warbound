@@ -109,7 +109,7 @@ public abstract class RunnableBlizzardETL : IAsyncDisposable
                 await Task.Delay(TimeSpan.FromMinutes(30), cancellationToken);
                 if (cancellationToken.IsCancellationRequested) { break; }
 
-                await using ETLContext db = new();
+                await using CoreContext db = new();
                 ETLJob? currentJob = await db.Jobs.FindAsync([job.Id], cancellationToken);
 
                 if (currentJob is not null)

@@ -22,8 +22,3 @@ public class CoreContext : DbContext
         modelBuilder.Entity<ETLJob>().HasIndex(x => x.Name).IsUnique();
     }
 }
-
-// Keep ETLContext as an alias for backward compatibility
-public class ETLContext : CoreContext
-{
-}

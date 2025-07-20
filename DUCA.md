@@ -30,6 +30,16 @@ Brief scope description with clear boundaries.
 3. **Update context files** if behaviors change.
 4. **Write strong unit tests** unless Plan specifies otherwise.
 
+### Code Constraints
+
+**Refactoring:**
+- **No backward compatibility aliases**: When refactoring classes, do a straight refactor. Do not create alias classes for backward compatibility.
+- **Complete reference updates**: Update all references to the old class name throughout the codebase.
+
+**Database:**
+- **No automatic Entity Framework migrations**: Do not create migration files. Developers handle database changes manually.
+- **Entity definition only**: Define entities in code but let developers manage the actual database schema changes.
+
 ### Success Criteria
 
 * Modify only scoped files

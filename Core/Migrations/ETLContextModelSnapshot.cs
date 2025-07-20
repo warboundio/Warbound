@@ -64,31 +64,6 @@ namespace Core.Migrations
 
                     b.ToTable("etl_jobs", "application");
                 });
-
-            modelBuilder.Entity("Core.ETL.GitHubIssue", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("IssueId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(1023)
-                        .HasColumnType("character varying(1023)");
-
-                    b.Property<bool>("WaitingForYou")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("github_issues", "application");
-                });
 #pragma warning restore 612, 618
         }
     }

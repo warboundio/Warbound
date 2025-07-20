@@ -38,17 +38,27 @@ This plan establishes the foundation for tracking GitHub issues through their en
 - User authentication or access control
 - Performance optimization for large issue volumes
 
+## DUCA Constraints
+
+### Code Refactoring
+- **No backward compatibility aliases**: When refactoring classes, do a straight refactor. Do not create alias classes for backward compatibility.
+- **Complete reference updates**: Update all references to the old class name throughout the codebase.
+
+### Database Migrations
+- **No automatic Entity Framework migrations**: Do not create migration files. Developers handle database changes manually.
+- **Entity definition only**: Define entities in code but let developers manage the actual database schema changes.
+
 ## Technical Approach
 
 ### Database Changes
-- Rename ETLContext to CoreContext to reflect expanded scope
+- Rename ETLContext to CoreContext to reflect expanded scope (straight refactor, no aliases)
 - Create GitHubIssue entity following ETLJob pattern:
   - `Id` (Guid, Primary Key)
   - `IssueId` (int, GitHub issue number)  
   - `CreatedAt` (DateTime, when inserted)
   - `Name` (string, max length 1023, issue title)
   - `WaitingForYou` (bool, default false)
-- Update dependency injection and migration scripts
+- Update dependency injection (no automatic Entity Framework migrations - developer handles manually)
 
 ### Form Enhancement
 - Add success/error state management to Duca.razor
