@@ -1,0 +1,71 @@
+@page "/admin/duca"
+@rendermode InteractiveServer
+
+<PageTitle>DUCA Workflow Panel</PageTitle>
+
+<h1>DUCA Workflow Panel</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form>
+                <div class="mb-3">
+                    <label for="projectSelect" class="form-label">Target Project</label>
+                    <select id="projectSelect" name="projectSelect" class="form-select" @bind="SelectedProject">
+                        <option value="">Select a project...</option>
+                        <option value="Addon">Addon</option>
+                        <option value="AdminPanel">AdminPanel</option>
+                        <option value="Data">Data</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="workflowTitle" class="form-label">Workflow Title</label>
+                    <input type="text" 
+                           id="workflowTitle" 
+                           name="workflowTitle" 
+                           class="form-control" 
+                           placeholder="Enter a descriptive title for the workflow"
+                           maxlength="200"
+                           @bind="WorkflowTitle" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="workflowBody" class="form-label">Workflow Description</label>
+                    <textarea id="workflowBody" 
+                              name="workflowBody" 
+                              class="form-control" 
+                              rows="8" 
+                              placeholder="Describe the workflow requirements and implementation details..."
+                              @bind="WorkflowBody"></textarea>
+                    <div class="form-text">
+                        Character count: @(WorkflowBody?.Length ?? 0)
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" @onclick="HandleSubmit" disabled="@(!IsFormValid)">
+                        Create Workflow
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string SelectedProject = "";
+    private string WorkflowTitle = "";
+    private string WorkflowBody = "";
+
+    private bool IsFormValid => 
+        !string.IsNullOrWhiteSpace(SelectedProject) &&
+        !string.IsNullOrWhiteSpace(WorkflowTitle) &&
+        !string.IsNullOrWhiteSpace(WorkflowBody);
+
+    private void HandleSubmit()
+    {
+        // Placeholder for future workflow creation logic
+        // This will be implemented in a future enhancement
+    }
+}
