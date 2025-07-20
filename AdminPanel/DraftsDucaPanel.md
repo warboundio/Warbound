@@ -1,8 +1,5 @@
 ﻿# DUCA Admin Panel Drafts
 
-## Draft: Implement Workflow Panel Scaffolding
-### Agent
-Create the initial Blazor admin panel page for managing DUCA workflows. This includes a new /Admin/Duca.razor component and navigation updates to include this page. It should have a drop down for all major projects (Addon, AdminPanel, Data). It should have a 'Title' text box and 'Body' text area. 
 
 ## Draft: Implement Core/GitHub/GitHubIssueService
 ### Agent
