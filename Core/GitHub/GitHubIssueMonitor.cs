@@ -81,15 +81,14 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
         foreach (KeyValuePair<int, GitHubIssue> issueEntry in _issueTracker.ToList())
         {
             int issueId = issueEntry.Key;
-            GitHubIssue issue = issueEntry.Value;
 
-            bool isInsideInitialDelay = now.Subtract(issue.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES;
+            bool isInsideInitialDelay = now.Subtract(issueEntry.Value.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES;
             if (isInsideInitialDelay) { continue; }
-            if (issue.WaitingForYou) { continue; }
 
             try
             {
                 PullRequestStatus prStatus = await GitHubIssueService.GetPullRequestStatusAsync(issueId);
+                issueEntry.Value.WaitingForYou = prStatus.WaitingForYou;
 
                 bool isClosedOrMerged = !prStatus.Exists || !prStatus.IsOpen;
                 if (isClosedOrMerged)
@@ -98,8 +97,6 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
                     issuesToRemove.Add(issueId);
                     Logging.Info(nameof(GitHubIssueMonitor), $"Removed completed issue #{issueId} from monitoring");
                 }
-
-                // If PR exists, is open, and not waiting for developer, continue monitoring
             }
             catch (Exception ex)
             {

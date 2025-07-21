@@ -55,7 +55,3 @@ After a dungeon or raid, show a summary of new appearances, mounts, pets, etc., 
 ## Draft: Goal Completion Notifications
 ### Agent
 Display celebratory messages when a full goal is completed. Include simple message and point summary.
-
-## Draft: Build LUA Folder Publishing Utility
-### Agent
-Create a C# utility to copy addon files from a `Dev/` folder to the actual WoW AddOns directory.

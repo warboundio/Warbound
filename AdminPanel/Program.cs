@@ -14,7 +14,7 @@ builder.Services.AddDbContext<CoreContext>();
 
 // Register GitHubIssueMonitor as hosted service and singleton for access
 builder.Services.AddSingleton<GitHubIssueMonitor>();
-builder.Services.AddHostedService<GitHubIssueMonitor>(provider => provider.GetRequiredService<GitHubIssueMonitor>());
+builder.Services.AddHostedService(provider => provider.GetRequiredService<GitHubIssueMonitor>());
 
 // Register DraftService as singleton
 builder.Services.AddSingleton<DraftService>();

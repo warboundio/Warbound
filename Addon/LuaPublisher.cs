@@ -10,7 +10,7 @@ public class LuaPublisher
         @"C:\Program Files (x86)\World of Warcraft\_ptr_\Interface\AddOns"
     ];
 
-    private string? _customSourcePath;
+    private readonly string? _customSourcePath;
 
     public LuaPublisher(string? customSourcePath = null)
     {
@@ -41,7 +41,7 @@ public class LuaPublisher
         if (Directory.Exists(targetDir)) { Directory.Delete(targetDir, recursive: true); }
         else { Directory.CreateDirectory(targetDir); }
 
-        CopyDirectory(luaSourcePath, targetDir);        
+        CopyDirectory(luaSourcePath, targetDir);
         Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
     }
 
@@ -66,7 +66,7 @@ public class LuaPublisher
         {
             string relativePath = Path.GetRelativePath(sourceDir, file);
             string targetFile = Path.Combine(targetDir, relativePath);
-            
+
             string? targetSubDir = Path.GetDirectoryName(targetFile);
             if (targetSubDir != null) { Directory.CreateDirectory(targetSubDir); }
 

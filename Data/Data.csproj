@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Plans\**" />
+    <EmbeddedResource Remove="Plans\**" />
+    <None Remove="Plans\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -109,7 +115,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Plans\" />
   </ItemGroup>
 
 </Project>

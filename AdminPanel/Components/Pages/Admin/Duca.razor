@@ -155,7 +155,7 @@
 
             GitHubIssueWriter issueWriter = new(SelectedProject, WorkflowTitle, WorkflowBody, IsPlanRequired);
             int issueId = await GitHubIssueService.Create(issueTitle, issueWriter.ToString(), true, "agent-work");
-            
+
             using CoreContext db = new();
             GitHubIssue gitHubIssue = new()
             {
@@ -167,6 +167,8 @@
 
             db.GitHubIssues.Add(gitHubIssue);
             await db.SaveChangesAsync();
+
+            DraftService.RemoveDraft(WorkflowTitle);
 
             SelectedProject = "";
             WorkflowTitle = "";

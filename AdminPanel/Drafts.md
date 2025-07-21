@@ -1,5 +1,9 @@
 # Admin Panel Drafts
 
+## Draft: Data Setup
+### Agent
+We want to create mapping of data in memory to be used in the Admin Panel. We are unconcerned with the memory size this requires. Create a 'WarcraftData' class that sits at Data/WarcraftData.cs. We want to pull in all ItemAppearances, Items, Toys, Mounts, Pets, Professions, ProfessionMedias, realms, ItemMedias, Recipes, and RecipeMedias. Let's put them into a dictionary by id. Let's also create a quick page on the adminpanel Components/Pages/Collections/Overview.razor that display the number of each of these 'categories' in the collection. The WarcraftData class should be a singleton and should be initialized in the Program.cs file. This will allow us to use it throughout the application.
+
 ## Draft: Implement Collection Visualizer (Overall)
 ### Agent
 Create a display system for all known collectible items that provides visual feedback on collection status and organizational capabilities. This includes marking owned versus unowned items visually, organizing items into view modes by category, expansion, or type, allowing drill-down into specific items for more information, and providing filtering and search across the entire collection database. This serves as the primary UI for understanding collection completeness and identifying gaps.
