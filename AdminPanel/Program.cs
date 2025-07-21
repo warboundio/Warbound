@@ -2,6 +2,7 @@ using AdminPanel.Components;
 using Core;
 using Core.GitHub;
 using Core.Services;
+using Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,9 @@ builder.Services.AddHostedService<GitHubIssueMonitor>(provider => provider.GetRe
 
 // Register DraftService as singleton
 builder.Services.AddSingleton<DraftService>();
+
+// Register WarcraftData as singleton
+builder.Services.AddSingleton<WarcraftData>();
 
 WebApplication app = builder.Build();
 

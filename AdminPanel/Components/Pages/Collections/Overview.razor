@@ -1,0 +1,71 @@
+@page "/collections/overview"
+@using Data
+@inject WarcraftData WarcraftData
+
+<PageTitle>Collections Overview</PageTitle>
+
+<h1>Collections Overview</h1>
+
+<p>Data collection statistics for all Warcraft entities.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Entity Type</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Item Appearances</td>
+            <td>@WarcraftData.ItemAppearances.Count</td>
+        </tr>
+        <tr>
+            <td>Items</td>
+            <td>@WarcraftData.Items.Count</td>
+        </tr>
+        <tr>
+            <td>Toys</td>
+            <td>@WarcraftData.Toys.Count</td>
+        </tr>
+        <tr>
+            <td>Mounts</td>
+            <td>@WarcraftData.Mounts.Count</td>
+        </tr>
+        <tr>
+            <td>Pets</td>
+            <td>@WarcraftData.Pets.Count</td>
+        </tr>
+        <tr>
+            <td>Professions</td>
+            <td>@WarcraftData.Professions.Count</td>
+        </tr>
+        <tr>
+            <td>Profession Medias</td>
+            <td>@WarcraftData.ProfessionMedias.Count</td>
+        </tr>
+        <tr>
+            <td>Realms</td>
+            <td>@WarcraftData.Realms.Count</td>
+        </tr>
+        <tr>
+            <td>Item Medias</td>
+            <td>@WarcraftData.ItemMedias.Count</td>
+        </tr>
+        <tr>
+            <td>Recipes</td>
+            <td>@WarcraftData.Recipes.Count</td>
+        </tr>
+        <tr>
+            <td>Recipe Medias</td>
+            <td>@WarcraftData.RecipeMedias.Count</td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    protected override void OnInitialized()
+    {
+        WarcraftData.LoadData();
+    }
+}
