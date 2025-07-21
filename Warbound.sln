@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warbound", "Warbound\Warbound.csproj", "{4FA93F58-57BB-4023-8F14-F5B81BB03C00}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
@@ -32,10 +30,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FA93F58-57BB-4023-8F14-F5B81BB03C00}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4277AD0-4FE4-48D0-A32E-3D9CC4930E60}.Release|Any CPU.ActiveCfg = Release|Any CPU

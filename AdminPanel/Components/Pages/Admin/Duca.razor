@@ -153,7 +153,7 @@
         {
             string issueTitle = $"{SelectedProject} | {WorkflowTitle}";
 
-            GitHubIssueWriter issueWriter = new(SelectedProject, WorkflowTitle, WorkflowBody, IsPlanRequired);
+            GitHubIssueWriter issueWriter = new(SelectedProject, WorkflowBody, IsPlanRequired);
             int issueId = await GitHubIssueService.Create(issueTitle, issueWriter.ToString(), true, "agent-work");
 
             using CoreContext db = new();

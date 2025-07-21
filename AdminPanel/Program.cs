@@ -1,6 +1,8 @@
 using AdminPanel.Components;
 using Core;
+using Core.Discords;
 using Core.GitHub;
+using Core.Logs;
 using Core.Services;
 using Data;
 
@@ -45,6 +47,13 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+// SOLUTION LEVEL RUNNERS
 WarcraftData.Instance.Load();
+Logging.Configure();
+//_ = ETLRunner.RunLoopAsync();
+
+DiscordBot bot = new();
+_ = bot.StartAsync();
 
 app.Run();
