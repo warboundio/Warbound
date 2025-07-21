@@ -1,134 +1,56 @@
-﻿# Warbound Code Style Guide for GitHub Copilot
+﻿# The GitHub Issue Outline
+The number one goal you should have is to follow the outline of the GitHub issue.
+Completing the issue is all about following the directions and the order of operations.
+Begin with step 1.
 
-When generating code for this repository, please follow these style rules:
+# Documentation and Context
+It's nearly impossible to give you all the context required to make every right decision. So we have markdown files available to you to ensure you're working within the system properly. We have .md files for context at three levels: the file level (example Logging.cs and next to it Logging.Agent.md), the namespace level (example inside the Core/ETL namespae there is a ETL.md), and the project level (example Project/Project.md). Required reading is every Project/Project.md. Please check these so you know how everything fits and works together. These files are meant to give you the context and intention of the code, not to be used as documentation for how to use the code.
 
----
+# Plans
+Many GitHub issues will have you build the plan before you execute it. Please refer to Core/Plans/PlanTemplate.md to understand how to write a plan.
+Do not add additional categories or sections to the plan. This is meant to be succinct and quick to read. 
 
-## Indentation & Formatting
+# Execution
+When you are ready to execute or implement a plan (or you were asked to execute without a plan), please refer to the Execution Rules below
 
-- Use **spaces** for indentation — 4 spaces per level.
-- Only 1 blank line is allowed between members.
-- Always insert a newline at the end of every file.
+# Code Constraints
+## KISS - Keep It Simple, Stupid. The more direct the code and the simpler the logic, the better. Do not add complexity for the sake of complexity.
+We can and will be refactoring this code, constantly. So please keep it simple and readable to validate assumptions and logic.
 
----
+## Refactoring
+When asked to refactor do not use aliases, ensure the classes and files have the same name, and clean up all old references.
 
-## Variable Declarations
+## Entity Framework
+Do not create your own migrations. There is a critical step that happens in this pipeline that requires developers to validate and test your logic. 
 
-- **Do not use `var`**. Always use explicit types like `User user = new();`.
+## Execution Rules
+Follow the plan exactly, do not expand it's approved scope. 
 
----
+## Coding Philosophy
+Fail fast.We need to always assume the happy path. This is all about keeping the code simple and readable.
+Do not engage in defensive programming. It's OK if exceptions are thrown. You should not try to stop them. Let it crash the application. We will fix it in another pull request.
+If the philosophy of the code has changed via a issue you are working on, please update the code and the corresponding .md files to reflect the new philosophy.
+Do not comment the code. Code should be self-documenting.
 
-## Object Instantiation
+## Core Tools
+Core.Logs.Logging and Core.Settings.ApplicationSettings are the only tools you should use for logging and settings.
 
-- Prefer inline `new()` syntax when the type is known: `User user = new();`.
+## Class Design
+Avoid static classes, instance-based design is preferred for better testability and flexibility. Static methods are acceptable for utility functions, but avoid classes with all static methods.
 
----
+## Testing
+Blazor pages should not be tested. LUA should not be tested.
+We do not do Integration tests. We only do unit tests.
+Unit tets should be functional, small, and non-trival assertions.
+Do not create mocks to test functionality.
 
-## Braces & Blocks
-
-- **Always use braces** `{}` for all conditionals and loops — even single-line.
-
----
-
-## Self Documenting Code
-
-- We always prefer definine a boolean that defines the logic like this: bool isClosedOrMerged = !prStatus.Exists || !prStatus.IsOpen;
-- Over using a conditional like this: if (!prStatus.Exists || !prStatus.IsOpen)
-- Notice how our boolean is named to document what it does (we always want to assume the more positive language) instead of what it doesn't do (is not existing or is not open)
-- If you feel like you should comment code, you probably didn't name your variables well enough or didn't break out your methods enough
-- Method names and variable names *are the comments*
-- This allows developers to quickly understand the flow of logic without being concerned with the details.
-
-## Another Good Example:
-- bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES;
-- if (isInsideInitialDelay) { continue; }
-___
-
-## Expressions & Language Features
-
-- Prefer expression-bodied **methods** and **properties** when appropriate.
-- Use modern C# features:
-  - `switch` expressions
-  - null coalescing (`??`, `??=`)
-  - `nameof()`
-  - interpolated strings
-  - file-scoped namespaces (`namespace Foo;`)
-  - top-level statements
-  - simplified interpolation (`$"{x}"` over `string.Format(...)`)
-
----
+## Boy Scout Rule
+Leave the code cleaner than you found it. If a file you're already working on does not match up with our philosophy, please correct it.
 
 ## Naming Conventions
+Code should be self-documenting. Properties should be used to document the code, never comments.
+> bool isInsideInitialDelay = now.Subtract(createdAt).TotalMinutes < INITIAL_DELAY_MINUTES; if (isInsideInitialDelay) { continue; }
+This is a good example of self-documenting code. The variable name is descriptive and explains the logic without needing comments.
 
-- Private fields: `_camelCase`
-- Constants: `UPPER_CASE`
-- Local variables: `camelCase`
-- Interfaces: `IPascalCase`
-- Enums: `PascalCase`
-- Async methods: must end in `Async`
-- **Do not use underscores** in method names (e.g., `Add_Ints_ReturnsCorrectSum` is incorrect).
-- Instead, use descriptive PascalCase like `AddIntsReturnsCorrectSum`.
-
----
-
-## Documentation
-
-- Test methods (`*Tests.cs`) do **not** require documentation.
-
----
-
-## Code Analysis & Style Rules
-
-- Do not mark methods as `static` unless needed (`CA1822` is disabled).
-- Do not recommend sealing internal types unless performance is critical.
-- Do not add unnecessary `using` statements — especially `using Xunit;`, which is globally imported.
-- Uninitialized int fields should be set to -1
-
----
-
-## Testing Style
-
-When writing test methods:
-
-- Method names must begin with `ItShould`
-- Use descriptive PascalCase that clearly states behavior
-- Avoid under_scores
-- Do not include `using Xunit;` — it is globally imported
-- The generated test must compile and conform to `.editorconfig` rules
-- Do not use mocking or in memory databases unless explicitly specified in the github issue text.
-
-**✅ Good example:**
-
-```csharp
-[Fact]
-public void ItShouldAddTwoNumbers()
-{
-    Calculator calc = new();
-    Assert.Equal(5, calc.Add(2, 3));
-}
-
-**❌ Bad example:**
-```csharp
-[Fact]
-public void Add_Ints_ReturnsCorrectSum()
-{
-    var calc = new Calculator();
-    Assert.Equal(5, calc.Add(2, 3));
-}
-```
-
-## DUCA: Distributed Universal Contextual Agents
-In order to operate as an agent in our DUCA codebase follow these steps:
-
-1. **Ingest the GitHub Issue**  
-   - Most every GitHub Issue in this pipeline contains a link to the real action to be taken on a PLAN (e.g. `Project/Plans/______.md`).  
-   - Follow that link and fully read the issue's actual requirements and implementation details. This is your source of truth and DUCA PLAN to be completed.
-   - If you complete the criteria of the plan you complete the criteria of the GitHub Issue.
-
-2. **Read /DUCA.md**
-   - Familiarize yourself with the DUCA system. You are a developer you are writing the plans and executing them. Ensure you understand the context and rules of engagement.
-
-3. **Read each ProjectName/ProjectName.md**
-   - All of these projects work together to create one cohesive product. The context and information you find in terms of how the data is used may influence your implementation.
-   - Additionally read each Roadmap.md file for the project you are working on to understand the current state of the project and its goals.
-   - When implementing a feature from a project's Roadmap.md, promote that feature description to the ProjectName.md file to reflect current state.
+# One Final Reiteration
+Follow the GitHub issue outline. This is the most important part of your job. If you do not follow the outline, you will not complete the issue correctly.

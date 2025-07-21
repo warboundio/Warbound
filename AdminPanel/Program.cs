@@ -20,8 +20,11 @@ builder.Services.AddHostedService(provider => provider.GetRequiredService<GitHub
 // Register DraftService as singleton
 builder.Services.AddSingleton<DraftService>();
 
-// Register WarcraftData as singleton
-builder.Services.AddSingleton<WarcraftData>();
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
+{
+    options.DetailedErrors = true;
+});
+
 
 WebApplication app = builder.Build();
 
@@ -41,7 +44,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+WarcraftData.Instance.Load();
 
 app.Run();
