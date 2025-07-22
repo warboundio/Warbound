@@ -16,9 +16,7 @@ Now we need to enrich the data from JournalExpansionsIndexETL. https://us.api.bl
 ### Agents
 Finally for the dungeon journal we want to implement the JournalInstanceMediaETL. https://us.api.blizzard.com/data/wow/media/journal-instance/63?namespace=static-us&locale=en_US is the URL to use and an example output is JournalInstanceMedia.json. This should set the ETLStatus to complete. The fields we want are 'id' (the one supplied to the endpoint) and 'assets.value' (the first image URL). This will be used to display the dungeon journal images in the UI. Follow patterns like the ItemMediaEndpoint. Check the 'AchievementIndex.json' for an example output. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Implement AchievementsIndexETL
-### Agents
-We want to get a stub for each achievement in the game. https://us.api.blizzard.com/data/wow/achievement/6?namespace=static-us&locale=en_US Check the 'AchievementIndex.json' for an example output. Status should be set to NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. The id and name should be populated. Follow patterns like the ItemAppearanceIndexETL. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). We want to stub out the data for it to be enriched later. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement AchievementETL
 ### Agents
