@@ -14,6 +14,8 @@ public sealed class Quest
     [MaxLength(511)] public string Name { get; set; } = string.Empty;
     public QuestIdentifier QuestIdentifier { get; set; }
     public int QuestIdentifierId { get; set; }
+    public int QuestTypeId { get; set; }
+    [MaxLength(2047)] public string RewardItems { get; set; } = string.Empty;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }
