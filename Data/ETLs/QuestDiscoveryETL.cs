@@ -16,7 +16,6 @@ public class QuestDiscoveryETL : RunnableBlizzardETL
     protected override async Task<List<object>> GetItemsToProcessAsync()
     {
         List<QuestDiscoveryRequest> questDiscoveryRequests = [];
-
         List<int> existingQuestIds = await Context.Quests.Select(q => q.Id).ToListAsync();
 
         List<QuestCategory> questCategories = await Context.QuestCategories.ToListAsync();
@@ -53,11 +52,7 @@ public class QuestDiscoveryETL : RunnableBlizzardETL
             }
         }
 
-        List<QuestDiscoveryRequest> uniqueRequests = questDiscoveryRequests
-            .GroupBy(r => r.QuestId)
-            .Select(g => g.First())
-            .ToList();
-
+        List<QuestDiscoveryRequest> uniqueRequests = [.. questDiscoveryRequests.GroupBy(r => r.QuestId).Select(g => g.First())];
         return [.. uniqueRequests.Cast<object>()];
     }
 
