@@ -1,8 +1,6 @@
 # Data Drafts
 
-## Draft: Implement JournalEncountersIndexETL
-### Agents
-We want to get journal encounter information from blizzard's API. https://us.api.blizzard.com/data/wow/journal-encounter/index?namespace=static-us&locale=en_US that is the link to get it from. It'll give you hundreds of encounters. Much like the ProfessionIndexEndpoint and ETL we want to 'stub' out the data and then implement just the indexing functionality. Following the pattern as others, strings will be empty, ints will be -1, and only the id and name will be populated. Another ETL and Endpoint will be used to enrich the data. Please set the ETLStateType to needs enrichment. There is a corresponding JournalEncountersIndex.json for you to ensure the data parses correctly. Like other endpoints we want to fail fast and quickly and assume that everything will parse appropriately. We'll debug later if there's an issue. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement JournalEncounterETL
 ### Agents
