@@ -114,10 +114,25 @@
     <None Update="BlizzardAPI\Endpoints\Quest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\QuestArea.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestAreaIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="BlizzardAPI\Endpoints\QuestCategoriesIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestCategoryETL.lua">
+    <None Update="BlizzardAPI\Endpoints\QuestCategory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestCategoryETL.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestType.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestTypeIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BlizzardAPI\Endpoints\Recipe.json">

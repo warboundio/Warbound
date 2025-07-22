@@ -1,0 +1,396 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/quest/area/1?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 1,
+  "area": "Dun Morogh",
+  "quests": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/313?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Forced to Watch from Afar",
+      "id": 313
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/314?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Protecting the Herd",
+      "id": 314
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/315?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Perfect Stout",
+      "id": 315
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/384?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Beer Basted Boar Ribs",
+      "id": 384
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/412?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Operation Recombobulation",
+      "id": 412
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/432?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Those Blasted Troggs!",
+      "id": 432
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/433?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Public Servant",
+      "id": 433
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/6387?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Honor Students",
+      "id": 6387
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/6388?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Gryth Thurden",
+      "id": 6388
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/6391?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ride to Ironforge",
+      "id": 6391
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/6392?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Return to Gremlock",
+      "id": 6392
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25199?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Basic Orders",
+      "id": 25199
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25212?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Vent Horizon",
+      "id": 25212
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25229?namespace=static-11.1.7_61131-us"
+      },
+      "name": "A Few Good Gnomes",
+      "id": 25229
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25283?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Prepping the Speech",
+      "id": 25283
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25285?namespace=static-11.1.7_61131-us"
+      },
+      "name": "In and Out",
+      "id": 25285
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25286?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Words for Delivery",
+      "id": 25286
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25287?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Words for Delivery",
+      "id": 25287
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25289?namespace=static-11.1.7_61131-us"
+      },
+      "name": "One Step Forward...",
+      "id": 25289
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25295?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Press Fire",
+      "id": 25295
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25393?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Operation: Gnomeregan",
+      "id": 25393
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25500?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Words for Delivery",
+      "id": 25500
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25667?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Culling the Wendigos",
+      "id": 25667
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25668?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Pilfered Supplies",
+      "id": 25668
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25724?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Frostmane Aggression",
+      "id": 25724
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25792?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Pushing Forward",
+      "id": 25792
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25838?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Help from Steelgrill's Depot",
+      "id": 25838
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25839?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Ultrasafe Personnel Launcher",
+      "id": 25839
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25840?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Eliminate the Resistance",
+      "id": 25840
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25841?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Strike From Above",
+      "id": 25841
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25882?namespace=static-11.1.7_61131-us"
+      },
+      "name": "A Hand at the Ranch",
+      "id": 25882
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25905?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Rams on the Lam",
+      "id": 25905
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25932?namespace=static-11.1.7_61131-us"
+      },
+      "name": "It's Raid Night Every Night",
+      "id": 25932
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25933?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Help for the Quarry",
+      "id": 25933
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25937?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Priceless Treasures",
+      "id": 25937
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25978?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Entombed in Ice",
+      "id": 25978
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25979?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Dealing with the Surge",
+      "id": 25979
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25986?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Trouble at the Lake",
+      "id": 25986
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25997?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Dark Iron Scheming",
+      "id": 25997
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/25998?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Get to the Airfield",
+      "id": 25998
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26078?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Extinguish the Fires",
+      "id": 26078
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26085?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Rallying the Defenders",
+      "id": 26085
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26094?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Striking Back",
+      "id": 26094
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26102?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Grimaxe's Demise",
+      "id": 26102
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26112?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Demanding Answers",
+      "id": 26112
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/26380?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Bound for Kharanos",
+      "id": 26380
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/28868?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The View from Down Here",
+      "id": 28868
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/43283?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Demon Commander",
+      "id": 43283
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/43284?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Invasion: Dun Morogh",
+      "id": 43284
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/43291?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Defend",
+      "id": 43291
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/43292?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Repel",
+      "id": 43292
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/47709?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Great Gnomeregan Run",
+      "id": 47709
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/76445?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ironforge Interceptor",
+      "id": 76445
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/76446?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ironforge Interceptor - Advanced",
+      "id": 76446
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/76447?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ironforge Interceptor - Reverse",
+      "id": 76447
+    }
+  ]
+}
