@@ -21,6 +21,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<AchievementMedia> AchievementMedias => Set<AchievementMedia>();
     public DbSet<JournalExpansion> JournalExpansions => Set<JournalExpansion>();
     public DbSet<JournalEncounter> JournalEncounters => Set<JournalEncounter>();
+    public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
