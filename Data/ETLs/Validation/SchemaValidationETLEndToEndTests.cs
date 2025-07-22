@@ -28,7 +28,7 @@ public class SchemaValidationETLEndToEndTests
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
 
         // Create a modified version missing the "level" property
-        string modifiedJson = """
+        string modifiedJson = /*lang=json,strict*/ """
         {
           "id": 19019,
           "name": "Thunderfury, Blessed Blade of the Windseeker",
