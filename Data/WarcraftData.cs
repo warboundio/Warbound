@@ -28,6 +28,8 @@ public sealed class WarcraftData
     public Dictionary<int, JournalEncounter> JournalEncounters { get; private set; } = [];
     public Dictionary<int, QuestCategory> QuestCategories { get; private set; } = [];
     public Dictionary<int, QuestType> QuestTypes { get; private set; } = [];
+    public Dictionary<int, QuestArea> QuestAreas { get; private set; } = [];
+    public Dictionary<int, Quest> Quests { get; private set; } = [];
     public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];
 
     private bool _isLoaded;
@@ -58,6 +60,8 @@ public sealed class WarcraftData
         JournalEncounters = context.JournalEncounters.ToDictionary(x => x.Id);
         QuestCategories = context.QuestCategories.ToDictionary(x => x.Id);
         QuestTypes = context.QuestTypes.ToDictionary(x => x.Id);
+        QuestAreas = context.QuestAreas.ToDictionary(x => x.Id);
+        Quests = context.Quests.ToDictionary(x => x.Id);
         JournalInstanceMedias = context.JournalInstanceMedias.ToDictionary(x => x.Id);
     }
 }
