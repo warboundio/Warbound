@@ -1,16 +1,8 @@
 # Data Drafts
 
-## Draft: Implement QuestCategoryETL
+## Draft: Implement QuestDiscoveryETL
 ## Agent
-We need to now call the QuestCategory blizzard endpoint located at: https://us.api.blizzard.com/data/wow/quest/category/1?namespace=static-us&locale=en_US We need to call it for each index in the table. Since we're calling it, we know the id we're passing and that it's a QuestIdentifier of type category. Since we already have the quest object you'll just need to populate them and put them in the database with a status of NEEDS_ENRICHMENT. Please use QuestCategory.json to unit test the parsing.
-
-## Draft: Implement QuestAreaETL
-## Agent
-We need to now call the QuestArea blizzard endpoint located at: https://us.api.blizzard.com/data/wow/quest/area/1?namespace=static-us&locale=en_US We need to call it for each index in the table. Since we're calling it, we know the id we're passing and that it's a QuestIdentifier of type area. Since we already have the quest object you'll just need to populate them and put them in the database with a status of NEEDS_ENRICHMENT. Please use QuestArea.json to test the parsing.
-
-## Draft: Implement QuestTypeETL
-## Agent
-We need to now call the QuestType blizzard endpoint located at: https://us.api.blizzard.com/data/wow/quest/type/1?namespace=static-us&locale=en_US We need to call it for each index in the table. Since we're calling it, we know the id we're passing and that it's a QuestIdentifier of type 'type'. Since we already have the quest object you'll just need to populate them and put them in the database with a status of NEEDS_ENRICHMENT. Please use QuestType.json to test the parsing.
+This is bit different than usual. So here we have two ways to discover a quest. The QuestCategoryEndpoint and the QuestAreaEndpoint. We need to create a new ETL called QuestDiscoveryETL. This ETL will be responsible for discovering quests based on the category and area endpoints.They should loop through each of their DbContext's rows calling each endpoint and get a list of quest ids to potentially add. The ETL should first get all ids currently in the database. For each id that comes back, a quest stub should be created with the id, a status of NEEDS_ENRICHMENT, and a QuestIdentifier of either CATEGORY or AREA. The QuestIdentifierId should be set to the id of the category or area. The date should be set. The ETL should then save these stubs to the database. If a stub already exists, it should not be added again..
 
 ## Draft: Implement QuestETL
 ## Agent
