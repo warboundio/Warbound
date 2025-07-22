@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using Core.Models;
 
 namespace Core.Services;
@@ -7,9 +6,6 @@ public partial class DraftService
 {
     private List<DraftItem> _draftItems = [];
     private readonly string _solutionPath;
-
-    [GeneratedRegex(@"##\s*Draft:\s*(.+?)\s*\n###\s*Agent\s*\n(.+?)(?=\n##|\n###|\Z)", RegexOptions.Singleline | RegexOptions.IgnoreCase)]
-    public static partial Regex DraftPattern();
 
     public DraftService()
     {
@@ -50,22 +46,33 @@ public partial class DraftService
             return;
         }
 
-        string content = File.ReadAllText(filePath);
-
-        // Pattern to match: ## Draft: [Title] followed by ### Agent and then the next line as text
-        MatchCollection matches = DraftPattern().Matches(content);
-
-        foreach (Match match in matches)
+        string[] lines = File.ReadAllLines(filePath);
+        for (int i = 0; i < lines.Length; i++)
         {
-            string title = match.Groups[1].Value.Trim();
-            string text = match.Groups[2].Value.Trim();
-
-            _draftItems.Add(new DraftItem
+            if (lines[i].TrimStart().StartsWith("## Draft:", StringComparison.OrdinalIgnoreCase))
             {
-                ProjectName = projectName,
-                Title = title,
-                Text = text
-            });
+                string title = lines[i][(lines[i].IndexOf(':') + 1)..].Trim();
+
+                int agentLine = i + 1;
+                while (agentLine < lines.Length && string.IsNullOrWhiteSpace(lines[agentLine])) { agentLine++; }
+
+                if (agentLine < lines.Length && lines[agentLine].TrimStart().StartsWith("## Agent", StringComparison.OrdinalIgnoreCase))
+                {
+                    int textLine = agentLine + 1;
+                    while (textLine < lines.Length && string.IsNullOrWhiteSpace(lines[textLine])) { textLine++; }
+
+                    if (textLine < lines.Length)
+                    {
+                        string text = lines[textLine].Trim();
+                        _draftItems.Add(new DraftItem
+                        {
+                            ProjectName = projectName,
+                            Title = title,
+                            Text = text
+                        });
+                    }
+                }
+            }
         }
     }
 
