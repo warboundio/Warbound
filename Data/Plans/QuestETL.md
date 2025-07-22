@@ -19,5 +19,4 @@ The Data project needs to process Quest objects with NEEDS_ENRICHMENT status by 
 - Given Quest.json with area property, when parsed by QuestEndpoint, then QuestIdentifier is set to AREA and QuestIdentifierId to area.id
 - Given Quest2.json with category property, when parsed by QuestEndpoint, then QuestIdentifier is set to CATEGORY and QuestIdentifierId to category.id
 - Given quest JSON with rewards.items.choice_of array, when parsed, then RewardItems contains semicolon-delimited list of item.id values
-- Given quest JSON with type.id property, when parsed, then QuestTypeId is set to type.id value or 0 if missing
-- Given QuestEndpoint unit tests, when executed, then all parsing scenarios pass including edge cases for missing properties
+- Given QuestEndpoint unit tests, when executed, then all parsing scenarios pass including edge cases for missing properties for both Quest.json and Quest2.json
