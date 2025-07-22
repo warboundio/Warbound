@@ -22,6 +22,7 @@ public sealed class WarcraftData
     public Dictionary<int, ItemMedia> ItemMedias { get; private set; } = [];
     public Dictionary<int, Recipe> Recipes { get; private set; } = [];
     public Dictionary<int, RecipeMedia> RecipeMedias { get; private set; } = [];
+    public Dictionary<int, Achievement> Achievements { get; private set; } = [];
 
     private bool _isLoaded;
 
@@ -45,5 +46,6 @@ public sealed class WarcraftData
         ItemMedias = context.ItemMedias.ToDictionary(x => x.Id);
         Recipes = context.Recipes.ToDictionary(x => x.Id);
         RecipeMedias = context.RecipeMedias.ToDictionary(x => x.Id);
+        Achievements = context.Achievements.ToDictionary(x => x.Id);
     }
 }
