@@ -28,7 +28,7 @@ public sealed class WarcraftData
     public Dictionary<int, JournalEncounter> JournalEncounters { get; private set; } = [];
     public Dictionary<int, QuestCategory> QuestCategories { get; private set; } = [];
     public Dictionary<int, QuestType> QuestTypes { get; private set; } = [];
-    public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];S
+    public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];
 
     private bool _isLoaded;
 
