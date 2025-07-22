@@ -6,9 +6,7 @@ namespace Data.Addon;
 [Table("g_pet_battle_location", Schema = "wow")]
 public class PetBattleLocation
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public int MapId { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
