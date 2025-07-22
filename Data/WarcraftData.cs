@@ -26,6 +26,7 @@ public sealed class WarcraftData
     public Dictionary<int, AchievementMedia> AchievementMedias { get; private set; } = [];
     public Dictionary<int, JournalExpansion> JournalExpansions { get; private set; } = [];
     public Dictionary<int, JournalEncounter> JournalEncounters { get; private set; } = [];
+    public Dictionary<int, QuestCategory> QuestCategories { get; private set; } = [];
 
     private bool _isLoaded;
 
@@ -53,5 +54,6 @@ public sealed class WarcraftData
         AchievementMedias = context.AchievementMedias.ToDictionary(x => x.Id);
         JournalExpansions = context.JournalExpansions.ToDictionary(x => x.Id);
         JournalEncounters = context.JournalEncounters.ToDictionary(x => x.Id);
+        QuestCategories = context.QuestCategories.ToDictionary(x => x.Id);
     }
 }
