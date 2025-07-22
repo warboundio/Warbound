@@ -85,6 +85,9 @@ public sealed class GitHubIssueMonitor : BackgroundService, IDisposable
             bool isInsideInitialDelay = now.Subtract(issueEntry.Value.CreatedAt).TotalMinutes < INITIAL_DELAY_MINUTES;
             if (isInsideInitialDelay) { continue; }
 
+            bool isExpired = now.Subtract(issueEntry.Value.CreatedAt).TotalMinutes >= 35;
+            if (isExpired) { continue; }
+
             try
             {
                 PullRequestStatus prStatus = await GitHubIssueService.GetPullRequestStatusAsync(issueId);

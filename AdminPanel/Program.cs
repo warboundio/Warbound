@@ -8,6 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
+using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -41,16 +42,19 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
+//JournalEncounterETL.RunAsync().GetAwaiter().GetResult();
+//JournalExpansionETL
+
 WarcraftData.Instance.Load();
 if (!BuildConfig.IsDebug)
 {
     LUAPublisher.Publish();
     Logging.Configure();
-    _ = ETLRunner.RunLoopAsync();
 
     DiscordBot bot = new();
     _ = bot.StartAsync();
 
+    _ = ETLRunner.RunLoopAsync();
     AutoPublisher.Boot();
     AutoPublisher.BootSimulatedClient();
 }
