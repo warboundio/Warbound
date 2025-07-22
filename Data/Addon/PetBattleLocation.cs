@@ -7,6 +7,7 @@ namespace Data.Addon;
 public class PetBattleLocation
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     public int MapId { get; set; }
     public int X { get; set; }
