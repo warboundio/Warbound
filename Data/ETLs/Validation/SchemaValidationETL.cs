@@ -21,18 +21,36 @@ public class SchemaValidationETL
     {
         Logging.Info(GetType().Name, "Starting schema validation for Blizzard API endpoints.");
 
-        List<(string FixtureFile, int Id, string EndpointType)> targets = [
+        List<(string FixtureFile, object? Parameter, string EndpointType)> targets = [
+            ("Achievement.json", 9713, "Achievement"),
+            ("AchievementIndex.json", null, "AchievementIndex"),
+            ("AchievementMedia.json", 6, "AchievementMedia"),
             ("Item.json", 19019, "Item"),
+            ("ItemAppearance.json", 321, "ItemAppearance"),
+            ("ItemMedia.json", 19019, "ItemMedia"),
+            ("JournalEncounter.json", 89, "JournalEncounter"),
+            ("JournalExpansion.json", 68, "JournalExpansion"),
+            ("JournalInstanceMedia.json", 68, "JournalInstanceMedia"),
             ("Mount.json", 35, "Mount"),
             ("Pet.json", 39, "Pet"),
-            ("Toy.json", 1131, "Toy")
+            ("Profession.json", 164, "Profession"),
+            ("ProfessionIndex.json", null, "ProfessionIndex"),
+            ("ProfessionMedia.json", 164, "ProfessionMedia"),
+            ("QuestAreaIndex.json", null, "QuestAreaIndex"),
+            ("QuestTypeIndex.json", null, "QuestTypeIndex"),
+            ("Realm.json", "tichondrius", "Realm"),
+            ("RealmIndex.json", null, "RealmIndex"),
+            ("Recipe.json", 1631, "Recipe"),
+            ("RecipeMedia.json", 1631, "RecipeMedia"),
+            ("Toy.json", 1131, "Toy"),
+            ("ToyIndex.json", null, "ToyIndex")
         ];
 
-        foreach ((string fixtureFile, int id, string endpointType) in targets)
+        foreach ((string fixtureFile, object? parameter, string endpointType) in targets)
         {
             try
             {
-                await ValidateEndpointSchemaAsync(fixtureFile, id, endpointType);
+                await ValidateEndpointSchemaAsync(fixtureFile, parameter, endpointType);
             }
             catch (Exception ex)
             {
@@ -43,7 +61,7 @@ public class SchemaValidationETL
         Logging.Info(GetType().Name, "Schema validation completed.");
     }
 
-    private async Task ValidateEndpointSchemaAsync(string fixtureFile, int id, string endpointType)
+    private async Task ValidateEndpointSchemaAsync(string fixtureFile, object? parameter, string endpointType)
     {
         string currentDirectory = Directory.GetCurrentDirectory();
         string fixturePath = Path.Combine(currentDirectory, "bin", "debug", "net8.0", "BlizzardAPI", "Endpoints", fixtureFile);
@@ -55,7 +73,7 @@ public class SchemaValidationETL
 
         string fixtureJson = await File.ReadAllTextAsync(fixturePath);
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
-        string liveUrl = GetEndpointUrl(endpointType, id);
+        string liveUrl = GetEndpointUrl(endpointType, parameter);
         Logging.Info(GetType().Name, $"Validating schema for {fixtureFile} against {liveUrl}");
 
         string liveJson = await BlizzardAPIRouter.GetJsonRawAsync(liveUrl, forceLiveCall: true);
@@ -66,14 +84,32 @@ public class SchemaValidationETL
         else { LogSchemaDifferences(fixtureFile, liveUrl, differences); }
     }
 
-    public string GetEndpointUrl(string endpointType, int id)
+    public string GetEndpointUrl(string endpointType, object? parameter)
     {
         return endpointType switch
         {
-            "Item" => new ItemEndpoint(id).BuildUrl(),
-            "Mount" => new MountEndpoint(id).BuildUrl(),
-            "Pet" => new PetEndpoint(id).BuildUrl(),
-            "Toy" => new ToyEndpoint(id).BuildUrl(),
+            "Achievement" => new AchievementEndpoint((int)parameter!).BuildUrl(),
+            "AchievementIndex" => new AchievementIndexEndpoint().BuildUrl(),
+            "AchievementMedia" => new AchievementMediaEndpoint((int)parameter!).BuildUrl(),
+            "Item" => new ItemEndpoint((int)parameter!).BuildUrl(),
+            "ItemAppearance" => new ItemAppearanceEndpoint((int)parameter!).BuildUrl(),
+            "ItemMedia" => new ItemMediaEndpoint((int)parameter!).BuildUrl(),
+            "JournalEncounter" => new JournalEncounterEndpoint((int)parameter!).BuildUrl(),
+            "JournalExpansion" => new JournalExpansionEndpoint((int)parameter!).BuildUrl(),
+            "JournalInstanceMedia" => new JournalInstanceMediaEndpoint((int)parameter!).BuildUrl(),
+            "Mount" => new MountEndpoint((int)parameter!).BuildUrl(),
+            "Pet" => new PetEndpoint((int)parameter!).BuildUrl(),
+            "Profession" => new ProfessionEndpoint((int)parameter!).BuildUrl(),
+            "ProfessionIndex" => new ProfessionIndexEndpoint().BuildUrl(),
+            "ProfessionMedia" => new ProfessionMediaEndpoint((int)parameter!).BuildUrl(),
+            "QuestAreaIndex" => new QuestAreaIndexEndpoint().BuildUrl(),
+            "QuestTypeIndex" => new QuestTypeIndexEndpoint().BuildUrl(),
+            "Realm" => new RealmEndpoint((string)parameter!).BuildUrl(),
+            "RealmIndex" => new RealmIndexEndpoint().BuildUrl(),
+            "Recipe" => new RecipeEndpoint((int)parameter!).BuildUrl(),
+            "RecipeMedia" => new RecipeMediaEndpoint((int)parameter!).BuildUrl(),
+            "Toy" => new ToyEndpoint((int)parameter!).BuildUrl(),
+            "ToyIndex" => new ToyIndexEndpoint().BuildUrl(),
             _ => throw new ArgumentException($"Unknown endpoint type: {endpointType}")
         };
     }
