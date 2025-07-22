@@ -1,0 +1,32 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/quest/type/1?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 1,
+  "type": "Group",
+  "quests": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/176?namespace=static-11.1.7_61131-us"
+      },
+      "name": "WANTED:  \"Hogger\"",
+      "id": 176
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/543?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Perenolde Tiara",
+      "id": 543
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/quest/75657?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Time-Lost Trio",
+      "id": 75657
+    }
+  ]
+}

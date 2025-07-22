@@ -6,6 +6,7 @@ using Core.ETL;
 using Core.GitHub;
 using Core.Logs;
 using Core.Services;
+using Core.Settings;
 using Core.Tools;
 using Data;
 using Data.ETLs;
@@ -41,9 +42,6 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
-
-//JournalEncounterETL.RunAsync().GetAwaiter().GetResult();
-//JournalExpansionETL
 
 WarcraftData.Instance.Load();
 if (!BuildConfig.IsDebug)
