@@ -6,9 +6,7 @@
 ### Agents
 Now that we have the data stubbed out for 'JournalEncountersIndexETL' we can now enrich the data. https://us.api.blizzard.com/data/wow/journal-encounter/89?namespace=static-us&locale=en_US is your URL. Following patterns like the MountEndpoint and ETL we want to enrich the data. Property 1 to add: Items. A semi colon delimited list that will look at 'items' and the array inside of it and grab the items.item.id (not the items.id). max length of 2047. We are omitting hte sections. We do want the 'instance.name'. We want the 'instance.id'. We want the 'category.type'. and a semicolon delimited list of 'modes.type'. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Implement JournalExpansionsIndexETL
-### Agents
-We want to get the expansion id and name from blizzard's API. https://us.api.blizzard.com/data/wow/journal-expansion/index?namespace=static-us&locale=en_US JournalExpansionsIndex.json has an example output. We want to stub out the data for it to be enriched later. The id and name should be puopulated. The Status should be NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. Follow Data.BlizzardAPI.Endpoints to follow the pattenrs set out. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement JournalExpansionETL
 ### Agents
