@@ -3,6 +3,7 @@ using System;
 using Data.BlizzardAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(BlizzardAPIContext))]
-    partial class BlizzardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250722021835_UpdatingAchievementProperties")]
+    partial class UpdatingAchievementProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,27 +291,6 @@ namespace Data.Migrations
                     b.ToTable("journal_expansion", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalInstanceMedia", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastUpdatedUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasMaxLength(1023)
-                        .HasColumnType("character varying(1023)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("journal_instance_media", "wow");
-                });
-
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Mount", b =>
                 {
                     b.Property<int>("Id")
@@ -439,69 +421,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("profession_media", "wow");
-                });
-
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestArea", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastUpdatedUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("quest_area", "wow");
-                });
-
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastUpdatedUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("quest_category", "wow");
-                });
-
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastUpdatedUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(63)
-                        .HasColumnType("character varying(63)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("quest_type", "wow");
                 });
 
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Realm", b =>
