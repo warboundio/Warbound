@@ -12,6 +12,8 @@ public sealed class JournalExpansion
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
+    [MaxLength(2047)] public string DungeonIds { get; set; } = string.Empty;
+    [MaxLength(2047)] public string RaidIds { get; set; } = string.Empty;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }

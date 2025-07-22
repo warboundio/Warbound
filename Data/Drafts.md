@@ -1,12 +1,5 @@
 # Data Drafts
 
-## Draft: Implement JournalEncounterETL
-## Agent
-Now that we have the data stubbed out for 'JournalEncountersIndexETL' we can now enrich the data. https://us.api.blizzard.com/data/wow/journal-encounter/89?namespace=static-us&locale=en_US is your URL. Following patterns like the MountEndpoint and ETL we want to enrich the data. Property 1 to add: Items. A semi colon delimited list that will look at 'items' and the array inside of it and grab the items.item.id (not the items.id). max length of 2047. We are omitting hte sections. We do want the 'instance.name'. We want the 'instance.id'. We want the 'category.type'. and a semicolon delimited list of 'modes.type'. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.). It should grab all achievements in the database that 'NEED_ENRICHMENT'.
-
-## Draft: Implement JournalExpansionETL
-## Agent
-Now we need to enrich the data from JournalExpansionsIndexETL. https://us.api.blizzard.com/data/wow/journal-expansion/68?namespace=static-us&locale=en_US is the URL to use and an example output is JournalExpansion.json. This should set the ETLStatus to complete. The fields we want are a semicolon delimited list of DungeonIds: 'dungeons.id' for each in the array. Also RaidIds as it's own semicolon delimited list. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.). It should grab all achievements in the database that 'NEED_ENRICHMENT'.
 
 ## Draft: Implement JournalInstanceMediaETL
 ## Agent
