@@ -19,16 +19,12 @@ public class QuestTypeIndexEndpointTests
         Assert.NotNull(results);
         Assert.True(results.Count > 0);
 
-        // Test first quest type
         QuestType firstQuestType = results.First();
         Assert.Equal(1, firstQuestType.Id);
         Assert.Equal("Group", firstQuestType.Name);
         Assert.Equal(ETLStateType.COMPLETE, firstQuestType.Status);
 
-        // Verify multiple quest types are parsed
         Assert.True(results.Count > 5);
-
-        // Check for specific known quest types from the JSON
         Assert.Contains(results, qt => qt.Id == 41 && qt.Name == "PvP");
         Assert.Contains(results, qt => qt.Id == 62 && qt.Name == "Raid");
         Assert.Contains(results, qt => qt.Id == 81 && qt.Name == "Dungeon");
