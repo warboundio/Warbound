@@ -27,7 +27,6 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
     public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
-    
     public DbSet<LootLogEntry> G_LootLogEntries => Set<LootLogEntry>();
     public DbSet<NpcKillCount> G_NpcKillCounts => Set<NpcKillCount>();
     public DbSet<PetBattleLocation> G_PetBattleLocations => Set<PetBattleLocation>();
@@ -36,14 +35,7 @@ public class BlizzardAPIContext : DbContext
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
-    private static DbContextOptions<BlizzardAPIContext> CreateOptions()
-    {
-        return new DbContextOptionsBuilder<BlizzardAPIContext>()
-            .UseNpgsql(ApplicationSettings.Instance.PostgresConnection)
-            .Options;
-    }
+    private static DbContextOptions<BlizzardAPIContext> CreateOptions() => new DbContextOptionsBuilder<BlizzardAPIContext>().UseNpgsql(ApplicationSettings.Instance.PostgresConnection).Options;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId });
 }

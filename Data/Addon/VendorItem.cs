@@ -6,7 +6,7 @@ namespace Data.Addon;
 [Table("g_vendor_item", Schema = "wow")]
 public class VendorItem
 {
-    public int NPCId { get; set; }
+    public int ItemId { get; set; }
     public int VendorId { get; set; }
     public int Quantity { get; set; }
     public int Cost { get; set; }
