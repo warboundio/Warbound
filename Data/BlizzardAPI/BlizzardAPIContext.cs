@@ -24,6 +24,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestCategory> QuestCategories => Set<QuestCategory>();
     public DbSet<QuestType> QuestTypes => Set<QuestType>();
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
+    public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }

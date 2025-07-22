@@ -5,13 +5,15 @@ using Data.BlizzardAPI.Enums;
 
 namespace Data.BlizzardAPI.Endpoints;
 
-[Table("journal_instance_media", Schema = "wow")]
-public sealed class JournalInstanceMedia
+[Table("quest", Schema = "wow")]
+public sealed class Quest
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
-    [MaxLength(1023)] public string URL { get; set; } = string.Empty;
+    [MaxLength(511)] public string Name { get; set; } = string.Empty;
+    public QuestIdentifier QuestIdentifier { get; set; }
+    public int QuestIdentifierId { get; set; }
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }
