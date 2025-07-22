@@ -23,6 +23,7 @@ public sealed class WarcraftData
     public Dictionary<int, Recipe> Recipes { get; private set; } = [];
     public Dictionary<int, RecipeMedia> RecipeMedias { get; private set; } = [];
     public Dictionary<int, Achievement> Achievements { get; private set; } = [];
+    public Dictionary<int, AchievementMedia> AchievementMedias { get; private set; } = [];
     public Dictionary<int, JournalExpansion> JournalExpansions { get; private set; } = [];
     public Dictionary<int, JournalEncounter> JournalEncounters { get; private set; } = [];
 
@@ -49,6 +50,7 @@ public sealed class WarcraftData
         Recipes = context.Recipes.ToDictionary(x => x.Id);
         RecipeMedias = context.RecipeMedias.ToDictionary(x => x.Id);
         Achievements = context.Achievements.ToDictionary(x => x.Id);
+        AchievementMedias = context.AchievementMedias.ToDictionary(x => x.Id);
         JournalExpansions = context.JournalExpansions.ToDictionary(x => x.Id);
         JournalEncounters = context.JournalEncounters.ToDictionary(x => x.Id);
     }
