@@ -54,10 +54,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="BlizzardAPI\Endpoints\Achievement.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\AchievementIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\AchievementMedia.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="BlizzardAPI\Endpoints\ItemAppearance.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BlizzardAPI\Endpoints\Item.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\JournalEncounter.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\JournalEncountersIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\JournalExpansion.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\JournalExpansionsIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\JournalInstanceMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BlizzardAPI\Endpoints\Mount.json">
@@ -85,6 +109,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BlizzardAPI\Endpoints\ProfessionSkillTier.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\Quest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestCategoriesIndex.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\QuestCategoryETL.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BlizzardAPI\Endpoints\Recipe.json">

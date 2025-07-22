@@ -2,7 +2,7 @@ using Core.Logs;
 
 namespace Addon;
 
-public class LuaPublisher
+public class LUAPublisher
 {
     private const string ADDON_NAME = "WarboundIO";
     private static readonly string[] DEFAULT_WOW_PATHS = [
@@ -12,7 +12,7 @@ public class LuaPublisher
 
     private readonly string? _customSourcePath;
 
-    public LuaPublisher(string? customSourcePath = null)
+    public LUAPublisher(string? customSourcePath = null)
     {
         _customSourcePath = customSourcePath;
     }
@@ -21,14 +21,14 @@ public class LuaPublisher
     {
         try
         {
-            LuaPublisher publisher = new();
+            LUAPublisher publisher = new();
             publisher.Publish(DEFAULT_WOW_PATHS[0]);
             publisher.Publish(DEFAULT_WOW_PATHS[1]);
             return true;
         }
         catch (Exception ex)
         {
-            Logging.Error(nameof(LuaPublisher), "Error during LUA publishing", ex);
+            Logging.Error(nameof(LUAPublisher), "Error during LUA publishing", ex);
             return false;
         }
     }
@@ -42,23 +42,10 @@ public class LuaPublisher
         else { Directory.CreateDirectory(targetDir); }
 
         CopyDirectory(luaSourcePath, targetDir);
-        Logging.Info(nameof(LuaPublisher), $"Published to: {targetDir}");
+        Logging.Info(nameof(LUAPublisher), $"Published to: {targetDir}");
     }
 
-    private string FindLuaSourcePath()
-    {
-        string currentDir = Directory.GetCurrentDirectory();
-        DirectoryInfo? dir = new(currentDir);
-
-        while (dir != null)
-        {
-            string addonLuaPath = Path.Combine(dir.FullName, "Addon", "LUA");
-            if (Directory.Exists(addonLuaPath)) { return addonLuaPath; }
-            dir = dir.Parent;
-        }
-
-        throw new DirectoryNotFoundException("Could not find Addon/LUA source directory");
-    }
+    public static string FindLuaSourcePath() => @"C:\Users\jason\source\repos\Warbound\Addon\LUA";
 
     private void CopyDirectory(string sourceDir, string targetDir)
     {

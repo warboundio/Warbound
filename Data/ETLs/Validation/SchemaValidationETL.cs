@@ -45,7 +45,8 @@ public class SchemaValidationETL
 
     private async Task ValidateEndpointSchemaAsync(string fixtureFile, int id, string endpointType)
     {
-        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", fixtureFile);
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string fixturePath = Path.Combine(currentDirectory, "bin", "debug", "net8.0", "BlizzardAPI", "Endpoints", fixtureFile);
         if (!File.Exists(fixturePath))
         {
             Logging.Warn(GetType().Name, $"Fixture file not found: {fixturePath}");
@@ -95,14 +96,12 @@ public class SchemaValidationETL
 
     private void CompareObjectSchemas(JsonElement fixture, JsonElement live, string path, List<string> differences)
     {
-        // Get all property names from both objects
         HashSet<string> fixtureProps = [];
         HashSet<string> liveProps = [];
 
         foreach (JsonProperty prop in fixture.EnumerateObject()) { fixtureProps.Add(prop.Name); }
         foreach (JsonProperty prop in live.EnumerateObject()) { liveProps.Add(prop.Name); }
 
-        // Check for properties missing in live API
         foreach (string prop in fixtureProps)
         {
             if (!liveProps.Contains(prop))
@@ -111,7 +110,6 @@ public class SchemaValidationETL
             }
         }
 
-        // Check for new properties in live API
         foreach (string prop in liveProps)
         {
             if (!fixtureProps.Contains(prop))
@@ -120,7 +118,6 @@ public class SchemaValidationETL
             }
         }
 
-        // Recursively compare common properties
         foreach (string prop in fixtureProps)
         {
             if (liveProps.Contains(prop))
@@ -135,7 +132,6 @@ public class SchemaValidationETL
 
     private void CompareArraySchemas(JsonElement fixture, JsonElement live, string path, List<string> differences)
     {
-        // For arrays, we compare the schema of the first element if both arrays have elements
         if (fixture.GetArrayLength() > 0 && live.GetArrayLength() > 0)
         {
             JsonElement fixtureFirst = fixture[0];
@@ -154,7 +150,6 @@ public class SchemaValidationETL
 
     private void LogSchemaDifferences(string fixtureFile, string url, List<string> differences)
     {
-        // Categorize differences by severity
         List<string> errors = [];
         List<string> warnings = [];
 

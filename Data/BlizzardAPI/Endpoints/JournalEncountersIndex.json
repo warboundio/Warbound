@@ -1,0 +1,149 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/journal-encounter/?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "encounters": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/178?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Cache of Madness - Hazza'rah",
+      "id": 178
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/581?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Prince Taldaram",
+      "id": 581
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/583?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Amanitar",
+      "id": 583
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/586?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Hadronox",
+      "id": 586
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/168?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Sinestra",
+      "id": 168
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/197?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Majordomo Staghelm",
+      "id": 197
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/609?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ick & Krick",
+      "id": 609
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/89?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Glubtok",
+      "id": 89
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/851?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Thok the Bloodthirsty",
+      "id": 851
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/864?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Iron Juggernaut",
+      "id": 864
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/865?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Siegecrafter Blackfuse",
+      "id": 865
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/112?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ozruk",
+      "id": 112
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/127?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Isiset, Construct of Magic",
+      "id": 127
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/111?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Slabhide",
+      "id": 111
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/185?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Jin'do the Godbreaker",
+      "id": 185
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/95?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Vanessa VanCleef",
+      "id": 95
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/129?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Setesh, Construct of Destruction",
+      "id": 129
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/157?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Theralion and Valiona",
+      "id": 157
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/191?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Daakara",
+      "id": 191
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-encounter/122?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Siamat",
+      "id": 122
+    }
+  ]
+}

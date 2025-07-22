@@ -1,25 +1,22 @@
+using Addon;
 using AdminPanel.Components;
 using Core;
 using Core.Discords;
+using Core.ETL;
 using Core.GitHub;
 using Core.Logs;
 using Core.Services;
+using Core.Tools;
 using Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-// Register CoreContext for dependency injection
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddDbContext<CoreContext>();
 
-// Register GitHubIssueMonitor as hosted service and singleton for access
 builder.Services.AddSingleton<GitHubIssueMonitor>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<GitHubIssueMonitor>());
 
-// Register DraftService as singleton
 builder.Services.AddSingleton<DraftService>();
 
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
@@ -29,15 +26,11 @@ builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
 
 
 WebApplication app = builder.Build();
-
-// Set up the monitor reference for GitHubIssueService
 GitHubIssueService.Monitor = app.Services.GetRequiredService<GitHubIssueMonitor>();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -48,12 +41,18 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
-// SOLUTION LEVEL RUNNERS
 WarcraftData.Instance.Load();
-Logging.Configure();
-//_ = ETLRunner.RunLoopAsync();
+if (!BuildConfig.IsDebug)
+{
+    LUAPublisher.Publish();
+    Logging.Configure();
+    _ = ETLRunner.RunLoopAsync();
 
-DiscordBot bot = new();
-_ = bot.StartAsync();
+    DiscordBot bot = new();
+    _ = bot.StartAsync();
+
+    AutoPublisher.Boot();
+    AutoPublisher.BootSimulatedClient();
+}
 
 app.Run();

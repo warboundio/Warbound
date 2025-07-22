@@ -1,0 +1,209 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/journal-expansion/68?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 68,
+  "name": "Classic",
+  "dungeons": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/227?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Blackfathom Deeps",
+      "id": 227
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/228?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Blackrock Depths",
+      "id": 228
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/63?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Deadmines",
+      "id": 63
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/230?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Dire Maul - Capital Gardens",
+      "id": 230
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/1277?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Dire Maul - Gordok Commons",
+      "id": 1277
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/1276?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Dire Maul - Warpwood Quarter",
+      "id": 1276
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/231?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Gnomeregan",
+      "id": 231
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/229?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Lower Blackrock Spire",
+      "id": 229
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/232?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Maraudon",
+      "id": 232
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/226?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ragefire Chasm",
+      "id": 226
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/233?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Razorfen Downs",
+      "id": 233
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/234?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Razorfen Kraul",
+      "id": 234
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/311?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Scarlet Halls",
+      "id": 311
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/316?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Scarlet Monastery",
+      "id": 316
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/246?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Scholomance",
+      "id": 246
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/64?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Shadowfang Keep",
+      "id": 64
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/236?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Stratholme - Main Gate",
+      "id": 236
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/1292?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Stratholme - Service Entrance",
+      "id": 1292
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/238?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Stockade",
+      "id": 238
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/237?namespace=static-11.1.7_61131-us"
+      },
+      "name": "The Temple of Atal'hakkar",
+      "id": 237
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/239?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Uldaman",
+      "id": 239
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/240?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Wailing Caverns",
+      "id": 240
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/241?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Zul'Farrak",
+      "id": 241
+    }
+  ],
+  "raids": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/741?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Molten Core",
+      "id": 741
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/742?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Blackwing Lair",
+      "id": 742
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/743?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Ruins of Ahn'Qiraj",
+      "id": 743
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/744?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Temple of Ahn'Qiraj",
+      "id": 744
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/journal-instance/1301?namespace=static-11.1.7_61131-us"
+      },
+      "name": "Blackrock Depths",
+      "id": 1301
+    }
+  ]
+}

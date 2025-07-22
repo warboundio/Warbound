@@ -1,21 +1,33 @@
 # Data Drafts
 
-## Draft: Implement Encounter Journal Data
-### Agent
-Journal API. Encounter Journal data can provide definitive loot sources for a lot of different items. We need to pay special attention to which difficulty and sized instances are required.
+## Draft: Implement JournalEncountersIndexETL
+### Agents
+We want to get journal encounter information from blizzard's API. https://us.api.blizzard.com/data/wow/journal-encounter/index?namespace=static-us&locale=en_US that is the link to get it from. It'll give you hundreds of encounters. Much like the ProfessionIndexEndpoint and ETL we want to 'stub' out the data and then implement just the indexing functionality. Following the pattern as others, strings will be empty, ints will be -1, and only the id and name will be populated. Another ETL and Endpoint will be used to enrich the data. Please set the ETLStateType to needs enrichment. There is a corresponding JournalEncountersIndex.json for you to ensure the data parses correctly. Like other endpoints we want to fail fast and quickly and assume that everything will parse appropriately. We'll debug later if there's an issue. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Review the Quest API
-### Developer
-I'm not sure what all is in there but if we have rewards from quests this would be a huge source of information. Regardless it may add a lot of context as to how to complete a particular quest or where it is in a sequence. 
+## Draft: Implement JournalEncounterETL
+### Agents
+Now that we have the data stubbed out for 'JournalEncountersIndexETL' we can now enrich the data. https://us.api.blizzard.com/data/wow/journal-encounter/89?namespace=static-us&locale=en_US is your URL. Following patterns like the MountEndpoint and ETL we want to enrich the data. Property 1 to add: Items. A semi colon delimited list that will look at 'items' and the array inside of it and grab the items.item.id (not the items.id). max length of 2047. We are omitting hte sections. We do want the 'instance.name'. We want the 'instance.id'. We want the 'category.type'. and a semicolon delimited list of 'modes.type'. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Review the Reputation API
-### Developer
-I'm not sure what all is in there but if we have rewards from reputation this would be a huge source of information. Regardless it may add a lot of context as to how to complete a particular reputation when it leads to a collection item.
+## Draft: Implement JournalExpansionsIndexETL
+### Agents
+We want to get the expansion id and name from blizzard's API. https://us.api.blizzard.com/data/wow/journal-expansion/index?namespace=static-us&locale=en_US JournalExpansionsIndex.json has an example output. We want to stub out the data for it to be enriched later. The id and name should be puopulated. The Status should be NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. Follow Data.BlizzardAPI.Endpoints to follow the pattenrs set out. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Review the Creature API
-### Developer
-I'm 99% certain there is no collection data in the creature API but it may provide some context for how to find a creature or where it is located.
+## Draft: Implement JournalExpansionETL
+### Agents
+Now we need to enrich the data from JournalExpansionsIndexETL. https://us.api.blizzard.com/data/wow/journal-expansion/68?namespace=static-us&locale=en_US is the URL to use and an example output is JournalExpansion.json. This should set the ETLStatus to complete. The fields we want are a semicolon delimited list of DungeonIds: 'dungeons.id' for each in the array. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
 
-## Draft: Review the Achievement API
-### Developer
-I'm not sure what all is in there but if we have rewards from achievements this would be a huge source of information. Regardless it may add a lot of context as to how to complete a particular achievement when it leads to a collection item.
+## Draft: Implement JournalInstanceMediaETL
+### Agents
+Finally for the dungeon journal we want to implement the JournalInstanceMediaETL. https://us.api.blizzard.com/data/wow/media/journal-instance/63?namespace=static-us&locale=en_US is the URL to use and an example output is JournalInstanceMedia.json. This should set the ETLStatus to complete. The fields we want are 'id' (the one supplied to the endpoint) and 'assets.value' (the first image URL). This will be used to display the dungeon journal images in the UI. Follow patterns like the ItemMediaEndpoint. Check the 'AchievementIndex.json' for an example output. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
+## Draft: Implement AchievementsIndexETL
+### Agents
+We want to get a stub for each achievement in the game. https://us.api.blizzard.com/data/wow/achievement/6?namespace=static-us&locale=en_US Check the 'AchievementIndex.json' for an example output. Status should be set to NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. The id and name should be populated. Follow patterns like the ItemAppearanceIndexETL. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). We want to stub out the data for it to be enriched later. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
+## Draft: Implement AchievementETL
+### Agents
+We want to now enrich the data from AchievementsIndexETL. https://us.api.blizzard.com/data/wow/achievement/1?namespace=static-us&locale=en_US is the URL to use and an example output is Achievement.json. This should set the ETLStatus to complete. The fields we want are 'description', 'reward', 'points', 'icon', 'criteria.id' (a semicolon delimited list), and 'criteria.type' (a semicolon delimited list). Follow patterns like the ItemAppearanceETL. We want the 'description', 'category.name', 'reward_description', 'reward_item.id, 'reward_item.name'. Now keep in mind, reward_description reward_item.id and reward_item.name (and reward_item the object) may not exist. this is a *special case*. where you can default these to string empty if they do not exist. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
+## Draft: Implement AchievementMediaETL
+### Agents
+We want to implement the AchievementMediaETL. https://us.api.blizzard.com/data/wow/media/achievement/6?namespace=static-us&locale=en_US is the URL to use and an example output is AchievementMedia.json. This should set the ETLStatus to complete. The fields we want are 'id' (the one supplied to the endpoint) and 'assets.value' (the first image URL). This will be used to display the achievement images in the UI. Follow patterns like the ItemMediaEndpoint. Check the 'AchievementIndex.json' for an example output. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).

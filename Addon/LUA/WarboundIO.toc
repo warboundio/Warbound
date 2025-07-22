@@ -2,7 +2,17 @@
 ## Title: WarboundIO
 ## Author: warbound.io
 ## Version: 0.0.1
-## SavedVariables: WarboundData
+## SavedVariables: WarboundIO
+
+Tools/WarboundEventManager.lua
+Tools/WarboundLogger.lua
+Data/SavedVariableSetup.lua
+Data/VignetteData.lua
+Data/VendorData.lua
+Data/LootData.lua
+Data/BattlePetData.lua
+Tools/AutoRepairVendor.lua
+Tools/Base90.lua
+API/WarboundAPI.lua
 
 WarboundIO.lua
-Tools/Base90.lua

@@ -1,0 +1,13 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/media/journal-instance/63?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "assets": [
+    {
+      "key": "tile",
+      "value": "https://render.worldofwarcraft.com/us/zones/deadmines-small.jpg"
+    }
+  ]
+}

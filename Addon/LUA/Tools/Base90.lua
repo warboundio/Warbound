@@ -1,7 +1,6 @@
-WarboundIO = WarboundIO or {}
-WarboundIO.Base90 = {}
+WarboundBase90 = {}
 
-local alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=[]{};':,.<>/?~"
+local alphabet = "rO'Y{5Lu#2.WzXECaFcVRbqT9oKHN86G/sA~^3@;MJP)gZUf:&h]1ekQlxmI+di4$_np70D|?!Bv-[jt*=y%"
 local base = 90
 local max_value = base ^ 3 - 1
 
@@ -29,7 +28,7 @@ local function encode(n)
     return table.concat(encoded)
 end
 
-setmetatable(WarboundIO.Base90, {
+setmetatable(WarboundBase90, {
     __call = function(_, n)
         return encode(n)
     end
