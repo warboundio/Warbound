@@ -22,7 +22,7 @@ public class QuestCategoryIndexEndpointTests
         QuestCategory firstQuestCategory = results.First();
         Assert.Equal(1, firstQuestCategory.Id);
         Assert.Equal("Epic", firstQuestCategory.Name);
-        Assert.Equal(ETLStateType.COMPLETE, firstQuestCategory.Status);
+        Assert.Equal(ETLStateType.NEEDS_ENRICHED, firstQuestCategory.Status);
 
         Assert.True(results.Count > 10);
     }
