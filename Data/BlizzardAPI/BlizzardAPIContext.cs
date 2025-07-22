@@ -18,6 +18,8 @@ public class BlizzardAPIContext : DbContext
     public DbSet<Recipe> Recipes => Set<Recipe>();
     public DbSet<RecipeMedia> RecipeMedias => Set<RecipeMedia>();
     public DbSet<Achievement> Achievements => Set<Achievement>();
+    public DbSet<JournalExpansion> JournalExpansions => Set<JournalExpansion>();
+    public DbSet<JournalEncounter> JournalEncounters => Set<JournalEncounter>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
