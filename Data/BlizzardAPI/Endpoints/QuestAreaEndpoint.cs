@@ -15,7 +15,7 @@ public class QuestAreaEndpoint : BaseBlizzardEndpoint<List<int>>
 
     public override List<int> Parse(JsonElement json)
     {
-        List<int> questIds = new();
+        List<int> questIds = [];
 
         if (json.TryGetProperty("quests", out JsonElement questsElement))
         {

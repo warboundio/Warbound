@@ -44,7 +44,7 @@ public class QuestAreaEndpointTests
     [Fact]
     public void ItShouldReturnEmptyListWhenNoQuestsProperty()
     {
-        string jsonWithoutQuests = "{ \"id\": 1, \"area\": \"Test Area\" }";
+        string jsonWithoutQuests = /*lang=json,strict*/ "{ \"id\": 1, \"area\": \"Test Area\" }";
         JsonDocument document = JsonDocument.Parse(jsonWithoutQuests);
         JsonElement root = document.RootElement;
 
