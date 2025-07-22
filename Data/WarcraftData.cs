@@ -27,6 +27,7 @@ public sealed class WarcraftData
     public Dictionary<int, JournalExpansion> JournalExpansions { get; private set; } = [];
     public Dictionary<int, JournalEncounter> JournalEncounters { get; private set; } = [];
     public Dictionary<int, QuestType> QuestTypes { get; private set; } = [];
+    public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];S
 
     private bool _isLoaded;
 
@@ -55,5 +56,6 @@ public sealed class WarcraftData
         JournalExpansions = context.JournalExpansions.ToDictionary(x => x.Id);
         JournalEncounters = context.JournalEncounters.ToDictionary(x => x.Id);
         QuestTypes = context.QuestTypes.ToDictionary(x => x.Id);
+        JournalInstanceMedias = context.JournalInstanceMedias.ToDictionary(x => x.Id);
     }
 }
