@@ -6,6 +6,7 @@
 @using Core.Models
 @using Core.Services
 @inject DraftService DraftService
+@inject GitHubIssueMonitor GitHubIssueMonitor
 @rendermode InteractiveServer
 
 <PageTitle>DUCA Workflow Panel</PageTitle>
@@ -28,7 +29,7 @@
 
                 @if (!string.IsNullOrEmpty(SelectedProject))
                 {
-                    List<DraftItem> projectDrafts = DraftService.GetDraftsByProject(SelectedProject);
+                    List<DraftItem> projectDrafts = GetFilteredDraftsByProject(SelectedProject);
                     if (projectDrafts.Count > 0)
                     {
                         <div class="mb-3">
@@ -131,6 +132,40 @@
         !string.IsNullOrWhiteSpace(SelectedProject) &&
         !string.IsNullOrWhiteSpace(WorkflowTitle) &&
         !string.IsNullOrWhiteSpace(WorkflowBody);
+
+    private List<DraftItem> GetFilteredDraftsByProject(string projectName)
+    {
+        List<DraftItem> allDrafts = DraftService.GetDraftsByProject(projectName);
+        List<GitHubIssue> activeWorkflows = GitHubIssueMonitor.GetActiveWorkflows();
+        
+        // Extract titles from active workflows
+        HashSet<string> activeWorkflowTitles = activeWorkflows
+            .Select(ExtractTitleFromWorkflowName)
+            .Where(title => !string.IsNullOrEmpty(title))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        
+        // Filter out drafts that match active workflow titles
+        return allDrafts
+            .Where(draft => !activeWorkflowTitles.Contains(draft.Title))
+            .ToList();
+    }
+
+    private string ExtractTitleFromWorkflowName(GitHubIssue workflow)
+    {
+        if (string.IsNullOrEmpty(workflow.Name))
+        {
+            return string.Empty;
+        }
+
+        // Workflow names follow format "ProjectName | Title"
+        int separatorIndex = workflow.Name.IndexOf(" | ");
+        if (separatorIndex > 0 && separatorIndex < workflow.Name.Length - 3)
+        {
+            return workflow.Name.Substring(separatorIndex + 3).Trim();
+        }
+
+        return string.Empty;
+    }
 
     private void LoadDraft(DraftItem draft)
     {

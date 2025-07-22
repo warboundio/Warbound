@@ -1,16 +1,12 @@
 # Data Drafts
 
-## Draft: Implement JournalEncountersIndexETL
-## Agent
-We want to get journal encounter information from blizzard's API. https://us.api.blizzard.com/data/wow/journal-encounter/index?namespace=static-us&locale=en_US that is the link to get it from. It'll give you hundreds of encounters. Much like the ProfessionIndexEndpoint and ETL we want to 'stub' out the data and then implement just the indexing functionality. Following the pattern as others, strings will be empty, ints will be -1, and only the id and name will be populated. Another ETL and Endpoint will be used to enrich the data. Please set the ETLStateType to needs enrichment. There is a corresponding JournalEncountersIndex.json for you to ensure the data parses correctly. Like other endpoints we want to fail fast and quickly and assume that everything will parse appropriately. We'll debug later if there's an issue. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement JournalEncounterETL
 ## Agent
 Now that we have the data stubbed out for 'JournalEncountersIndexETL' we can now enrich the data. https://us.api.blizzard.com/data/wow/journal-encounter/89?namespace=static-us&locale=en_US is your URL. Following patterns like the MountEndpoint and ETL we want to enrich the data. Property 1 to add: Items. A semi colon delimited list that will look at 'items' and the array inside of it and grab the items.item.id (not the items.id). max length of 2047. We are omitting hte sections. We do want the 'instance.name'. We want the 'instance.id'. We want the 'category.type'. and a semicolon delimited list of 'modes.type'. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.). 
 
-## Draft: Implement JournalExpansionsIndexETL
-## Agent
-We want to get the expansion id and name from blizzard's API. https://us.api.blizzard.com/data/wow/journal-expansion/index?namespace=static-us&locale=en_US JournalExpansionsIndex.json has an example output. We want to stub out the data for it to be enriched later. The id and name should be puopulated. The Status should be NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. Follow Data.BlizzardAPI.Endpoints to follow the pattenrs set out. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement JournalExpansionETL
 ## Agent
@@ -20,9 +16,7 @@ Now we need to enrich the data from JournalExpansionsIndexETL. https://us.api.bl
 ## Agent
 Finally for the dungeon journal we want to implement the JournalInstanceMediaETL. https://us.api.blizzard.com/data/wow/media/journal-instance/63?namespace=static-us&locale=en_US is the URL to use and an example output is JournalInstanceMedia.json. This should set the ETLStatus to complete. The fields we want are 'id' (the one supplied to the endpoint) and 'assets.value' (the first image URL). This will be used to display the dungeon journal images in the UI. Follow patterns like the ItemMediaEndpoint. Check the 'AchievementIndex.json' for an example output. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.). This will use it's 'indexes' from all of the Journal Dungeons and Raids from teh JournalExpansion object.
 
-## Draft: Implement AchievementsIndexETL
-## Agent
-We want to get a stub for each achievement in the game. https://us.api.blizzard.com/data/wow/achievement/6?namespace=static-us&locale=en_US Check the 'AchievementIndex.json' for an example output. Status should be set to NEEDS_ENRICHED and LastUpdatedUTC should be set to DateTime.UtcNow. The id and name should be populated. Follow patterns like the ItemAppearanceIndexETL. Fail fast, assume the properties will be parsed correctly, and ensure all properties are set to their defaults (empty strings, -1 for ints, etc.). We want to stub out the data for it to be enriched later. let's use sensible defaults for maxlength on strings (2047 for most, 255 for names, etc.).
+
 
 ## Draft: Implement AchievementETL
 ## Agent

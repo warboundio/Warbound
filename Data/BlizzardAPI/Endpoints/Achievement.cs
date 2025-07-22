@@ -1,0 +1,16 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Data.BlizzardAPI.Enums;
+
+namespace Data.BlizzardAPI.Endpoints;
+
+[Table("achievement", Schema = "wow")]
+public sealed class Achievement
+{
+    [Key]
+    public int Id { get; set; }
+    [MaxLength(255)] public string Name { get; set; } = string.Empty;
+    public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
+    public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
+}
