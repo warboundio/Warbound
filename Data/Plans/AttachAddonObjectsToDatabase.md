@@ -17,4 +17,4 @@ Data/Addon contains five objects (LootLogEntry, NPCKillCount, PetBattleLocation,
 - Given existing addon objects, when converted to database entities, then they include [Table] attributes with 'g_' prefixed names and "wow" schema
 - Given converted objects, when added to BlizzardAPIContext, then DbSet properties use 'G_' prefix naming convention
 - Given objects with string properties, when MaxLength is applied, then values are appropriate for expected data size
-- Given converted objects, when they include ETL tracking, then they have Status and LastUpdatedUtc properties following BlizzardAPI patterns
+- (DEVELOPER NOTE: NO. These are not ETL and do not need Status and LastUpdatedUtc. As of now let's leave off LastUpdatedUtc given the sheer volume of rows we'll be writing - we'll revisit that later - the instruction is to not add *any* properties. 
