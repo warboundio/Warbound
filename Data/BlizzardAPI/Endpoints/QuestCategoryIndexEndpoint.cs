@@ -21,7 +21,7 @@ public class QuestCategoryIndexEndpoint : BaseBlizzardEndpoint<List<QuestCategor
             QuestCategory questCategoryObj = new();
             questCategoryObj.Id = categoryElement.GetProperty("id").GetInt32();
             questCategoryObj.Name = categoryElement.GetProperty("name").GetString()!;
-            questCategoryObj.Status = ETLStateType.NEEDS_ENRICHED;
+            questCategoryObj.Status = ETLStateType.COMPLETE;
             questCategoryObj.LastUpdatedUtc = DateTime.UtcNow;
 
             questCategories.Add(questCategoryObj);

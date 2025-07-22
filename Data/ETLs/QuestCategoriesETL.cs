@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.ETL;
 using Data.BlizzardAPI.Endpoints;
-using Data.BlizzardAPI.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.ETLs;
@@ -28,7 +27,6 @@ public class QuestCategoriesETL : RunnableBlizzardETL
         await Task.Run(() =>
         {
             QuestCategory questCategory = (QuestCategory)item;
-            questCategory.Status = ETLStateType.NEEDS_ENRICHED;
             SaveBuffer.Add(questCategory);
         });
     }
