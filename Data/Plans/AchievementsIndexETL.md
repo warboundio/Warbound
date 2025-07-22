@@ -15,6 +15,6 @@ Following the established ETL pattern used for other collectible items (ItemAppe
 - Set achievement status to NEEDS_ENRICHED for future enrichment pipeline
 
 ## Acceptance Criteria  
-- Given the AchievementsIndexETL runs, when it processes the Blizzard achievement index API, then it creates Achievement entities with Id and Name populated and Status set to NEEDS_ENRICHED
+- Given the AchievementsIndexETL runs, when it processes the Blizzard achievement index API, then it creates Achievement entities with Id and Name populated and Status set to NEEDS_ENRICHED (don't forget the datetime UTC)
 - Given an Achievement entity is created, when saved to database, then it has sensible defaults (empty strings for text, -1 for integers, proper MaxLength constraints)
 - Given the ETL follows existing patterns, when compared to ItemAppearanceIndexETL, then it uses the same architectural approach and error handling philosophy
