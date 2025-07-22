@@ -19,13 +19,11 @@ public class QuestCategoryIndexEndpointTests
         Assert.NotNull(results);
         Assert.True(results.Count > 0);
 
-        // Test first quest category
         QuestCategory firstQuestCategory = results.First();
         Assert.Equal(1, firstQuestCategory.Id);
         Assert.Equal("Epic", firstQuestCategory.Name);
         Assert.Equal(ETLStateType.COMPLETE, firstQuestCategory.Status);
 
-        // Verify multiple quest categories are parsed
         Assert.True(results.Count > 10);
     }
 }
