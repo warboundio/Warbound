@@ -1,0 +1,36 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/quest/8446?namespace=static-11.1.7_61131-us"
+    }
+  },
+  "id": 8446,
+  "title": "Shrouded in Nightmare",
+  "category": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/quest/category/1?namespace=static-11.1.7_61131-us"
+    },
+    "name": "Epic",
+    "id": 1
+  },
+  "description": "Corruption seeps from this object.\n\nThere may be a link between this object and the dragons coming forth from the Dream. You must find someone that can decipher the meaning of this item. Perhaps the druids of the Moonglade or Cenarion Hold could assist you further.",
+  "requirements": {
+    "min_character_level": 30,
+    "max_character_level": 30
+  },
+  "rewards": {
+    "experience": 6200,
+    "reputations": [
+      {
+        "reward": {
+          "key": {
+            "href": "https://us.api.blizzard.com/data/wow/reputation-faction/609?namespace=static-11.1.7_61131-us"
+          },
+          "name": "Cenarion Circle",
+          "id": 609
+        },
+        "value": 500
+      }
+    ]
+  }
+}

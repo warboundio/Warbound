@@ -114,6 +114,9 @@
     <None Update="BlizzardAPI\Endpoints\Quest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\Quest2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="BlizzardAPI\Endpoints\QuestArea.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
