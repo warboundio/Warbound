@@ -1,11 +1,10 @@
-using System;
+using System.Collections.Generic;
 using System.Text.Json;
-using Data.BlizzardAPI.Enums;
 using Data.BlizzardAPI.General;
 
 namespace Data.BlizzardAPI.Endpoints;
 
-public class QuestTypeEndpoint : BaseBlizzardEndpoint<QuestType>
+public class QuestTypeEndpoint : BaseBlizzardEndpoint<List<int>>
 {
     public int QuestTypeId { get; }
 
@@ -17,14 +16,17 @@ public class QuestTypeEndpoint : BaseBlizzardEndpoint<QuestType>
     public override string BuildUrl() =>
         $"https://us.api.blizzard.com/data/wow/quest/type/{QuestTypeId}?namespace=static-us&locale=en_US";
 
-    public override QuestType Parse(JsonElement json)
+    public override List<int> Parse(JsonElement json)
     {
-        QuestType questTypeObj = new();
-        questTypeObj.Id = json.GetProperty("id").GetInt32();
-        questTypeObj.Name = json.GetProperty("type").GetString()!;
-        questTypeObj.Status = ETLStateType.COMPLETE;
-        questTypeObj.LastUpdatedUtc = DateTime.UtcNow;
+        List<int> questIds = [];
+        JsonElement questsArray = json.GetProperty("quests");
 
-        return questTypeObj;
+        foreach (JsonElement questElement in questsArray.EnumerateArray())
+        {
+            int questId = questElement.GetProperty("id").GetInt32();
+            questIds.Add(questId);
+        }
+
+        return questIds;
     }
 }
