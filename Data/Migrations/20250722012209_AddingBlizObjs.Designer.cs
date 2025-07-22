@@ -3,6 +3,7 @@ using System;
 using Data.BlizzardAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(BlizzardAPIContext))]
-    partial class BlizzardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250722012209_AddingBlizObjs")]
+    partial class AddingBlizObjs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +28,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Achievement", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -46,7 +52,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Item", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClassType")
                         .HasColumnType("integer");
@@ -100,7 +109,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ItemAppearance", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClassType")
                         .HasColumnType("integer");
@@ -133,7 +145,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ItemMedia", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -154,7 +169,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalEncounter", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryType")
                         .IsRequired()
@@ -198,7 +216,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalExpansion", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -219,7 +240,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Mount", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CreatureDisplayId")
                         .HasColumnType("integer");
@@ -248,7 +272,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Pet", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BattlePetType")
                         .IsRequired()
@@ -299,7 +326,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Profession", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -330,7 +360,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ProfessionMedia", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -351,7 +384,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Realm", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -405,7 +441,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Recipe", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CraftedItemId")
                         .HasColumnType("integer");
@@ -443,7 +482,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.RecipeMedia", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");
@@ -464,7 +506,10 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Toy", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("LastUpdatedUtc")
                         .HasColumnType("timestamp with time zone");

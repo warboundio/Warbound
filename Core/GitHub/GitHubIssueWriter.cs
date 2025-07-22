@@ -50,6 +50,7 @@ public class GitHubIssueWriter
 
         sb.AppendLine($"# Step {stepNumber} | Pull Request");
         sb.AppendLine($"- You've made it to the end! Great job! Let's put in that pull request. If changes are requested please pay careful attentions to the developer notes.");
+        sb.AppendLine($"- RUN 'dotnet format' and use the changes provided from that in your commit. Do not assume you are following the ideal coding format without doing this.");
         sb.AppendLine("");
 
         sb.AppendLine($"# Project | {SelectedProject}");

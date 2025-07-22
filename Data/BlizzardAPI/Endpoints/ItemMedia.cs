@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class ItemMedia
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(1023)] public string URL { get; set; } = string.Empty;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;

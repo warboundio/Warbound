@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class JournalEncounter
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; } = -1;
     [MaxLength(255)] public string Name { get; set; } = string.Empty;
     [MaxLength(2047)] public string Items { get; set; } = string.Empty;

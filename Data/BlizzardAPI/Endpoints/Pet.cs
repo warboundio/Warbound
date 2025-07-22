@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Pet
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
     [MaxLength(127)] public string BattlePetType { get; set; } = string.Empty;

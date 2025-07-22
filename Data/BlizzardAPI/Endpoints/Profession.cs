@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Profession
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; } = -1;
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
     [MaxLength(127)] public string Type { get; set; } = string.Empty;

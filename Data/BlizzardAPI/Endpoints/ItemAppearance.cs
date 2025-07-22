@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class ItemAppearance
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     public SlotType SlotType { get; set; } = SlotType.UNKNOWN;
     public ClassType ClassType { get; set; } = ClassType.UNKNOWN;

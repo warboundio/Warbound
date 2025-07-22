@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Toy
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
     [MaxLength(31)] public string SourceType { get; set; } = string.Empty;

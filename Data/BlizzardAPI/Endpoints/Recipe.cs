@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Recipe
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; } = -1;
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
     public int ProfessionId { get; set; } = -1;

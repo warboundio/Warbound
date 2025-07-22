@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Realm
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(63)] public string Name { get; set; } = string.Empty;
     [MaxLength(63)] public string Slug { get; set; } = string.Empty;

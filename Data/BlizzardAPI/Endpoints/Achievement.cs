@@ -9,6 +9,7 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Achievement
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
     [MaxLength(255)] public string Name { get; set; } = string.Empty;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;

@@ -16,12 +16,12 @@ public class AchievementsIndexETL : RunnableBlizzardETL
     protected override async Task<List<object>> GetItemsToProcessAsync()
     {
         HashSet<int> existingIds = await Context.Achievements.Select(x => x.Id).ToHashSetAsync();
-        
+
         AchievementIndexEndpoint endpoint = new();
         List<Achievement> achievements = await endpoint.GetAsync();
-        
-        List<Achievement> newAchievements = achievements.Where(achievement => !existingIds.Contains(achievement.Id)).ToList();
-        
+
+        List<Achievement> newAchievements = [.. achievements.Where(achievement => !existingIds.Contains(achievement.Id))];
+
         return [.. newAchievements.Cast<object>()];
     }
 
