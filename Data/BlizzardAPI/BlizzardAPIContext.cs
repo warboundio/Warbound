@@ -22,6 +22,9 @@ public class BlizzardAPIContext : DbContext
     public DbSet<JournalExpansion> JournalExpansions => Set<JournalExpansion>();
     public DbSet<JournalEncounter> JournalEncounters => Set<JournalEncounter>();
     public DbSet<QuestCategory> QuestCategories => Set<QuestCategory>();
+    public DbSet<QuestType> QuestTypes => Set<QuestType>();
+    public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
+    public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
