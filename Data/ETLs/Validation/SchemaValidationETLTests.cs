@@ -9,8 +9,8 @@ public class SchemaValidationETLTests
     public void ItShouldDetectIdenticalSchemas()
     {
         // Arrange
-        string json1 = """{"id": 123, "name": "test", "active": true}""";
-        string json2 = """{"id": 456, "name": "other", "active": true}"""; // Same types, different values
+        string json1 = /*lang=json,strict*/ """{"id": 123, "name": "test", "active": true}""";
+        string json2 = /*lang=json,strict*/ """{"id": 456, "name": "other", "active": true}"""; // Same types, different values
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -28,8 +28,8 @@ public class SchemaValidationETLTests
     public void ItShouldDetectMissingProperties()
     {
         // Arrange
-        string json1 = """{"id": 123, "name": "test", "active": true}""";
-        string json2 = """{"id": 456, "name": "other"}""";
+        string json1 = /*lang=json,strict*/ """{"id": 123, "name": "test", "active": true}""";
+        string json2 = /*lang=json,strict*/ """{"id": 456, "name": "other"}""";
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -48,8 +48,8 @@ public class SchemaValidationETLTests
     public void ItShouldDetectNewProperties()
     {
         // Arrange
-        string json1 = """{"id": 123, "name": "test"}""";
-        string json2 = """{"id": 456, "name": "other", "active": true}""";
+        string json1 = /*lang=json,strict*/ """{"id": 123, "name": "test"}""";
+        string json2 = /*lang=json,strict*/ """{"id": 456, "name": "other", "active": true}""";
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -68,8 +68,8 @@ public class SchemaValidationETLTests
     public void ItShouldDetectTypeMismatches()
     {
         // Arrange
-        string json1 = """{"id": 123, "active": true}""";
-        string json2 = """{"id": "456", "active": true}""";
+        string json1 = /*lang=json,strict*/ """{"id": 123, "active": true}""";
+        string json2 = /*lang=json,strict*/ """{"id": "456", "active": true}""";
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -88,8 +88,8 @@ public class SchemaValidationETLTests
     public void ItShouldHandleNestedObjects()
     {
         // Arrange
-        string json1 = """{"id": 123, "meta": {"version": 1, "author": "test"}}""";
-        string json2 = """{"id": 456, "meta": {"version": 2}}""";
+        string json1 = /*lang=json,strict*/ """{"id": 123, "meta": {"version": 1, "author": "test"}}""";
+        string json2 = /*lang=json,strict*/ """{"id": 456, "meta": {"version": 2}}""";
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
@@ -108,8 +108,8 @@ public class SchemaValidationETLTests
     public void ItShouldHandleArrays()
     {
         // Arrange
-        string json1 = """{"items": [{"id": 1, "name": "test"}]}""";
-        string json2 = """{"items": [{"id": 2, "name": "other", "active": true}]}""";
+        string json1 = /*lang=json,strict*/ """{"items": [{"id": 1, "name": "test"}]}""";
+        string json2 = /*lang=json,strict*/ """{"items": [{"id": 2, "name": "other", "active": true}]}""";
 
         JsonElement element1 = JsonSerializer.Deserialize<JsonElement>(json1);
         JsonElement element2 = JsonSerializer.Deserialize<JsonElement>(json2);
