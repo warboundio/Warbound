@@ -1,10 +1,13 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Addon;
 
+[Table("g_loot_log_entry", Schema = "wow")]
 public class LootLogEntry
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public int NpcId { get; set; }
     public int ItemId { get; set; }
     public int Quantity { get; set; }
