@@ -6,10 +6,8 @@ using Core.ETL;
 using Core.GitHub;
 using Core.Logs;
 using Core.Services;
-using Core.Settings;
 using Core.Tools;
 using Data;
-using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
