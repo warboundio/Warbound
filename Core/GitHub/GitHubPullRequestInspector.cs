@@ -77,6 +77,11 @@ public sealed class GitHubPullRequestInspector : IDisposable
                   isDraft
                   mergeable
                   reviewDecision
+                  assignees(first: 10) {{
+                    nodes {{
+                      login
+                    }}
+                  }}
                   reviewRequests(first: 10) {{
                     nodes {{
                       requestedReviewer {{
@@ -97,22 +102,16 @@ public sealed class GitHubPullRequestInspector : IDisposable
         string mergeable = pr["mergeable"]!.ToString();
         string reviewDecision = pr["reviewDecision"]?.ToString() ?? "REVIEW_REQUIRED";
 
-        JsonArray? reviewers = pr["reviewRequests"]?["nodes"]?.AsArray();
-        bool waitingOnYou = false;
-        if (reviewers != null)
-        {
-            foreach (JsonNode reviewerNode in reviewers ?? [])
-            {
-                JsonNode? requestedReviewer = reviewerNode?["requestedReviewer"];
-                string? login = requestedReviewer?["login"]?.ToString();
-                string? name = requestedReviewer?["name"]?.ToString();
-                if (login == YOUR_USERNAME || name == YOUR_USERNAME)
-                {
-                    waitingOnYou = true;
-                    break;
-                }
-            }
-        }
+        // Check assignees
+        bool explicitlyAssigned = pr["assignees"]?["nodes"]?.AsArray()?.Any(a => a?["login"]?.ToString() == YOUR_USERNAME) == true;
+
+        // Check review requests
+        bool explicitlyRequested = pr["reviewRequests"]?["nodes"]?.AsArray()?.Any(r =>
+            r?["requestedReviewer"]?["login"]?.ToString() == YOUR_USERNAME ||
+            r?["requestedReviewer"]?["name"]?.ToString() == YOUR_USERNAME
+        ) == true;
+
+        bool waitingOnYou = explicitlyAssigned || explicitlyRequested;
 
         return new PullRequestStatus
         {
@@ -121,7 +120,7 @@ public sealed class GitHubPullRequestInspector : IDisposable
             IsOpen = state == "OPEN",
             IsMergeable = mergeable == "MERGEABLE",
             IsApproved = reviewDecision == "APPROVED",
-            WaitingForYou = waitingOnYou || reviewDecision == "REVIEW_REQUIRED"
+            WaitingForYou = waitingOnYou
         };
     }
 

@@ -65,7 +65,10 @@ public class SchemaValidationETL
     private async Task ValidateEndpointSchemaAsync(string fixtureFile, object? parameter, string endpointType)
     {
         string currentDirectory = Directory.GetCurrentDirectory();
-        string fixturePath = Path.Combine(currentDirectory, "bin", "debug", "net8.0", "BlizzardAPI", "Endpoints", fixtureFile);
+        string debugPath = Path.Combine(currentDirectory, "bin", "debug", "net8.0", "BlizzardAPI", "Endpoints", fixtureFile);
+        string releasePath = Path.Combine(currentDirectory, "BlizzardAPI", "Endpoints", fixtureFile);
+
+        string fixturePath = File.Exists(debugPath) ? debugPath : releasePath;
         if (!File.Exists(fixturePath))
         {
             Logging.Warn(GetType().Name, $"Fixture file not found: {fixturePath}");
