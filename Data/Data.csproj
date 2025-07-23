@@ -63,6 +63,12 @@
     <None Update="BlizzardAPI\Endpoints\AchievementMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="BlizzardAPI\Endpoints\Auctions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BlizzardAPI\Endpoints\Commodities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="BlizzardAPI\Endpoints\ItemAppearance.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

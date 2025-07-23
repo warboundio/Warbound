@@ -10,10 +10,10 @@ public abstract class BaseBlizzardEndpoint<T>
     public abstract string BuildUrl();
     public abstract T Parse(JsonElement json);
 
-    public async Task<T> GetAsync()
+    public async Task<T> GetAsync(bool forceFreshPull = false)
     {
         string url = BuildUrl();
-        JsonElement json = await BlizzardAPIRouter.GetJsonAsync(url, false);
+        JsonElement json = await BlizzardAPIRouter.GetJsonAsync(url, forceFreshPull);
 
         try { return Parse(json); }
         catch (Exception ex)

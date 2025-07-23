@@ -8,7 +8,6 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
-using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +35,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 

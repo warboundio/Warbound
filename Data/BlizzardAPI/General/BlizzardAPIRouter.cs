@@ -136,6 +136,10 @@ public static class BlizzardAPIRouter
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();
+
+            string directory = Path.GetDirectoryName(filePath)!;
+            if (!Directory.Exists(directory)) { Directory.CreateDirectory(directory); }
+
             await File.WriteAllTextAsync(filePath, json, _token);
             return json;
         }

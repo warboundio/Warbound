@@ -9,7 +9,7 @@ public class QuestTypeEndpointTests
     [Fact]
     public void ItShouldParseQuestIdsFromJson()
     {
-        string jsonContent = File.ReadAllText("/home/runner/work/Warbound/Warbound/Data/BlizzardAPI/Endpoints/QuestType.json");
+        string jsonContent = File.ReadAllText("BlizzardAPI/Endpoints/QuestType.json");
         JsonElement json = JsonSerializer.Deserialize<JsonElement>(jsonContent);
 
         QuestTypeEndpoint endpoint = new(1);
