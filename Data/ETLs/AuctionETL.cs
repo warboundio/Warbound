@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.ETL;
+using Data.BlizzardAPI;
 using Data.BlizzardAPI.Endpoints;
+using Microsoft.EntityFrameworkCore;
 using static Data.BlizzardAPI.Endpoints.AuctionsEndpoint;
 
 namespace Data.ETLs;
@@ -20,7 +22,7 @@ public class AuctionETL : RunnableBlizzardETL
     protected override async Task<List<object>> GetItemsToProcessAsync()
     {
         int[] connectedRealms = [60, 58, 5]; // stormrage, stormreaver, proudmoore
-        foreach(int realm in connectedRealms)
+        foreach (int realm in connectedRealms)
         {
             AuctionsEndpoint auctionEndpoint = new(realm);
             _auctions.AddRange(await auctionEndpoint.GetAsync(false));
@@ -30,7 +32,11 @@ public class AuctionETL : RunnableBlizzardETL
         _commodities.AddRange(await commodityEndpoint.GetAsync(false));
 
         _allItemIds = [.. _auctions.Select(a => a.ItemId).Union(_commodities.Select(c => c.ItemId)).Distinct()];
-        return [.. _allItemIds.Cast<object>()];
+
+        using BlizzardAPIContext context = new();
+        List<int> itemIdsBeingTracked = await context.Items.Select(o => o.Id).ToListAsync();
+
+        return [.. _allItemIds.Intersect(itemIdsBeingTracked).Cast<object>()];
     }
 
     protected override async Task UpdateItemAsync(object item)
