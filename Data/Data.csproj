@@ -172,6 +172,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BlizzardAPI\Models\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

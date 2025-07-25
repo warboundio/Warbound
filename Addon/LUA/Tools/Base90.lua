@@ -1,6 +1,6 @@
 WarboundBase90 = {}
 
-local alphabet = "rO'Y{5Lu#2.WzXECaFcVRbqT9oKHN86G/sA~^3@;MJP)gZUf:&h]1ekQlxmI+di4$_np70D|?!Bv-[jt*=y%"
+local alphabet = "rO'Y{5Lu#2.WzXECaFcVRbqT9oKHN86G/sA~^3@;MJP)gZUf:&h]1ekQlxmI+di4$_np70D,?!Bv-[jt*=y%"
 local base = 90
 local max_value = base ^ 3 - 1
 

@@ -39,7 +39,8 @@ public enum InventoryType
     EQUIPABLE_SPELL_OFFENSIVE = 31,
     EQUIPABLE_SPELL_UTILITY = 32,
     EQUIPABLE_SPELL_DEFENSIVE = 33,
-    EQUIPABLE_SPELL_WEAPON = 34
+    EQUIPABLE_SPELL_WEAPON = 34,
+    UNKNOWN_ENCODING = 80
 }
 
 public static class InventoryTypeHelper
