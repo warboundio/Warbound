@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Core.ETL;
 using Data.BlizzardAPI;
 using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using static Data.BlizzardAPI.Endpoints.AuctionsEndpoint;
 

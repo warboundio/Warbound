@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
 using Data.BlizzardAPI.General;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 

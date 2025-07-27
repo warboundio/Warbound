@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
 using Data.Serialization;
 
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Models;
 
 [Table("pet", Schema = "wow")]
 public sealed class Pet

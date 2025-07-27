@@ -4,24 +4,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
 using Data.Serialization;
 
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Models;
 
-[Table("quest", Schema = "wow")]
-public sealed class Quest
+[Table("profession", Schema = "wow")]
+public sealed class Profession
 {
     [Key]
-    [EncodedField(3)]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int Id { get; set; }
+    [EncodedField(3)]
+    public int Id { get; set; } = -1;
 
-    [MaxLength(511)]
+    [MaxLength(127)]
     [EncodedField]
     public string Name { get; set; } = string.Empty;
 
-    public QuestIdentifier QuestIdentifier { get; set; }
-    public int QuestIdentifierId { get; set; }
-    public int QuestTypeId { get; set; }
-    [MaxLength(2047)] public string RewardItems { get; set; } = string.Empty;
+    [MaxLength(127)]
+    public string Type { get; set; } = string.Empty;
+
+    [MaxLength(1027)] public string SkillTiers { get; set; } = string.Empty;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }

@@ -1,5 +1,5 @@
-using Data.BlizzardAPI.Endpoints;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.Serialization;
 public class EncodingStringBuilderTests

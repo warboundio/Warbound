@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Data.Addon;
 using Data.BlizzardAPI;
-using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 
 namespace Data;
 

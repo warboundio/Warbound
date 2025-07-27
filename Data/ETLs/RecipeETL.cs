@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core.ETL;
 using Data.BlizzardAPI.Endpoints;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.ETLs;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
 
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Models;
 
 [Table("realm", Schema = "wow")]
 public sealed class Realm

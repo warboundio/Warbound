@@ -1,6 +1,6 @@
 using Core.Settings;
 using Data.Addon;
-using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.BlizzardAPI;

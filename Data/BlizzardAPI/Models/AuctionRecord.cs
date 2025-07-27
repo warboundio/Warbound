@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Models;
 
 [Table("auction", Schema = "wow")]
 public class AuctionRecord
