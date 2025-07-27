@@ -7,7 +7,7 @@ public class EncodingStringBuilderTests
     [Fact]
     public void ItShould()
     {
-        EncodingStringBuilder esb = new('A', new ItemAppearance());
+        EncodingStringBuilder esb = new('A', typeof(ItemAppearance));
         string encodedValue = esb.GetEncodedString(new ItemAppearance
         {
             Id = 123,
@@ -22,7 +22,7 @@ public class EncodingStringBuilderTests
     [Fact]
     public void ItShouldGetEncodingTranslation()
     {
-        EncodingStringBuilder esb = new('A', new ItemAppearance());
+        EncodingStringBuilder esb = new('A', typeof(ItemAppearance));
         string translation = esb.GetEncodingTranslation();
         Assert.Equal("A|ClassType(1)|Id(3)|SlotType(1)|SubclassType(2)", translation);
     }

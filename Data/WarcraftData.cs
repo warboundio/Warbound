@@ -37,6 +37,7 @@ public sealed class WarcraftData
     public Dictionary<int, PetBattleLocation> G_PetBattleLocations { get; private set; } = [];
     public Dictionary<int, Vendor> G_Vendors { get; private set; } = [];
     public Dictionary<int, VendorItem> G_VendorItems { get; private set; } = [];
+    public Dictionary<int, List<AuctionRecord>> G_Auctions { get; private set; } = [];
 
     private bool _isLoaded;
 
@@ -70,6 +71,7 @@ public sealed class WarcraftData
         Quests = context.Quests.ToDictionary(x => x.Id);
         JournalInstanceMedias = context.JournalInstanceMedias.ToDictionary(x => x.Id);
 
+        G_Auctions = context.AuctionRecords.GroupBy(x => x.ItemId).ToDictionary(g => g.Key, g => g.ToList());
         G_LootLogEntries = context.G_LootLogEntries.ToDictionary(x => x.Id);
         G_NpcKillCounts = context.G_NpcKillCounts.ToDictionary(x => x.NpcId);
         G_PetBattleLocations = context.G_PetBattleLocations.ToDictionary(x => x.PetSpeciesId);

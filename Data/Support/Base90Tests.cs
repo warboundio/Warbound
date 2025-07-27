@@ -25,4 +25,7 @@ public class Base90Tests
         string encoding = Base90.Encode(10, 1);
         Assert.Equal(".", encoding);
     }
+
+    [Fact]
+    public void ItShouldHave90Characters() => Assert.Equal(90, Base90.Alphabet.Length);
 }

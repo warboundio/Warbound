@@ -22,10 +22,9 @@ public class JournalEncounterEndpoint : BaseBlizzardEndpoint<JournalEncounter>
         string items = string.Empty;
         if (json.TryGetProperty("items", out JsonElement itemsElement))
         {
-            string[] itemIds = itemsElement.EnumerateArray()
+            string[] itemIds = [.. itemsElement.EnumerateArray()
                 .Where(item => item.TryGetProperty("item", out JsonElement itemElement) && itemElement.TryGetProperty("id", out _))
-                .Select(item => item.GetProperty("item").GetProperty("id").GetInt32().ToString())
-                .ToArray();
+                .Select(item => item.GetProperty("item").GetProperty("id").GetInt32().ToString())];
             items = string.Join(";", itemIds);
         }
 
@@ -46,11 +45,10 @@ public class JournalEncounterEndpoint : BaseBlizzardEndpoint<JournalEncounter>
         string modesTypes = string.Empty;
         if (json.TryGetProperty("modes", out JsonElement modesElement))
         {
-            string[] modeTypes = modesElement.EnumerateArray()
+            string[] modeTypes = [.. modesElement.EnumerateArray()
                 .Where(mode => mode.TryGetProperty("type", out _))
                 .Select(mode => mode.GetProperty("type").GetString() ?? string.Empty)
-                .Where(type => !string.IsNullOrEmpty(type))
-                .ToArray();
+                .Where(type => !string.IsNullOrEmpty(type))];
             modesTypes = string.Join(";", modeTypes);
         }
 

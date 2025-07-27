@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
+using Data.Serialization;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -9,9 +10,14 @@ namespace Data.BlizzardAPI.Endpoints;
 public sealed class Quest
 {
     [Key]
+    [EncodedField(3)]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
-    [MaxLength(511)] public string Name { get; set; } = string.Empty;
+
+    [MaxLength(511)]
+    [EncodedField]
+    public string Name { get; set; } = string.Empty;
+
     public QuestIdentifier QuestIdentifier { get; set; }
     public int QuestIdentifierId { get; set; }
     public int QuestTypeId { get; set; }

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
+using Data.Serialization;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -10,9 +11,15 @@ public sealed class Recipe
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [EncodedField(3)]
     public int Id { get; set; } = -1;
-    [MaxLength(127)] public string Name { get; set; } = string.Empty;
+
+    [MaxLength(127)]
+    public string Name { get; set; } = string.Empty;
+
+    [EncodedField(2)]
     public int ProfessionId { get; set; } = -1;
+
     public int SkillTierId { get; set; } = -1;
     public int CraftedItemId { get; set; } = -1;
     public int CraftedQuantity { get; set; } = -1;

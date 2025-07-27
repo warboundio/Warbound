@@ -16,16 +16,15 @@ public class EncodingStringBuilder
     protected List<PropertyInfo> NonStringProps = [];
     protected Dictionary<Type, int> UnknownEncodingCache = [];
 
-    public EncodingStringBuilder(char prefix, object obj)
+    public EncodingStringBuilder(char prefix, Type type)
     {
         Prefix = prefix;
-        SetupEncodedProperties(obj);
+        SetupEncodedProperties(type);
         SetupOrderedProperties();
     }
 
-    private void SetupEncodedProperties(object obj)
+    private void SetupEncodedProperties(Type type)
     {
-        Type type = obj.GetType();
         encodedProperties = [.. type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.GetCustomAttribute<EncodedFieldAttribute>() != null)
             .OrderBy(p => p.Name)];

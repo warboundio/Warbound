@@ -8,6 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
+using Data.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,6 @@ builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
 {
     options.DetailedErrors = true;
 });
-
 
 WebApplication app = builder.Build();
 GitHubIssueService.Monitor = app.Services.GetRequiredService<GitHubIssueMonitor>();
@@ -41,6 +41,9 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 WarcraftData.Instance.Load();
+TransmogEncoder encoder = new();
+encoder.BuildAndSave();
+
 if (!BuildConfig.IsDebug)
 {
     LUAPublisher.Publish();
