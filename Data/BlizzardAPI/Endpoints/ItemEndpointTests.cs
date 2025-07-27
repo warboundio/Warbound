@@ -12,7 +12,7 @@ public class ItemEndpointTests
     [Fact]
     public void ItShouldParseItemJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Item.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Item.json");
         ItemEndpoint endpoint = new(VALID_ID);
 
         Item? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

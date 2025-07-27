@@ -10,7 +10,7 @@ public class PetIndexEndpointTests
     [Fact]
     public void ItShouldParsePetIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/PetsIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/PetsIndex.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         PetIndexEndpoint endpoint = new();

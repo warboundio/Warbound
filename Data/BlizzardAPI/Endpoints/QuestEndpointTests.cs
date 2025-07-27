@@ -13,7 +13,7 @@ public class QuestEndpointTests
     [Fact]
     public void ItShouldParseAreaQuestJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Quest.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Quest.json");
         QuestEndpoint endpoint = new(VALID_AREA_QUEST_ID);
 
         Quest? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));
@@ -31,7 +31,7 @@ public class QuestEndpointTests
     [Fact]
     public void ItShouldParseCategoryQuestJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Quest2.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Quest2.json");
         QuestEndpoint endpoint = new(VALID_CATEGORY_QUEST_ID);
 
         Quest? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

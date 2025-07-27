@@ -12,7 +12,7 @@ public class AchievementEndpointTests
     [Fact]
     public void ItShouldParseAchievementJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Achievement.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Achievement.json");
         AchievementEndpoint endpoint = new(VALID_ID);
 
         Achievement? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

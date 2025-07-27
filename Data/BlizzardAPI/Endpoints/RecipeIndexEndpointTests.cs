@@ -10,7 +10,7 @@ public class RecipeIndexEndpointTests
     [Fact]
     public void ItShouldParseRecipeIndexData()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/ProfessionSkillTier.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/ProfessionSkillTier.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         RecipeIndexEndpoint endpoint = new(164, 2477);

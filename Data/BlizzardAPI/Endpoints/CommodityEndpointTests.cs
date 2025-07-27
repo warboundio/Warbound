@@ -9,7 +9,7 @@ public class CommodityEndpointTests
     [Fact]
     public void Parse_CommoditiesJsonFile_ReturnsExpectedAuctionDatumList()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Commodities.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Commodities.json");
         CommodityEndpoint endpoint = new();
         JsonDocument doc = JsonDocument.Parse(json);
         List<AuctionsEndpoint.AuctionDatum> result = endpoint.Parse(doc.RootElement);
