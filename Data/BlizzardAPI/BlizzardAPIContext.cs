@@ -27,6 +27,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
     public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
+    public DbSet<ItemExpansion> ItemExpansions => Set<ItemExpansion>();
     public DbSet<AuctionRecord> AuctionRecords => Set<AuctionRecord>();
     public DbSet<LootItemSummary> G_LootItemSummaries => Set<LootItemSummary>();
     public DbSet<LootLocationEntry> G_LootLocationEntries => Set<LootLocationEntry>();
