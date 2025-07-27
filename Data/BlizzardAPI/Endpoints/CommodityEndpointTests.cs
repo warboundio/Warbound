@@ -1,8 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using Xunit;
-using Data.BlizzardAPI.Endpoints;
-using System.Collections.Generic;
 
 namespace Data.BlizzardAPI.Endpoints;
 

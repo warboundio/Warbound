@@ -1,4 +1,4 @@
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Enums;
 
 public enum QuestIdentifier
 {

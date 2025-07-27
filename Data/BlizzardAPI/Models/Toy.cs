@@ -4,24 +4,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Data.BlizzardAPI.Enums;
 using Data.Serialization;
 
-namespace Data.BlizzardAPI.Endpoints;
+namespace Data.BlizzardAPI.Models;
 
-[Table("profession", Schema = "wow")]
-public sealed class Profession
+[Table("toy", Schema = "wow")]
+public sealed class Toy
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     [EncodedField(3)]
-    public int Id { get; set; } = -1;
+    public int Id { get; set; }
 
-    [MaxLength(127)]
     [EncodedField]
+    [MaxLength(127)]
     public string Name { get; set; } = string.Empty;
 
-    [MaxLength(127)]
-    public string Type { get; set; } = string.Empty;
+    [MaxLength(31)]
+    public string SourceType { get; set; } = string.Empty;
 
-    [MaxLength(1027)] public string SkillTiers { get; set; } = string.Empty;
+    public int MediaId { get; set; } = -1;
+
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }

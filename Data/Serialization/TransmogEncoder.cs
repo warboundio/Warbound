@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Data.Addon;
-using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 using Data.Support;
 
 namespace Data.Serialization;
