@@ -10,7 +10,7 @@ public class ToyIndexEndpointTests
     [Fact]
     public void ItShouldParseToyIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/ToyIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/ToyIndex.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         ToyIndexEndpoint endpoint = new();

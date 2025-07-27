@@ -9,7 +9,7 @@ public class JournalExpansionEndpointTests
     [Fact]
     public void ItShouldParseJournalExpansionJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/JournalExpansion.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/JournalExpansion.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         JournalExpansionEndpoint endpoint = new(68);

@@ -12,7 +12,7 @@ public class ToyEndpointTests
     [Fact]
     public void ItShouldParseToyJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Toy.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Toy.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         ToyEndpoint endpoint = new(VALID_ID);

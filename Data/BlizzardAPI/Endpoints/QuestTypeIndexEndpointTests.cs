@@ -12,7 +12,7 @@ public class QuestTypeIndexEndpointTests
     [Fact]
     public void ItShouldParseQuestTypeIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/QuestTypeIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/QuestTypeIndex.json");
         QuestTypeIndexEndpoint endpoint = new();
 
         List<QuestType> results = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

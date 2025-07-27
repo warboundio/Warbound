@@ -12,7 +12,7 @@ public class RecipeEndpointTests
     [Fact]
     public void ItShouldParseRecipeData()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Recipe.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Recipe.json");
         RecipeEndpoint endpoint = new(VALID_ID);
 
         Recipe? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

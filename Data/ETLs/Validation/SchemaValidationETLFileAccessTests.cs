@@ -8,7 +8,7 @@ public class SchemaValidationETLFileAccessTests
     [Fact]
     public void ItShouldReadItemFixtureFile()
     {
-        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Item.json");
+        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Json", "Item.json");
 
         Assert.True(File.Exists(fixturePath), $"Fixture file should exist at {fixturePath}");
 
@@ -28,7 +28,7 @@ public class SchemaValidationETLFileAccessTests
 
         for (int i = 0; i < fixtures.Length; i++)
         {
-            string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", fixtures[i]);
+            string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Json", fixtures[i]);
             Assert.True(File.Exists(fixturePath), $"Fixture file should exist: {fixturePath}");
 
             string content = File.ReadAllText(fixturePath);

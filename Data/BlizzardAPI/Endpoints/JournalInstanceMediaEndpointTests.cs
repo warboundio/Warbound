@@ -12,7 +12,7 @@ public class JournalInstanceMediaEndpointTests
     [Fact]
     public void ItShouldParseJournalInstanceMediaJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/JournalInstanceMedia.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/JournalInstanceMedia.json");
         JournalInstanceMediaEndpoint endpoint = new(VALID_ID);
 
         JournalInstanceMedia? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

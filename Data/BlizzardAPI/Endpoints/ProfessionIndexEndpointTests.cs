@@ -10,7 +10,7 @@ public class ProfessionIndexEndpointTests
     [Fact]
     public void ItShouldParseProfessionIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/ProfessionIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/ProfessionIndex.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         ProfessionIndexEndpoint endpoint = new();

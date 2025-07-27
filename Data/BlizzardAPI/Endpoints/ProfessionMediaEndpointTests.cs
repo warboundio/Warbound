@@ -12,7 +12,7 @@ public class ProfessionMediaEndpointTests
     [Fact]
     public void ItShouldParseProfessionMediaData()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/ProfessionMedia.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/ProfessionMedia.json");
         ProfessionMediaEndpoint endpoint = new(VALID_ID);
 
         ProfessionMedia? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

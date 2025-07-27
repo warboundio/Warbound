@@ -12,7 +12,7 @@ public class JournalEncounterEndpointTests
     [Fact]
     public void ItShouldParseJournalEncounterJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/JournalEncounter.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/JournalEncounter.json");
         JournalEncounterEndpoint endpoint = new(VALID_ID);
 
         JournalEncounter? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));
