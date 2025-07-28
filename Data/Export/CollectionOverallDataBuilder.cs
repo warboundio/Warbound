@@ -19,11 +19,11 @@ public class CollectionOverallDataBuilder
         List<int> appearanceIds = [.. _context.ItemAppearances.AsNoTracking().Select(x => x.Id)];
         List<int> recipeIds = [.. _context.Recipes.AsNoTracking().Select(x => x.Id)];
 
-        List<string> pets = Base90.Encode(petIds);
-        List<string> toys = Base90.Encode(toyIds);
-        List<string> mounts = Base90.Encode(mountIds);
-        List<string> appearances = Base90.Encode(appearanceIds);
-        List<string> recipes = Base90.Encode(recipeIds);
+        List<string> pets = Base90.Encode(petIds, 3);
+        List<string> toys = Base90.Encode(toyIds, 3);
+        List<string> mounts = Base90.Encode(mountIds, 3);
+        List<string> appearances = Base90.Encode(appearanceIds, 3);
+        List<string> recipes = Base90.Encode(recipeIds, 3);
 
         string petsLine = "P|" + string.Join(';', pets);
         string toysLine = "T|" + string.Join(';', toys);
