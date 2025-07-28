@@ -30,9 +30,10 @@ public class ItemAppearanceEndpoint : BaseBlizzardEndpoint<ItemAppearance>
         {
             ItemAppearance errorObj = new();
             errorObj.Id = AppearanceId;
-            errorObj.SlotType = SlotType.UNKNOWN;
-            errorObj.ClassType = ClassType.UNKNOWN;
-            errorObj.SubclassType = string.Empty;
+
+            errorObj.SlotType = "UNKNOWN";
+            errorObj.ClassType = "UNKNOWN";
+            errorObj.SubclassType = "UNKNOWN";
             errorObj.DisplayInfoId = -1;
             errorObj.ItemIds = string.Empty;
             errorObj.Status = ETLStateType.ERROR;
@@ -44,11 +45,15 @@ public class ItemAppearanceEndpoint : BaseBlizzardEndpoint<ItemAppearance>
         string className = json.GetProperty("item_class").GetProperty("name").GetString()!;
         string subclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
 
-        ClassType classType = ClassTypeHelper.FromName(className);
+        string classType = className
+            .Trim()
+            .ToUpperInvariant()
+            .Replace(" ", "_");
+        SubclassType subclassType = SubclassTypeHelper.FromNames(className, subclassName);
 
         ItemAppearance appearanceObj = new();
         appearanceObj.Id = json.GetProperty("id").GetInt32();
-        appearanceObj.SlotType = SlotTypeHelper.FromFieldName(json.GetProperty("slot").GetProperty("name").GetString()!);
+        appearanceObj.SlotType = json.GetProperty("slot").GetProperty("name").GetString() ?? string.Empty;
         appearanceObj.ClassType = classType;
         appearanceObj.SubclassType = subclassName;
         appearanceObj.DisplayInfoId = json.GetProperty("item_display_info_id").GetInt32();

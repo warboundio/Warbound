@@ -26,14 +26,16 @@ public sealed class Item
     public int RequiredLevel { get; set; }
 
     [EncodedField]
-    public ClassType ClassType { get; set; }
+    [MaxLength(63)]
+    public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
     [MaxLength(63)]
     public string SubclassType { get; set; } = string.Empty;
 
     [EncodedField]
-    public InventoryType InventoryType { get; set; } = InventoryType.UNKNOWN;
+    [MaxLength(127)]
+    public string InventoryType { get; set; } = string.Empty;
 
     public int PurchasePrice { get; set; }
     public int SellPrice { get; set; }
