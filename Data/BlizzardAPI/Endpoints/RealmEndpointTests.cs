@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -9,7 +10,7 @@ public class RealmEndpointTests
     [Fact]
     public void ItShouldParseRealmJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Realm.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Realm.json");
         RealmEndpoint endpoint = new("tichondrius");
 
         Realm? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

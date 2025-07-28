@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -11,7 +12,7 @@ public class RecipeMediaEndpointTests
     [Fact]
     public void ItShouldParseRecipeMediaData()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/RecipeMedia.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/RecipeMedia.json");
         RecipeMediaEndpoint endpoint = new(VALID_ID);
 
         RecipeMedia? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

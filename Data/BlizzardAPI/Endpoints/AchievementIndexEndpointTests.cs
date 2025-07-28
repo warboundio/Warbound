@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -10,7 +11,7 @@ public class AchievementIndexEndpointTests
     [Fact]
     public void ItShouldParseAchievementIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/AchievementIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/AchievementIndex.json");
         AchievementIndexEndpoint endpoint = new();
 
         List<Achievement>? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

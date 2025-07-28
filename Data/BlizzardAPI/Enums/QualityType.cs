@@ -14,6 +14,7 @@ public enum QualityType
     ARTIFACT = 6,
     HEIRLOOM = 7,
     WOW_TOKEN = 8,
+    UNKNOWN_ENCODING = 80,
     UNKNOWN = -1
 }
 

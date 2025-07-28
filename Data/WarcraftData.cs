@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Data.Addon;
 using Data.BlizzardAPI;
-using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 
 namespace Data;
 
@@ -32,11 +32,14 @@ public sealed class WarcraftData
     public Dictionary<int, QuestArea> QuestAreas { get; private set; } = [];
     public Dictionary<int, Quest> Quests { get; private set; } = [];
     public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];
-    public Dictionary<Guid, LootLogEntry> G_LootLogEntries { get; private set; } = [];
+    public Dictionary<int, ItemExpansion> ItemExpansions { get; private set; } = [];
+    public Dictionary<(int NpcId, int ItemId), LootItemSummary> G_LootItemSummaries { get; private set; } = [];
+    public Dictionary<(int NpcId, int X, int Y, int ZoneId), LootLocationEntry> G_LootLocationEntries { get; private set; } = [];
     public Dictionary<int, NpcKillCount> G_NpcKillCounts { get; private set; } = [];
     public Dictionary<int, PetBattleLocation> G_PetBattleLocations { get; private set; } = [];
     public Dictionary<int, Vendor> G_Vendors { get; private set; } = [];
     public Dictionary<int, VendorItem> G_VendorItems { get; private set; } = [];
+    public Dictionary<int, List<AuctionRecord>> G_Auctions { get; private set; } = [];
 
     private bool _isLoaded;
 
@@ -69,8 +72,11 @@ public sealed class WarcraftData
         QuestAreas = context.QuestAreas.ToDictionary(x => x.Id);
         Quests = context.Quests.ToDictionary(x => x.Id);
         JournalInstanceMedias = context.JournalInstanceMedias.ToDictionary(x => x.Id);
+        ItemExpansions = context.ItemExpansions.ToDictionary(x => x.ItemId);
 
-        G_LootLogEntries = context.G_LootLogEntries.ToDictionary(x => x.Id);
+        G_Auctions = context.AuctionRecords.GroupBy(x => x.ItemId).ToDictionary(g => g.Key, g => g.ToList());
+        G_LootItemSummaries = context.G_LootItemSummaries.ToDictionary(x => (x.NpcId, x.ItemId));
+        G_LootLocationEntries = context.G_LootLocationEntries.ToDictionary(x => (x.NpcId, x.X, x.Y, x.ZoneId));
         G_NpcKillCounts = context.G_NpcKillCounts.ToDictionary(x => x.NpcId);
         G_PetBattleLocations = context.G_PetBattleLocations.ToDictionary(x => x.PetSpeciesId);
         G_Vendors = context.G_Vendors.ToDictionary(x => x.NpcId);

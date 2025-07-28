@@ -35,21 +35,22 @@ public class AutoPublisher
         Logging.Info(nameof(AutoPublisher), $"Detected change in saved variables file: {path}");
         WarboundDataParser dataParser = new(path);
         List<NpcKillCount> npcKills = dataParser.GetNpcKills();
-        List<LootLogEntry> lootData = dataParser.GetLootData();
+        (List<LootItemSummary> lootItemSummaries, List<LootLocationEntry> lootLocationEntries) = dataParser.GetLootData();
         List<Vendor> vendors = dataParser.GetVendors();
         List<VendorItem> vendorItems = dataParser.GetVendorItems();
         List<PetBattleLocation> locations = dataParser.GetPetBattleLocations();
 
-        PersistDataToDatabase(npcKills, lootData, vendors, vendorItems, locations);
+        PersistDataToDatabase(npcKills, lootItemSummaries, lootLocationEntries, vendors, vendorItems, locations);
     }
 
-    private static void PersistDataToDatabase(List<NpcKillCount> npcKills, List<LootLogEntry> lootData,
-        List<Vendor> vendors, List<VendorItem> vendorItems, List<PetBattleLocation> locations)
+    private static void PersistDataToDatabase(List<NpcKillCount> npcKills, List<LootItemSummary> lootItemSummaries,
+        List<LootLocationEntry> lootLocationEntries, List<Vendor> vendors, List<VendorItem> vendorItems, List<PetBattleLocation> locations)
     {
         using BlizzardAPIContext context = new();
 
         PersistPetBattleLocations(context, locations);
-        PersistLootLogEntries(context, lootData);
+        PersistLootItemSummaries(context, lootItemSummaries);
+        PersistLootLocationEntries(context, lootLocationEntries);
         PersistNpcKillCounts(context, npcKills);
         PersistVendors(context, vendors);
         PersistVendorItems(context, vendorItems);
@@ -65,11 +66,31 @@ public class AutoPublisher
         }
     }
 
-    private static void PersistLootLogEntries(BlizzardAPIContext context, List<LootLogEntry> lootData)
+    private static void PersistLootItemSummaries(BlizzardAPIContext context, List<LootItemSummary> lootItemSummaries)
     {
-        foreach (LootLogEntry entry in lootData)
+        foreach (LootItemSummary newSummary in lootItemSummaries)
         {
-            context.G_LootLogEntries.Add(entry);
+            LootItemSummary? existingSummary = context.G_LootItemSummaries.Find(newSummary.NpcId, newSummary.ItemId);
+            if (existingSummary != null)
+            {
+                existingSummary.Quantity += newSummary.Quantity;
+            }
+            else
+            {
+                context.G_LootItemSummaries.Add(newSummary);
+            }
+        }
+    }
+
+    private static void PersistLootLocationEntries(BlizzardAPIContext context, List<LootLocationEntry> lootLocationEntries)
+    {
+        foreach (LootLocationEntry newLocation in lootLocationEntries)
+        {
+            LootLocationEntry? existingLocation = context.G_LootLocationEntries.Find(newLocation.NpcId, newLocation.X, newLocation.Y, newLocation.ZoneId);
+            if (existingLocation == null)
+            {
+                context.G_LootLocationEntries.Add(newLocation);
+            }
         }
     }
 

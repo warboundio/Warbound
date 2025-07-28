@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -9,7 +10,7 @@ public class ToyIndexEndpointTests
     [Fact]
     public void ItShouldParseToyIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/ToyIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/ToyIndex.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         ToyIndexEndpoint endpoint = new();

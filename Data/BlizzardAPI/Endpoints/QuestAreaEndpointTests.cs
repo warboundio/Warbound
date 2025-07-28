@@ -10,7 +10,7 @@ public class QuestAreaEndpointTests
     [Fact]
     public void ItShouldParseQuestAreaJsonAndReturnQuestIds()
     {
-        string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "BlizzardAPI", "Endpoints", "QuestArea.json");
+        string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "BlizzardAPI", "Endpoints", "Json", "QuestArea.json");
         string jsonContent = File.ReadAllText(jsonPath);
         JsonDocument document = JsonDocument.Parse(jsonContent);
         JsonElement root = document.RootElement;
@@ -27,7 +27,7 @@ public class QuestAreaEndpointTests
     [Fact]
     public void ItShouldReturnCorrectNumberOfQuests()
     {
-        string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "BlizzardAPI", "Endpoints", "QuestArea.json");
+        string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), "BlizzardAPI", "Endpoints", "Json", "QuestArea.json");
         string jsonContent = File.ReadAllText(jsonPath);
         JsonDocument document = JsonDocument.Parse(jsonContent);
         JsonElement root = document.RootElement;

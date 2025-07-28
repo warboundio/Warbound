@@ -1,15 +1,14 @@
 #pragma warning disable CA1310, SYSLIB1045, IDE0028, CA1866, CS8600, IDE0010, CS1847, IDE0011, CA1847
 
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Data.Addon;
 
 public class WarboundDataParser
 {
     private readonly string[] _lines;
-    private readonly long _createdAt;
 
     public WarboundDataParser(string filePath)
     {
@@ -19,8 +18,7 @@ public class WarboundDataParser
         {
             if (line.Trim().StartsWith("[\"dataCreatedAt\"]"))
             {
-                string value = line.Split('=')[1].Trim().TrimEnd(',');
-                _createdAt = long.TryParse(value, out long ts) ? ts : 0;
+                //string value = line.Split('=')[1].Trim().TrimEnd(',');
                 break;
             }
         }
@@ -67,30 +65,44 @@ public class WarboundDataParser
         return list;
     }
 
-    public List<LootLogEntry> GetLootData()
+    public (List<LootItemSummary> itemSummaries, List<LootLocationEntry> locationEntries) GetLootData()
     {
-        List<LootLogEntry> list = new();
+        Dictionary<(int NpcId, int ItemId), int> itemQuantities = new();
+        HashSet<(int NpcId, int X, int Y, int ZoneId)> uniqueLocations = new();
 
         for (int i = 0; i < _lines.Length; i++)
         {
             if (_lines[i].Trim().StartsWith("[\"dataLoot\"]"))
             {
                 int end = GetSectionEnd(i);
-                LootLogEntry entry = null;
+                int npcId = 0, itemId = 0, quantity = 0, zoneId = 0, x = 0, y = 0;
 
                 for (int j = i + 1; j < end; j++)
                 {
                     string line = _lines[j].Trim();
 
-                    if (line == "{") entry = new LootLogEntry();
-                    else if (line.StartsWith("},") && entry != null)
+                    if (line == "{")
                     {
-                        entry.Id = Guid.NewGuid();
-                        entry.CreatedAt = DateTimeOffset.FromUnixTimeSeconds(_createdAt).UtcDateTime;
-                        list.Add(entry);
-                        entry = null;
+                        npcId = itemId = quantity = zoneId = x = y = 0;
                     }
-                    else if (entry != null && line.StartsWith("[\""))
+                    else if (line.StartsWith("},"))
+                    {
+                        // Aggregate item quantities
+                        (int NpcId, int ItemId) itemKey = (npcId, itemId);
+                        if (itemQuantities.ContainsKey(itemKey))
+                        {
+                            itemQuantities[itemKey] += quantity;
+                        }
+                        else
+                        {
+                            itemQuantities[itemKey] = quantity;
+                        }
+
+                        // Track unique locations
+                        (int NpcId, int X, int Y, int ZoneId) locationKey = (npcId, x, y, zoneId);
+                        uniqueLocations.Add(locationKey);
+                    }
+                    else if (line.StartsWith("[\""))
                     {
                         string[] parts = line.Split('=');
                         string key = parts[0].Trim('[', ']', '"', ' ');
@@ -100,12 +112,12 @@ public class WarboundDataParser
                         {
                             switch (key)
                             {
-                                case "npcID": entry.NpcId = parsed; break;
-                                case "itemID": entry.ItemId = parsed; break;
-                                case "quantity": entry.Quantity = parsed; break;
-                                case "zoneID": entry.ZoneId = parsed; break;
-                                case "x": entry.X = parsed; break;
-                                case "y": entry.Y = parsed; break;
+                                case "npcID": npcId = parsed; break;
+                                case "itemID": itemId = parsed; break;
+                                case "quantity": quantity = parsed; break;
+                                case "zoneID": zoneId = parsed; break;
+                                case "x": x = parsed; break;
+                                case "y": y = parsed; break;
                             }
                         }
                     }
@@ -113,7 +125,22 @@ public class WarboundDataParser
             }
         }
 
-        return list;
+        List<LootItemSummary> itemSummaries = [.. itemQuantities.Select(kvp => new LootItemSummary
+        {
+            NpcId = kvp.Key.NpcId,
+            ItemId = kvp.Key.ItemId,
+            Quantity = kvp.Value
+        })];
+
+        List<LootLocationEntry> locationEntries = [.. uniqueLocations.Select(loc => new LootLocationEntry
+        {
+            NpcId = loc.NpcId,
+            X = loc.X,
+            Y = loc.Y,
+            ZoneId = loc.ZoneId
+        })];
+
+        return (itemSummaries, locationEntries);
     }
 
     public List<Vendor> GetVendors()

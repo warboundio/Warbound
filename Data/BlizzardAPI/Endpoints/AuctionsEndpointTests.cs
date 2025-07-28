@@ -9,7 +9,7 @@ public class AuctionsEndpointTests
     [Fact]
     public void Parse_AuctionsJsonFile_ReturnsExpectedAuctionDatumList()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Auctions.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Auctions.json");
         AuctionsEndpoint endpoint = new(1185);
         JsonDocument doc = JsonDocument.Parse(json);
         List<AuctionsEndpoint.AuctionDatum> result = endpoint.Parse(doc.RootElement);

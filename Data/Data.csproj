@@ -54,124 +54,125 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="BlizzardAPI\Endpoints\Achievement.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Achievement.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\AchievementIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\AchievementIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\AchievementMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\AchievementMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Auctions.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Auctions.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Commodities.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Commodities.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ItemAppearance.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ItemAppearance.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Item.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Item.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\JournalEncounter.json">
+    <None Update="BlizzardAPI\Endpoints\Json\JournalEncounter.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\JournalEncountersIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\JournalEncountersIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\JournalExpansion.json">
+    <None Update="BlizzardAPI\Endpoints\Json\JournalExpansion.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\JournalExpansionsIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\JournalExpansionsIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\JournalInstanceMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\JournalInstanceMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Mount.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Mount.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Pet.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Pet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\PetMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\PetMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\PetsIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\PetsIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Profession.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Profession.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ProfessionIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ProfessionIndex.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ProfessionMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ProfessionMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ProfessionsIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ProfessionsIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ProfessionSkillTier.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ProfessionSkillTier.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Quest.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Quest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Quest2.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Quest2.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestArea.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestArea.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestAreaIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestAreaIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestCategoriesIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestCategoriesIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestCategory.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestCategory.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestCategoryETL.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestCategoryETL.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestType.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestType.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\QuestTypeIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\QuestTypeIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Recipe.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Recipe.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\RecipeMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\RecipeMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     
-    <None Update="BlizzardAPI\Endpoints\Toy.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Toy.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ToyIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ToyIndex.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\Realm.json">
+    <None Update="BlizzardAPI\Endpoints\Json\Realm.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\RealmIndex.json">
+    <None Update="BlizzardAPI\Endpoints\Json\RealmIndex.json">
 		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	<None Update="BlizzardAPI\Endpoints\ItemMedia.json">
+	<None Update="BlizzardAPI\Endpoints\Json\ItemMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="BlizzardAPI\Endpoints\ItemMedia.json">
+    <None Update="BlizzardAPI\Endpoints\Json\ItemMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="BlizzardAPI\Models\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ public class Base90Tests
     [Fact]
     public void ItShouldConvert()
     {
-        string encoding = Base90.Encode(35);
+        string encoding = Base90.Encode(35, 3);
         Assert.Equal("  ~", encoding);
 
         ulong value = Base90.Decode("  ~");
@@ -15,7 +15,17 @@ public class Base90Tests
     [Fact]
     public void ItShouldMakeShorter()
     {
-        string encoding = Base90.Encode(204593);
+        string encoding = Base90.Encode(204593, 3);
         Assert.Equal("oTT", encoding);
     }
+
+    [Fact]
+    public void ItShouldForceLength()
+    {
+        string encoding = Base90.Encode(10, 1);
+        Assert.Equal(".", encoding);
+    }
+
+    [Fact]
+    public void ItShouldHave90Characters() => Assert.Equal(90, Base90.Alphabet.Length);
 }

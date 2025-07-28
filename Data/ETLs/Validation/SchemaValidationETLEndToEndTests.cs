@@ -9,7 +9,7 @@ public class SchemaValidationETLEndToEndTests
     [Fact]
     public void ItShouldCompareItemFixtureWithItself()
     {
-        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Item.json");
+        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Json", "Item.json");
         string fixtureJson = File.ReadAllText(fixturePath);
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
 
@@ -23,7 +23,7 @@ public class SchemaValidationETLEndToEndTests
     [Fact]
     public void ItShouldDetectDifferencesInModifiedItemFixture()
     {
-        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Item.json");
+        string fixturePath = Path.Combine("BlizzardAPI", "Endpoints", "Json", "Item.json");
         string fixtureJson = File.ReadAllText(fixturePath);
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
 

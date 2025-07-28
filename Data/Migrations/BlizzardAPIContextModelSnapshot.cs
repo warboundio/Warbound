@@ -22,22 +22,25 @@ namespace Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Data.Addon.LootLogEntry", b =>
+            modelBuilder.Entity("Data.Addon.LootItemSummary", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("NpcId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("ItemId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("NpcId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Quantity")
+                    b.HasKey("NpcId", "ItemId");
+
+                    b.ToTable("g_loot_item_summary", "wow");
+                });
+
+            modelBuilder.Entity("Data.Addon.LootLocationEntry", b =>
+                {
+                    b.Property<int>("NpcId")
                         .HasColumnType("integer");
 
                     b.Property<int>("X")
@@ -49,9 +52,9 @@ namespace Data.Migrations
                     b.Property<int>("ZoneId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("NpcId", "X", "Y", "ZoneId");
 
-                    b.ToTable("g_loot_log_entry", "wow");
+                    b.ToTable("g_loot_location_entry", "wow");
                 });
 
             modelBuilder.Entity("Data.Addon.NpcKillCount", b =>
@@ -151,7 +154,7 @@ namespace Data.Migrations
                     b.ToTable("g_vendor_item", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Achievement", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Achievement", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -213,7 +216,7 @@ namespace Data.Migrations
                     b.ToTable("achievement", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.AchievementMedia", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.AchievementMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -234,7 +237,33 @@ namespace Data.Migrations
                     b.ToTable("achievement_media", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Item", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.AuctionRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsCommodity")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("auction", "wow");
+                });
+
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Item", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -288,7 +317,7 @@ namespace Data.Migrations
                     b.ToTable("item", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ItemAppearance", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.ItemAppearance", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -321,7 +350,20 @@ namespace Data.Migrations
                     b.ToTable("item_appearance", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ItemMedia", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.ItemExpansion", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExpansionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ItemId");
+
+                    b.ToTable("item_expansion", "wow");
+                });
+
+            modelBuilder.Entity("Data.BlizzardAPI.Models.ItemMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -342,7 +384,7 @@ namespace Data.Migrations
                     b.ToTable("item_media", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalEncounter", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.JournalEncounter", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -386,7 +428,7 @@ namespace Data.Migrations
                     b.ToTable("journal_encounter", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalExpansion", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.JournalExpansion", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -417,7 +459,7 @@ namespace Data.Migrations
                     b.ToTable("journal_expansion", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.JournalInstanceMedia", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.JournalInstanceMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -438,7 +480,7 @@ namespace Data.Migrations
                     b.ToTable("journal_instance_media", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Mount", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Mount", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -467,7 +509,7 @@ namespace Data.Migrations
                     b.ToTable("mount", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Pet", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Pet", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -518,7 +560,7 @@ namespace Data.Migrations
                     b.ToTable("pet", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Profession", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Profession", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -549,7 +591,7 @@ namespace Data.Migrations
                     b.ToTable("profession", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.ProfessionMedia", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.ProfessionMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -570,7 +612,7 @@ namespace Data.Migrations
                     b.ToTable("profession_media", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Quest", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Quest", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -605,7 +647,7 @@ namespace Data.Migrations
                     b.ToTable("quest", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestArea", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.QuestArea", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -626,7 +668,7 @@ namespace Data.Migrations
                     b.ToTable("quest_area", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestCategory", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.QuestCategory", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -647,7 +689,7 @@ namespace Data.Migrations
                     b.ToTable("quest_category", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.QuestType", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.QuestType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -668,7 +710,7 @@ namespace Data.Migrations
                     b.ToTable("quest_type", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Realm", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Realm", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -722,7 +764,7 @@ namespace Data.Migrations
                     b.ToTable("realm", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Recipe", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Recipe", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -760,7 +802,7 @@ namespace Data.Migrations
                     b.ToTable("recipe", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.RecipeMedia", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.RecipeMedia", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -781,7 +823,7 @@ namespace Data.Migrations
                     b.ToTable("recipe_media", "wow");
                 });
 
-            modelBuilder.Entity("Data.BlizzardAPI.Endpoints.Toy", b =>
+            modelBuilder.Entity("Data.BlizzardAPI.Models.Toy", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");

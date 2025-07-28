@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -11,7 +12,7 @@ public class JournalEncounterEndpointTests
     [Fact]
     public void ItShouldParseJournalEncounterJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/JournalEncounter.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/JournalEncounter.json");
         JournalEncounterEndpoint endpoint = new(VALID_ID);
 
         JournalEncounter? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

@@ -8,7 +8,6 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
-using Data.Export;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +23,6 @@ builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
 {
     options.DetailedErrors = true;
 });
-
 
 WebApplication app = builder.Build();
 GitHubIssueService.Monitor = app.Services.GetRequiredService<GitHubIssueMonitor>();

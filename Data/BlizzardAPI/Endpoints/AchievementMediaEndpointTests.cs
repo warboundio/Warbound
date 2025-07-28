@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -11,7 +12,7 @@ public class AchievementMediaEndpointTests
     [Fact]
     public void ItShouldParseAchievementMediaJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/AchievementMedia.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/AchievementMedia.json");
         AchievementMediaEndpoint endpoint = new(VALID_ID);
 
         AchievementMedia? result = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

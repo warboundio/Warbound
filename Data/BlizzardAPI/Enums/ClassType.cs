@@ -22,7 +22,8 @@ public enum ClassType
     MISCELLANEOUS = 15,
     GLYPH = 16,
     WOW_TOKEN = 18,
-    PROFESSION = 19
+    PROFESSION = 19,
+    UNKNOWN_ENCODING = 50,
 }
 
 public static class ClassTypeHelper

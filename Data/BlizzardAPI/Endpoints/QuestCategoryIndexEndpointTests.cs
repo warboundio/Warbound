@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -11,7 +12,7 @@ public class QuestCategoryIndexEndpointTests
     [Fact]
     public void ItShouldParseQuestCategoryIndexJsonCorrectly()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/QuestCategoriesIndex.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/QuestCategoriesIndex.json");
         QuestCategoryIndexEndpoint endpoint = new();
 
         List<QuestCategory> results = endpoint.Parse(JsonSerializer.Deserialize<JsonElement>(json));

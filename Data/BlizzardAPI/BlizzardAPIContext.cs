@@ -1,6 +1,6 @@
 using Core.Settings;
 using Data.Addon;
-using Data.BlizzardAPI.Endpoints;
+using Data.BlizzardAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.BlizzardAPI;
@@ -27,8 +27,10 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
     public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
+    public DbSet<ItemExpansion> ItemExpansions => Set<ItemExpansion>();
     public DbSet<AuctionRecord> AuctionRecords => Set<AuctionRecord>();
-    public DbSet<LootLogEntry> G_LootLogEntries => Set<LootLogEntry>();
+    public DbSet<LootItemSummary> G_LootItemSummaries => Set<LootItemSummary>();
+    public DbSet<LootLocationEntry> G_LootLocationEntries => Set<LootLocationEntry>();
     public DbSet<NpcKillCount> G_NpcKillCounts => Set<NpcKillCount>();
     public DbSet<PetBattleLocation> G_PetBattleLocations => Set<PetBattleLocation>();
     public DbSet<Vendor> G_Vendors => Set<Vendor>();
@@ -38,5 +40,10 @@ public class BlizzardAPIContext : DbContext
 
     private static DbContextOptions<BlizzardAPIContext> CreateOptions() => new DbContextOptionsBuilder<BlizzardAPIContext>().UseNpgsql(ApplicationSettings.Instance.PostgresConnection).Options;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId });
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId });
+        modelBuilder.Entity<LootItemSummary>().HasKey(l => new { l.NpcId, l.ItemId });
+        modelBuilder.Entity<LootLocationEntry>().HasKey(l => new { l.NpcId, l.X, l.Y, l.ZoneId });
+    }
 }

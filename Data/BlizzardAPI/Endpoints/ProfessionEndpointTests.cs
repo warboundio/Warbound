@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using Data.BlizzardAPI.Enums;
+using Data.BlizzardAPI.Models;
 
 namespace Data.BlizzardAPI.Endpoints;
 
@@ -11,7 +12,7 @@ public class ProfessionEndpointTests
     [Fact]
     public void ItShouldParseProfessionData()
     {
-        string json = File.ReadAllText("BlizzardAPI/Endpoints/Profession.json");
+        string json = File.ReadAllText("BlizzardAPI/Endpoints/Json/Profession.json");
         JsonElement jsonElement = JsonSerializer.Deserialize<JsonElement>(json);
 
         ProfessionEndpoint endpoint = new(VALID_ID);
