@@ -14,14 +14,17 @@ public sealed class ItemAppearance
     [EncodedField(3)]
     public int Id { get; set; }
 
+    [MaxLength(63)]
     [EncodedField]
-    public SlotType SlotType { get; set; } = SlotType.UNKNOWN;
+    public string SlotType { get; set; } = string.Empty;
 
     [EncodedField]
-    public ClassType ClassType { get; set; } = ClassType.UNKNOWN;
+    [MaxLength(63)]
+    public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
-    public SubclassType SubclassType { get; set; } = SubclassType.UNKNOWN;
+    [MaxLength(63)]
+    public string SubclassType { get; set; } = string.Empty;
 
     public int DisplayInfoId { get; set; }
 

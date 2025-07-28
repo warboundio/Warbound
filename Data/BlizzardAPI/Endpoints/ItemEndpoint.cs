@@ -23,9 +23,6 @@ public class ItemEndpoint : BaseBlizzardEndpoint<Item>
         string itemClassName = json.GetProperty("item_class").GetProperty("name").GetString()!;
         string itemSubclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
 
-        ClassType classType = ClassTypeHelper.FromName(itemClassName);
-        SubclassType subclassType = SubclassTypeHelper.FromNames(itemClassName, itemSubclassName);
-
         Item itemObj = new();
         itemObj.Id = json.GetProperty("id").GetInt32();
         itemObj.Name = json.GetProperty("name").GetString()!;
@@ -33,8 +30,11 @@ public class ItemEndpoint : BaseBlizzardEndpoint<Item>
         itemObj.Level = json.GetProperty("level").GetInt32();
         itemObj.RequiredLevel = json.GetProperty("required_level").GetInt32();
         itemObj.ClassType = classType;
-        itemObj.SubclassType = subclassType;
+
+        itemObj.SubclassType = itemSubclassName;
         itemObj.InventoryType = InventoryTypeHelper.FromFieldName(json.GetProperty("inventory_type").GetProperty("name").GetString()!);
+        itemObj.SubclassType = subclassType;
+        itemObj.InventoryType = json.GetProperty("inventory_type").GetProperty("name").GetString()!;
         itemObj.PurchasePrice = json.GetProperty("purchase_price").GetInt32();
         itemObj.SellPrice = json.GetProperty("sell_price").GetInt32();
         itemObj.MaxCount = json.GetProperty("max_count").GetInt32();

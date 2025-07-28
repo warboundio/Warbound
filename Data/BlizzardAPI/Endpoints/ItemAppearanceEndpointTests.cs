@@ -20,9 +20,10 @@ public class ItemAppearanceEndpointTests
 
         Assert.NotNull(result);
         Assert.Equal(VALID_ID, result.Id);
-        Assert.Equal(SlotType.HEAD, result.SlotType);
-        Assert.Equal(ClassType.ARMOR, result.ClassType);
-        Assert.Equal(SubclassType.ARMOR_MAIL, result.SubclassType);
+        Assert.Equal("Mail", result.SubclassType);
+        Assert.Equal("Head", result.SlotType);
+        Assert.Equal("ARMOR", result.ClassType);
+      
         Assert.Equal(1166, result.DisplayInfoId);
         Assert.Equal("11735;19945;29979;153104;187914", result.ItemIds);
     }
