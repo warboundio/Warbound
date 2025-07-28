@@ -8,8 +8,8 @@ public class ItemExpansionETLTests
     public void ItShouldHaveStaticRunAsyncMethod()
     {
         // Arrange
-        var method = typeof(ItemExpansionETL).GetMethod("RunAsync");
-        
+        System.Reflection.MethodInfo? method = typeof(ItemExpansionETL).GetMethod("RunAsync");
+
         // Assert
         Assert.NotNull(method);
         Assert.True(method.IsStatic);

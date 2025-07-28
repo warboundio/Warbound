@@ -9,10 +9,10 @@ public class LootItemSummary
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int NpcId { get; set; }
-    
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int ItemId { get; set; }
-    
+
     public int Quantity { get; set; }
 }

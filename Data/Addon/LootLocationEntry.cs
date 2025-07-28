@@ -9,15 +9,15 @@ public class LootLocationEntry
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int NpcId { get; set; }
-    
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int X { get; set; }
-    
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Y { get; set; }
-    
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int ZoneId { get; set; }

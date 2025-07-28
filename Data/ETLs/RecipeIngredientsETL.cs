@@ -23,7 +23,10 @@ public class RecipeIngredientsETL : RunnableBlizzardETL
 
         foreach (Recipe recipe in completeRecipes)
         {
-            if (string.IsNullOrEmpty(recipe.Reagents)) continue;
+            if (string.IsNullOrEmpty(recipe.Reagents))
+            {
+                continue;
+            }
 
             string[] reagentPairs = recipe.Reagents.Split(';', StringSplitOptions.RemoveEmptyEntries);
             foreach (string reagentPair in reagentPairs)

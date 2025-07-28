@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations;
 
 /// <inheritdoc />
-public partial class AddingItemExpansionMapping : Migration
+public partial class AddingItemExpansion : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +16,7 @@ public partial class AddingItemExpansionMapping : Migration
             columns: table => new
             {
                 ItemId = table.Column<int>(type: "integer", nullable: false),
-                ExpansionId = table.Column<int>(type: "integer", nullable: false),
-                Status = table.Column<int>(type: "integer", nullable: false),
-                LastUpdatedUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                ExpansionId = table.Column<int>(type: "integer", nullable: false)
             },
             constraints: table =>
             {

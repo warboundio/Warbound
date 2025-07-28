@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.ETL;
 using Data.BlizzardAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.ETLs;
 
@@ -12,37 +11,39 @@ public class ItemExpansionETL : RunnableBlizzardETL
 {
     public static async Task RunAsync(ETLJob? job = null) => await RunAsync<ItemExpansionETL>(job);
 
-    protected override async Task<List<object>> GetItemsToProcessAsync()
+    protected override Task<List<object>> GetItemsToProcessAsync()
     {
-        // Get all items that don't have expansion mappings yet
-        var existingMappings = await Context.ItemExpansions.Select(x => x.ItemId).ToListAsync();
-        var allItems = await Context.Items.Select(x => x.Id).ToListAsync();
-        var itemsToProcess = allItems.Except(existingMappings).ToList();
-        
-        return itemsToProcess.Cast<object>().ToList();
+        var warcraftData = WarcraftData.Instance;
+
+        var existingMappings = warcraftData.ItemExpansions.Keys;
+        var allItems = warcraftData.Items.Keys;
+        var itemsToProcess = allItems.Except(existingMappings).Cast<object>().ToList();
+
+        return Task.FromResult(itemsToProcess);
     }
 
-    protected override async Task UpdateItemAsync(object item)
+    protected override Task UpdateItemAsync(object item)
     {
         int itemId = (int)item;
-        int expansionId = await DetermineExpansionForItemAsync(itemId);
-        
+        int expansionId = DetermineExpansionForItem(itemId);
+
         ItemExpansion itemExpansion = new()
         {
             ItemId = itemId,
             ExpansionId = expansionId,
-            LastUpdatedUtc = DateTime.UtcNow
         };
 
         SaveBuffer.Add(itemExpansion);
+        return Task.CompletedTask;
     }
 
-    private async Task<int> DetermineExpansionForItemAsync(int itemId)
+    private int DetermineExpansionForItem(int itemId)
     {
-        // Find encounters that contain this item
-        var encounters = await Context.JournalEncounters
+        var warcraftData = WarcraftData.Instance;
+
+        var encounters = warcraftData.JournalEncounters.Values
             .Where(x => !string.IsNullOrEmpty(x.Items))
-            .ToListAsync();
+            .ToList();
 
         var matchingEncounters = encounters.Where(encounter =>
         {
@@ -53,18 +54,16 @@ public class ItemExpansionETL : RunnableBlizzardETL
         }).ToList();
 
         if (!matchingEncounters.Any())
-        {
-            return -1; // Item not found in any encounter
-        }
+            return -1;
 
-        // For each encounter, find which expansion it belongs to
         foreach (var encounter in matchingEncounters)
         {
-            if (encounter.InstanceId <= 0) continue;
+            if (encounter.InstanceId <= 0)
+                continue;
 
-            var expansions = await Context.JournalExpansions
+            var expansions = warcraftData.JournalExpansions.Values
                 .Where(x => !string.IsNullOrEmpty(x.DungeonIds) || !string.IsNullOrEmpty(x.RaidIds))
-                .ToListAsync();
+                .ToList();
 
             var matchingExpansion = expansions.FirstOrDefault(expansion =>
             {
@@ -79,11 +78,9 @@ public class ItemExpansionETL : RunnableBlizzardETL
             });
 
             if (matchingExpansion != null)
-            {
                 return matchingExpansion.Id;
-            }
         }
 
-        return -1; // No expansion mapping found
+        return -1;
     }
 }

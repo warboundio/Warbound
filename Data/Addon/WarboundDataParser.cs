@@ -1,6 +1,5 @@
 #pragma warning disable CA1310, SYSLIB1045, IDE0028, CA1866, CS8600, IDE0010, CS1847, IDE0011, CA1847
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +9,6 @@ namespace Data.Addon;
 public class WarboundDataParser
 {
     private readonly string[] _lines;
-    private readonly long _createdAt;
 
     public WarboundDataParser(string filePath)
     {
@@ -20,8 +18,7 @@ public class WarboundDataParser
         {
             if (line.Trim().StartsWith("[\"dataCreatedAt\"]"))
             {
-                string value = line.Split('=')[1].Trim().TrimEnd(',');
-                _createdAt = long.TryParse(value, out long ts) ? ts : 0;
+                //string value = line.Split('=')[1].Trim().TrimEnd(',');
                 break;
             }
         }
@@ -128,20 +125,20 @@ public class WarboundDataParser
             }
         }
 
-        List<LootItemSummary> itemSummaries = itemQuantities.Select(kvp => new LootItemSummary
+        List<LootItemSummary> itemSummaries = [.. itemQuantities.Select(kvp => new LootItemSummary
         {
             NpcId = kvp.Key.NpcId,
             ItemId = kvp.Key.ItemId,
             Quantity = kvp.Value
-        }).ToList();
+        })];
 
-        List<LootLocationEntry> locationEntries = uniqueLocations.Select(loc => new LootLocationEntry
+        List<LootLocationEntry> locationEntries = [.. uniqueLocations.Select(loc => new LootLocationEntry
         {
             NpcId = loc.NpcId,
             X = loc.X,
             Y = loc.Y,
             ZoneId = loc.ZoneId
-        }).ToList();
+        })];
 
         return (itemSummaries, locationEntries);
     }

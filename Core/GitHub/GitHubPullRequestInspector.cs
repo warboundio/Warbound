@@ -111,7 +111,7 @@ public sealed class GitHubPullRequestInspector : IDisposable
             r?["requestedReviewer"]?["name"]?.ToString() == YOUR_USERNAME
         ) == true;
 
-        bool waitingOnYou = explicitlyAssigned || explicitlyRequested;
+        bool waitingOnYou = explicitlyAssigned && explicitlyRequested;
 
         return new PullRequestStatus
         {

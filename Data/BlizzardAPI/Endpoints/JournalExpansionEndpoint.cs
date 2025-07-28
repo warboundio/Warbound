@@ -23,18 +23,14 @@ public class JournalExpansionEndpoint : BaseBlizzardEndpoint<JournalExpansion>
         string dungeonIds = string.Empty;
         if (json.TryGetProperty("dungeons", out JsonElement dungeonsElement))
         {
-            int[] dungeonIdArray = dungeonsElement.EnumerateArray()
-                .Select(d => d.GetProperty("id").GetInt32())
-                .ToArray();
+            int[] dungeonIdArray = [.. dungeonsElement.EnumerateArray().Select(d => d.GetProperty("id").GetInt32())];
             dungeonIds = string.Join(";", dungeonIdArray);
         }
 
         string raidIds = string.Empty;
         if (json.TryGetProperty("raids", out JsonElement raidsElement))
         {
-            int[] raidIdArray = raidsElement.EnumerateArray()
-                .Select(r => r.GetProperty("id").GetInt32())
-                .ToArray();
+            int[] raidIdArray = [.. raidsElement.EnumerateArray().Select(r => r.GetProperty("id").GetInt32())];
             raidIds = string.Join(";", raidIdArray);
         }
 

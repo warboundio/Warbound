@@ -35,7 +35,7 @@ public class AutoPublisher
         Logging.Info(nameof(AutoPublisher), $"Detected change in saved variables file: {path}");
         WarboundDataParser dataParser = new(path);
         List<NpcKillCount> npcKills = dataParser.GetNpcKills();
-        var (lootItemSummaries, lootLocationEntries) = dataParser.GetLootData();
+        (List<LootItemSummary> lootItemSummaries, List<LootLocationEntry> lootLocationEntries) = dataParser.GetLootData();
         List<Vendor> vendors = dataParser.GetVendors();
         List<VendorItem> vendorItems = dataParser.GetVendorItems();
         List<PetBattleLocation> locations = dataParser.GetPetBattleLocations();

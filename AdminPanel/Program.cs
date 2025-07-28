@@ -8,7 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
-using Data.Serialization;
+using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -41,9 +41,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 WarcraftData.Instance.Load();
-TransmogEncoder encoder = new();
-encoder.BuildAndSave();
-
 if (!BuildConfig.IsDebug)
 {
     LUAPublisher.Publish();

@@ -1,7 +1,3 @@
-using System.Threading.Tasks;
-using Data.ETLs;
-using Xunit;
-
 namespace Data.ETLs;
 
 public class RecipeIngredientsETLTests
@@ -11,10 +7,10 @@ public class RecipeIngredientsETLTests
     {
         // Test the parsing logic that will be used in the ETL
         string reagentString = "12345:2;67890:5;11111:1;";
-        
+
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        var itemIds = new System.Collections.Generic.List<int>();
-        
+        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+
         foreach (string reagentPair in reagentPairs)
         {
             string[] parts = reagentPair.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
@@ -23,21 +19,21 @@ public class RecipeIngredientsETLTests
                 itemIds.Add(itemId);
             }
         }
-        
+
         Assert.Equal(3, itemIds.Count);
         Assert.Contains(12345, itemIds);
         Assert.Contains(67890, itemIds);
         Assert.Contains(11111, itemIds);
     }
-    
+
     [Fact]
     public void ItShouldHandleEmptyReagentString()
     {
         string reagentString = "";
-        
+
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        var itemIds = new System.Collections.Generic.List<int>();
-        
+        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+
         foreach (string reagentPair in reagentPairs)
         {
             string[] parts = reagentPair.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
@@ -46,18 +42,18 @@ public class RecipeIngredientsETLTests
                 itemIds.Add(itemId);
             }
         }
-        
+
         Assert.Empty(itemIds);
     }
-    
+
     [Fact]
     public void ItShouldHandleInvalidReagentString()
     {
         string reagentString = "invalid:text;12345:2;notanumber:1;";
-        
+
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        var itemIds = new System.Collections.Generic.List<int>();
-        
+        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+
         foreach (string reagentPair in reagentPairs)
         {
             string[] parts = reagentPair.Split(':', System.StringSplitOptions.RemoveEmptyEntries);
@@ -66,7 +62,7 @@ public class RecipeIngredientsETLTests
                 itemIds.Add(itemId);
             }
         }
-        
+
         Assert.Single(itemIds);
         Assert.Contains(12345, itemIds);
     }
