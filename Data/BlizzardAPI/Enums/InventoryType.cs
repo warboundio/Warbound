@@ -40,6 +40,7 @@ public enum InventoryType
     EQUIPABLE_SPELL_UTILITY = 32,
     EQUIPABLE_SPELL_DEFENSIVE = 33,
     EQUIPABLE_SPELL_WEAPON = 34,
+    NON_EQUIPPABLE = 35,
     UNKNOWN_ENCODING = 80
 }
 
@@ -79,7 +80,8 @@ public static class InventoryTypeHelper
         ["Equipable Spell - Offensive"] = InventoryType.EQUIPABLE_SPELL_OFFENSIVE,
         ["Equipable Spell - Utility"] = InventoryType.EQUIPABLE_SPELL_UTILITY,
         ["Equipable Spell - Defensive"] = InventoryType.EQUIPABLE_SPELL_DEFENSIVE,
-        ["Equipable Spell - Weapon"] = InventoryType.EQUIPABLE_SPELL_WEAPON
+        ["Equipable Spell - Weapon"] = InventoryType.EQUIPABLE_SPELL_WEAPON,
+        ["Non-equippable"] = InventoryType.NON_EQUIPPABLE
     };
 
     public static InventoryType FromFieldName(string field)

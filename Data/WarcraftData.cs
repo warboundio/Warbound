@@ -72,7 +72,7 @@ public sealed class WarcraftData
         QuestAreas = context.QuestAreas.ToDictionary(x => x.Id);
         Quests = context.Quests.ToDictionary(x => x.Id);
         JournalInstanceMedias = context.JournalInstanceMedias.ToDictionary(x => x.Id);
-        ObjectExpansionMappings = context.ObjectExpansionMappings.ToDictionary(x => (x.Id + x.CollectionType).ToString());
+        //ItemExpansions = context.ItemExpansions.ToDictionary(x => x.ItemId);
 
         G_Auctions = context.AuctionRecords.GroupBy(x => x.ItemId).ToDictionary(g => g.Key, g => g.ToList());
         G_LootItemSummaries = context.G_LootItemSummaries.ToDictionary(x => (x.NpcId, x.ItemId));

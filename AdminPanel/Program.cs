@@ -8,6 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
+using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
