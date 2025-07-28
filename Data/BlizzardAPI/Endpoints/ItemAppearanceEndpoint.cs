@@ -45,16 +45,10 @@ public class ItemAppearanceEndpoint : BaseBlizzardEndpoint<ItemAppearance>
         string className = json.GetProperty("item_class").GetProperty("name").GetString()!;
         string subclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
 
-        string classType = className
-            .Trim()
-            .ToUpperInvariant()
-            .Replace(" ", "_");
-        SubclassType subclassType = SubclassTypeHelper.FromNames(className, subclassName);
-
         ItemAppearance appearanceObj = new();
         appearanceObj.Id = json.GetProperty("id").GetInt32();
         appearanceObj.SlotType = json.GetProperty("slot").GetProperty("name").GetString() ?? string.Empty;
-        appearanceObj.ClassType = classType;
+        appearanceObj.ClassType = className;
         appearanceObj.SubclassType = subclassName;
         appearanceObj.DisplayInfoId = json.GetProperty("item_display_info_id").GetInt32();
         appearanceObj.ItemIds = string.Join(";", itemIds);

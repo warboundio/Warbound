@@ -29,11 +29,11 @@ public class ItemEndpoint : BaseBlizzardEndpoint<Item>
         itemObj.QualityType = QualityTypeHelper.FromFieldName(json.GetProperty("quality").GetProperty("name").GetString()!);
         itemObj.Level = json.GetProperty("level").GetInt32();
         itemObj.RequiredLevel = json.GetProperty("required_level").GetInt32();
-        itemObj.ClassType = classType;
+        itemObj.ClassType = itemClassName;
 
         itemObj.SubclassType = itemSubclassName;
-        itemObj.InventoryType = InventoryTypeHelper.FromFieldName(json.GetProperty("inventory_type").GetProperty("name").GetString()!);
-        itemObj.SubclassType = subclassType;
+        itemObj.InventoryType = json.GetProperty("inventory_type").GetProperty("name").GetString()!;
+        itemObj.SubclassType = itemSubclassName;
         itemObj.InventoryType = json.GetProperty("inventory_type").GetProperty("name").GetString()!;
         itemObj.PurchasePrice = json.GetProperty("purchase_price").GetInt32();
         itemObj.SellPrice = json.GetProperty("sell_price").GetInt32();
