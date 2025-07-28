@@ -1,9 +1,9 @@
-using Data.BlizzardAPI;
-using Data.BlizzardAPI.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Data.BlizzardAPI;
+using Data.BlizzardAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Export;
 
