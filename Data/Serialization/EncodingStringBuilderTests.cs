@@ -11,6 +11,8 @@ public class EncodingStringBuilderTests
         string encodedValue = esb.GetEncodedString(new ItemAppearance
         {
             Id = 123,
+
+            SubclassType = "Quest",
             SlotType = "Head",
             ClassType = "UNKNOWN",
             SubclassType = SubclassType.QUEST_QUEST,

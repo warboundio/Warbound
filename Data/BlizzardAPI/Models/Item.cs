@@ -30,7 +30,8 @@ public sealed class Item
     public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
-    public SubclassType SubclassType { get; set; }
+    [MaxLength(63)]
+    public string SubclassType { get; set; } = string.Empty;
 
     [EncodedField]
     [MaxLength(127)]

@@ -23,7 +23,8 @@ public sealed class ItemAppearance
     public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
-    public SubclassType SubclassType { get; set; } = SubclassType.UNKNOWN;
+    [MaxLength(63)]
+    public string SubclassType { get; set; } = string.Empty;
 
     public int DisplayInfoId { get; set; }
 
