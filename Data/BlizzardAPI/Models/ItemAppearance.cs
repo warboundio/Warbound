@@ -14,8 +14,9 @@ public sealed class ItemAppearance
     [EncodedField(3)]
     public int Id { get; set; }
 
+    [MaxLength(63)]
     [EncodedField]
-    public SlotType SlotType { get; set; } = SlotType.UNKNOWN;
+    public string SlotType { get; set; } = string.Empty;
 
     [EncodedField]
     [MaxLength(63)]
