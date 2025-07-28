@@ -8,16 +8,13 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
-using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddDbContext<CoreContext>();
-
 builder.Services.AddSingleton<GitHubIssueMonitor>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<GitHubIssueMonitor>());
-
 builder.Services.AddSingleton<DraftService>();
 
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>

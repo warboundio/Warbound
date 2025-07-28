@@ -9,7 +9,7 @@ public class RecipeIngredientsETLTests
         string reagentString = "12345:2;67890:5;11111:1;";
 
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+        System.Collections.Generic.List<int> itemIds = [];
 
         foreach (string reagentPair in reagentPairs)
         {
@@ -32,7 +32,7 @@ public class RecipeIngredientsETLTests
         string reagentString = "";
 
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+        System.Collections.Generic.List<int> itemIds = [];
 
         foreach (string reagentPair in reagentPairs)
         {
@@ -52,7 +52,7 @@ public class RecipeIngredientsETLTests
         string reagentString = "invalid:text;12345:2;notanumber:1;";
 
         string[] reagentPairs = reagentString.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
-        System.Collections.Generic.List<int> itemIds = new System.Collections.Generic.List<int>();
+        System.Collections.Generic.List<int> itemIds = [];
 
         foreach (string reagentPair in reagentPairs)
         {
