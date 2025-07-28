@@ -8,6 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
+using Data.Export;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
+//CollectionOverallDataBuilder.WriteCollectionsOverallFile();
 WarcraftData.Instance.Load();
 if (!BuildConfig.IsDebug)
 {

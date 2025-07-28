@@ -44,10 +44,9 @@ public class QuestEndpoint : BaseBlizzardEndpoint<Quest>
             rewardsElement.TryGetProperty("items", out JsonElement itemsElement) &&
             itemsElement.TryGetProperty("choice_of", out JsonElement choiceOfElement))
         {
-            string[] itemIds = choiceOfElement.EnumerateArray()
+            string[] itemIds = [.. choiceOfElement.EnumerateArray()
                 .Where(choice => choice.TryGetProperty("item", out JsonElement itemElement) && itemElement.TryGetProperty("id", out _))
-                .Select(choice => choice.GetProperty("item").GetProperty("id").GetInt32().ToString())
-                .ToArray();
+                .Select(choice => choice.GetProperty("item").GetProperty("id").GetInt32().ToString())];
 
             quest.RewardItems = string.Join(";", itemIds);
         }

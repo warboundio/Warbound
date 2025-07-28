@@ -19,9 +19,7 @@ public class QuestAreaEndpoint : BaseBlizzardEndpoint<List<int>>
 
         if (json.TryGetProperty("quests", out JsonElement questsElement))
         {
-            questIds = questsElement.EnumerateArray()
-                .Select(questElement => questElement.GetProperty("id").GetInt32())
-                .ToList();
+            questIds = [.. questsElement.EnumerateArray().Select(questElement => questElement.GetProperty("id").GetInt32())];
         }
 
         return questIds;
