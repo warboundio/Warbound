@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Data.BlizzardAPI;
+using Data.BlizzardAPI.Models;
 using Data.Support;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,27 +14,72 @@ public class CollectionOverallDataBuilder
     {
         using BlizzardAPIContext _context = new();
 
-        List<int> petIds = [.. _context.Pets.AsNoTracking().Select(x => x.Id)];
-        List<int> toyIds = [.. _context.Toys.AsNoTracking().Select(x => x.Id)];
-        List<int> mountIds = [.. _context.Mounts.AsNoTracking().Select(x => x.Id)];
-        List<int> appearanceIds = [.. _context.ItemAppearances.AsNoTracking().Select(x => x.Id)];
-        List<int> recipeIds = [.. _context.Recipes.AsNoTracking().Select(x => x.Id)];
+        List<ObjectExpansionMapping> mappings = [.. _context.ObjectExpansionMappings.AsNoTracking()];
 
-        List<string> pets = Base90.Encode(petIds);
-        List<string> toys = Base90.Encode(toyIds);
-        List<string> mounts = Base90.Encode(mountIds);
-        List<string> appearances = Base90.Encode(appearanceIds);
-        List<string> recipes = Base90.Encode(recipeIds);
+        Dictionary<char, IQueryable<int>> collectionTypes = new()
+        {
+            { 'P', _context.Pets.AsNoTracking().Select(x => x.Id) },
+            { 'T', _context.Toys.AsNoTracking().Select(x => x.Id) },
+            { 'M', _context.Mounts.AsNoTracking().Select(x => x.Id) },
+            { 'A', _context.ItemAppearances.AsNoTracking().Select(x => x.Id) },
+            { 'R', _context.Recipes.AsNoTracking().Select(x => x.Id) }
+        };
 
-        string petsLine = "P|" + string.Join(';', pets);
-        string toysLine = "T|" + string.Join(';', toys);
-        string mountsLine = "M|" + string.Join(';', mounts);
-        string appearancesLine = "A|" + string.Join(';', appearances);
-        string recipesLine = "R|" + string.Join(';', recipes);
+        // Build a lookup: (type, id) => set of expansionIds
+        Dictionary<(char CollectionType, int Id), HashSet<int>> mappingLookup = mappings
+            .GroupBy(m => (m.CollectionType, m.Id))
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(m => m.ExpansionId).ToHashSet()
+            );
 
-        string output = $"{petsLine}\n{toysLine}\n{mountsLine}\n{appearancesLine}\n{recipesLine}";
+        HashSet<int> allExpansionIds = [.. mappings.Select(m => m.ExpansionId)];
+        List<string> lines = [];
+
+        foreach (KeyValuePair<char, IQueryable<int>> kvp in collectionTypes)
+        {
+            char type = kvp.Key;
+            List<int> allIds = [.. kvp.Value];
+
+            Dictionary<int, List<int>> expansionIdToIds = [];
+            List<int> unmappedIds = [];
+
+            foreach (int id in allIds)
+            {
+                if (mappingLookup.TryGetValue((type, id), out HashSet<int>? expansions) && expansions.Count > 0)
+                {
+                    foreach (int expansionId in expansions)
+                    {
+                        if (!expansionIdToIds.TryGetValue(expansionId, out List<int>? list))
+                        {
+                            list = [];
+                            expansionIdToIds[expansionId] = list;
+                        }
+                        list.Add(id);
+                    }
+                }
+                else
+                {
+                    unmappedIds.Add(id);
+                }
+            }
+
+            foreach (KeyValuePair<int, List<int>> kv in expansionIdToIds.OrderBy(x => x.Key))
+            {
+                List<string> encoded = Base90.Encode(kv.Value, 3);
+                string line = $"{type}|{kv.Key}|{string.Concat(encoded)}";
+                lines.Add(line);
+            }
+
+            if (unmappedIds.Count > 0)
+            {
+                List<string> encoded = Base90.Encode(unmappedIds, 3);
+                string line = $"{type}|-1|{string.Concat(encoded)}";
+                lines.Add(line);
+            }
+        }
 
         Directory.CreateDirectory(@"C:\Applications\Warbound\cached");
-        File.WriteAllText(@"C:\Applications\Warbound\cached\CollectionsOverall.data", output);
+        File.WriteAllLines(@"C:\Applications\Warbound\cached\CollectionsOverall.data", lines);
     }
 }

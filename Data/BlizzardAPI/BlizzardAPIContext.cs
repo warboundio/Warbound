@@ -27,7 +27,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
     public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
-    public DbSet<ItemExpansion> ItemExpansions => Set<ItemExpansion>();
+    public DbSet<ObjectExpansionMapping> ObjectExpansionMappings => Set<ObjectExpansionMapping>();
     public DbSet<AuctionRecord> AuctionRecords => Set<AuctionRecord>();
     public DbSet<LootItemSummary> G_LootItemSummaries => Set<LootItemSummary>();
     public DbSet<LootLocationEntry> G_LootLocationEntries => Set<LootLocationEntry>();
@@ -45,5 +45,6 @@ public class BlizzardAPIContext : DbContext
         modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId });
         modelBuilder.Entity<LootItemSummary>().HasKey(l => new { l.NpcId, l.ItemId });
         modelBuilder.Entity<LootLocationEntry>().HasKey(l => new { l.NpcId, l.X, l.Y, l.ZoneId });
+        modelBuilder.Entity<ObjectExpansionMapping>().HasKey(o => new { o.Id, o.CollectionType });
     }
 }

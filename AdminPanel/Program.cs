@@ -37,6 +37,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
+//ExpansionDataBuilder.WriteExpansionDataFile();
 //CollectionOverallDataBuilder.WriteCollectionsOverallFile();
 WarcraftData.Instance.Load();
 if (!BuildConfig.IsDebug)

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { getCollectionCounts } from "../utils/collections";
+import { getCollectionCountsByExpansion } from "../utils/collections";
 
 export default function Home() {
-  const counts = getCollectionCounts();
+  const countsByExpansion = getCollectionCountsByExpansion();
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -28,14 +28,27 @@ export default function Home() {
         </ol>
 
         <div className="mb-6">
-          <h2 className="font-bold mb-2">Collection Counts</h2>
-          <ul className="list-disc pl-5 text-sm">
-            <li>Pets: {counts.pets}</li>
-            <li>Toys: {counts.toys}</li>
-            <li>Mounts: {counts.mounts}</li>
-            <li>Transmog: {counts.transmog}</li>
-            <li>Recipes: {counts.recipes}</li>
-          </ul>
+          <h2 className="font-bold mb-2">Collection Counts by Expansion</h2>
+          {Object.keys(countsByExpansion).length === 0 ? (
+            <div className="text-sm">No data found.</div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {Object.entries(countsByExpansion).map(([expansionId, counts]) => (
+                <div key={expansionId} className="border rounded p-3">
+                  <div className="font-semibold mb-1">
+                    Expansion ID: {expansionId}
+                  </div>
+                  <ul className="list-disc pl-5 text-sm">
+                    <li>Pets: {counts.pets}</li>
+                    <li>Toys: {counts.toys}</li>
+                    <li>Mounts: {counts.mounts}</li>
+                    <li>Transmog: {counts.transmog}</li>
+                    <li>Recipes: {counts.recipes}</li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
