@@ -13,11 +13,11 @@ public class ItemExpansionETL : RunnableBlizzardETL
 
     protected override Task<List<object>> GetItemsToProcessAsync()
     {
-        var warcraftData = WarcraftData.Instance;
+        WarcraftData warcraftData = WarcraftData.Instance;
 
-        var existingMappings = warcraftData.ItemExpansions.Keys;
-        var allItems = warcraftData.Items.Keys;
-        var itemsToProcess = allItems.Except(existingMappings).Cast<object>().ToList();
+        Dictionary<int, ItemExpansion>.KeyCollection existingMappings = warcraftData.ItemExpansions.Keys;
+        Dictionary<int, Item>.KeyCollection allItems = warcraftData.Items.Keys;
+        List<object> itemsToProcess = [.. allItems.Except(existingMappings).Cast<object>()];
 
         return Task.FromResult(itemsToProcess);
     }
@@ -39,38 +39,38 @@ public class ItemExpansionETL : RunnableBlizzardETL
 
     private int DetermineExpansionForItem(int itemId)
     {
-        var warcraftData = WarcraftData.Instance;
+        WarcraftData warcraftData = WarcraftData.Instance;
 
-        var encounters = warcraftData.JournalEncounters.Values
-            .Where(x => !string.IsNullOrEmpty(x.Items))
-            .ToList();
+        List<JournalEncounter> encounters = [.. warcraftData.JournalEncounters.Values.Where(x => !string.IsNullOrEmpty(x.Items))];
 
-        var matchingEncounters = encounters.Where(encounter =>
+        List<JournalEncounter> matchingEncounters = [.. encounters.Where(encounter =>
         {
-            var itemIds = encounter.Items.Split(';', StringSplitOptions.RemoveEmptyEntries)
+            IEnumerable<int> itemIds = encounter.Items.Split(';', StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => int.TryParse(x.Trim(), out int id) ? id : -1)
                 .Where(x => x > 0);
             return itemIds.Contains(itemId);
-        }).ToList();
+        })];
 
         if (!matchingEncounters.Any())
+        {
             return -1;
+        }
 
-        foreach (var encounter in matchingEncounters)
+        foreach (JournalEncounter? encounter in matchingEncounters)
         {
             if (encounter.InstanceId <= 0)
-                continue;
-
-            var expansions = warcraftData.JournalExpansions.Values
-                .Where(x => !string.IsNullOrEmpty(x.DungeonIds) || !string.IsNullOrEmpty(x.RaidIds))
-                .ToList();
-
-            var matchingExpansion = expansions.FirstOrDefault(expansion =>
             {
-                var dungeonIds = expansion.DungeonIds.Split(';', StringSplitOptions.RemoveEmptyEntries)
+                continue;
+            }
+
+            List<JournalExpansion> expansions = [.. warcraftData.JournalExpansions.Values.Where(x => !string.IsNullOrEmpty(x.DungeonIds) || !string.IsNullOrEmpty(x.RaidIds))];
+
+            JournalExpansion? matchingExpansion = expansions.FirstOrDefault(expansion =>
+            {
+                IEnumerable<int> dungeonIds = expansion.DungeonIds.Split(';', StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => int.TryParse(x.Trim(), out int id) ? id : -1)
                     .Where(x => x > 0);
-                var raidIds = expansion.RaidIds.Split(';', StringSplitOptions.RemoveEmptyEntries)
+                IEnumerable<int> raidIds = expansion.RaidIds.Split(';', StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => int.TryParse(x.Trim(), out int id) ? id : -1)
                     .Where(x => x > 0);
 
@@ -78,7 +78,9 @@ public class ItemExpansionETL : RunnableBlizzardETL
             });
 
             if (matchingExpansion != null)
+            {
                 return matchingExpansion.Id;
+            }
         }
 
         return -1;

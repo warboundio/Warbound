@@ -64,16 +64,8 @@ public class SchemaValidationETL
 
     private async Task ValidateEndpointSchemaAsync(string fixtureFile, object? parameter, string endpointType)
     {
-        string currentDirectory = Directory.GetCurrentDirectory();
-        string debugPath = Path.Combine(currentDirectory, "bin", "debug", "net8.0", "BlizzardAPI", "Endpoints", fixtureFile);
-        string releasePath = Path.Combine(currentDirectory, "BlizzardAPI", "Endpoints", fixtureFile);
-
-        string fixturePath = File.Exists(debugPath) ? debugPath : releasePath;
-        if (!File.Exists(fixturePath))
-        {
-            Logging.Warn(GetType().Name, $"Fixture file not found: {fixturePath}");
-            return;
-        }
+        string fixturePath = Path.Combine(@"C:\Applications\Warbound\JSONValidation", fixtureFile);
+        if (!File.Exists(fixturePath)) { Logging.Warn(GetType().Name, $"Fixture file not found: {fixturePath}"); return; }
 
         string fixtureJson = await File.ReadAllTextAsync(fixturePath);
         JsonElement fixtureElement = JsonSerializer.Deserialize<JsonElement>(fixtureJson);
@@ -84,8 +76,14 @@ public class SchemaValidationETL
         JsonElement liveElement = JsonSerializer.Deserialize<JsonElement>(liveJson);
         List<string> differences = CompareSchemas(fixtureElement, liveElement, "");
 
-        if (differences.Count == 0) { Logging.Info(GetType().Name, $"Schema validation PASSED for {fixtureFile} - schemas match"); }
-        else { LogSchemaDifferences(fixtureFile, liveUrl, differences); }
+        if (differences.Count == 0)
+        {
+            Logging.Info(GetType().Name, $"Schema validation PASSED for {fixtureFile} - schemas match");
+        }
+        else
+        {
+            LogSchemaDifferences(fixtureFile, liveUrl, differences);
+        }
     }
 
     public string GetEndpointUrl(string endpointType, object? parameter)
