@@ -32,7 +32,7 @@ public class ItemAppearanceEndpoint : BaseBlizzardEndpoint<ItemAppearance>
             errorObj.Id = AppearanceId;
             errorObj.SlotType = SlotType.UNKNOWN;
             errorObj.ClassType = ClassType.UNKNOWN;
-            errorObj.SubclassType = SubclassType.UNKNOWN;
+            errorObj.SubclassType = string.Empty;
             errorObj.DisplayInfoId = -1;
             errorObj.ItemIds = string.Empty;
             errorObj.Status = ETLStateType.ERROR;
@@ -45,13 +45,12 @@ public class ItemAppearanceEndpoint : BaseBlizzardEndpoint<ItemAppearance>
         string subclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
 
         ClassType classType = ClassTypeHelper.FromName(className);
-        SubclassType subclassType = SubclassTypeHelper.FromNames(className, subclassName);
 
         ItemAppearance appearanceObj = new();
         appearanceObj.Id = json.GetProperty("id").GetInt32();
         appearanceObj.SlotType = SlotTypeHelper.FromFieldName(json.GetProperty("slot").GetProperty("name").GetString()!);
         appearanceObj.ClassType = classType;
-        appearanceObj.SubclassType = subclassType;
+        appearanceObj.SubclassType = subclassName;
         appearanceObj.DisplayInfoId = json.GetProperty("item_display_info_id").GetInt32();
         appearanceObj.ItemIds = string.Join(";", itemIds);
 

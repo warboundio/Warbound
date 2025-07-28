@@ -13,7 +13,7 @@ public class EncodingStringBuilderTests
             Id = 123,
             SlotType = SlotType.HEAD,
             ClassType = ClassType.UNKNOWN,
-            SubclassType = SubclassType.QUEST_QUEST,
+            SubclassType = "Quest",
         });
 
         Assert.Equal("A|h OsOX6", encodedValue);

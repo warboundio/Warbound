@@ -21,7 +21,8 @@ public sealed class ItemAppearance
     public ClassType ClassType { get; set; } = ClassType.UNKNOWN;
 
     [EncodedField]
-    public SubclassType SubclassType { get; set; } = SubclassType.UNKNOWN;
+    [MaxLength(63)]
+    public string SubclassType { get; set; } = string.Empty;
 
     public int DisplayInfoId { get; set; }
 

@@ -29,7 +29,8 @@ public sealed class Item
     public ClassType ClassType { get; set; }
 
     [EncodedField]
-    public SubclassType SubclassType { get; set; }
+    [MaxLength(63)]
+    public string SubclassType { get; set; } = string.Empty;
 
     [EncodedField]
     public InventoryType InventoryType { get; set; } = InventoryType.UNKNOWN;
