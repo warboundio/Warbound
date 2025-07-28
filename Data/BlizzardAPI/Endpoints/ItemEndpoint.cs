@@ -23,7 +23,10 @@ public class ItemEndpoint : BaseBlizzardEndpoint<Item>
         string itemClassName = json.GetProperty("item_class").GetProperty("name").GetString()!;
         string itemSubclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
 
-        ClassType classType = ClassTypeHelper.FromName(itemClassName);
+        string classType = itemClassName
+            .Trim()
+            .ToUpperInvariant()
+            .Replace(" ", "_");
         SubclassType subclassType = SubclassTypeHelper.FromNames(itemClassName, itemSubclassName);
 
         Item itemObj = new();

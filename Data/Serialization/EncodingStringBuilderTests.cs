@@ -12,11 +12,11 @@ public class EncodingStringBuilderTests
         {
             Id = 123,
             SlotType = SlotType.HEAD,
-            ClassType = ClassType.UNKNOWN,
+            ClassType = "UNKNOWN",
             SubclassType = SubclassType.QUEST_QUEST,
         });
 
-        Assert.Equal("A|h OsOX6", encodedValue);
+        Assert.Equal("A|UNKNOWN|ABhBNe", encodedValue);
     }
 
     [Fact]
@@ -24,6 +24,6 @@ public class EncodingStringBuilderTests
     {
         EncodingStringBuilder esb = new('A', typeof(ItemAppearance));
         string translation = esb.GetEncodingTranslation();
-        Assert.Equal("A|ClassType(1)|Id(3)|SlotType(1)|SubclassType(2)", translation);
+        Assert.Equal("A|ClassType_(-1)|Id(3)|SlotType(1)|SubclassType(2)", translation);
     }
 }

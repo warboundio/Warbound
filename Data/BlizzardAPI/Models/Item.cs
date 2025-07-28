@@ -26,7 +26,8 @@ public sealed class Item
     public int RequiredLevel { get; set; }
 
     [EncodedField]
-    public ClassType ClassType { get; set; }
+    [MaxLength(63)]
+    public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
     public SubclassType SubclassType { get; set; }
