@@ -23,9 +23,9 @@ public class ItemEndpointTests
         Assert.Equal(QualityType.LEGENDARY, result.QualityType);
         Assert.Equal(29, result.Level);
         Assert.Equal(25, result.RequiredLevel);
-        Assert.Equal(ClassType.WEAPON, result.ClassType);
+        Assert.Equal("WEAPON", result.ClassType);
         Assert.Equal(SubclassType.WEAPON_SWORD, result.SubclassType);
-        Assert.Equal(InventoryType.ONE_HAND, result.InventoryType);
+        Assert.Equal("One-Hand", result.InventoryType);
         Assert.Equal(162276, result.PurchasePrice);
         Assert.Equal(32455, result.SellPrice);
         Assert.Equal(1, result.MaxCount);

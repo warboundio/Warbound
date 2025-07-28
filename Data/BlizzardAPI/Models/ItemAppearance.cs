@@ -19,7 +19,8 @@ public sealed class ItemAppearance
     public string SlotType { get; set; } = string.Empty;
 
     [EncodedField]
-    public ClassType ClassType { get; set; } = ClassType.UNKNOWN;
+    [MaxLength(63)]
+    public string ClassType { get; set; } = "UNKNOWN";
 
     [EncodedField]
     public SubclassType SubclassType { get; set; } = SubclassType.UNKNOWN;
