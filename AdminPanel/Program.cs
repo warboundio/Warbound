@@ -8,6 +8,7 @@ using Core.Logs;
 using Core.Services;
 using Core.Tools;
 using Data;
+using Data.ETLs;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,10 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+//RecipeIngredientsETL.RunAsync().GetAwaiter().GetResult();
+//QuestRewardItemsETL.RunAsync().GetAwaiter().GetResult();
+//JournalEncounterItemsETL.RunAsync().GetAwaiter().GetResult();
 
 //ExpansionDataBuilder.WriteExpansionDataFile();
 //CollectionOverallDataBuilder.WriteCollectionsOverallFile();

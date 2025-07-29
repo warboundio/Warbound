@@ -20,20 +20,15 @@ public class ItemEndpoint : BaseBlizzardEndpoint<Item>
 
     public override Item Parse(JsonElement json)
     {
-        string itemClassName = json.GetProperty("item_class").GetProperty("name").GetString()!;
-        string itemSubclassName = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
-
         Item itemObj = new();
         itemObj.Id = json.GetProperty("id").GetInt32();
         itemObj.Name = json.GetProperty("name").GetString()!;
         itemObj.QualityType = QualityTypeHelper.FromFieldName(json.GetProperty("quality").GetProperty("name").GetString()!);
         itemObj.Level = json.GetProperty("level").GetInt32();
         itemObj.RequiredLevel = json.GetProperty("required_level").GetInt32();
-        itemObj.ClassType = itemClassName;
+        itemObj.ClassType = json.GetProperty("item_class").GetProperty("name").GetString()!;
 
-        itemObj.SubclassType = itemSubclassName;
-        itemObj.InventoryType = json.GetProperty("inventory_type").GetProperty("name").GetString()!;
-        itemObj.SubclassType = itemSubclassName;
+        itemObj.SubclassType = json.GetProperty("item_subclass").GetProperty("name").GetString()!;
         itemObj.InventoryType = json.GetProperty("inventory_type").GetProperty("name").GetString()!;
         itemObj.PurchasePrice = json.GetProperty("purchase_price").GetInt32();
         itemObj.SellPrice = json.GetProperty("sell_price").GetInt32();
