@@ -1,8 +1,44 @@
+"use client";
 import Image from "next/image";
-import { getCollectionCountsByExpansion } from "../utils/collections";
+import { useState, useEffect } from "react";
+import ExpansionMappingForm from "./ExpansionMappingForm";
+
+type CollectionCounts = {
+  pets: number;
+  toys: number;
+  mounts: number;
+  transmog: number;
+  recipes: number;
+};
+
+const collectionTypeOptions = [
+  { value: "I", label: "Item" }, 
+  { value: "P", label: "Pet" },
+  { value: "T", label: "Toy" },
+  { value: "M", label: "Mount" },
+  { value: "A", label: "Appearance" },
+  { value: "R", label: "Recipe" },
+];
 
 export default function Home() {
-  const countsByExpansion = getCollectionCountsByExpansion();
+  // --- State for fetched data ---
+  const [countsByExpansion, setCountsByExpansion] = useState<Record<string, CollectionCounts>>({});
+  const [expansionIdToName, setExpansionIdToName] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+
+  // --- Fetch data from API on mount ---
+  useEffect(() => {
+    fetch("/api/collections")
+      .then(res => res.json())
+      .then(data => {
+        setCountsByExpansion(data.countsByExpansion);
+        setExpansionIdToName(data.expansionIdToName);
+        // Set default expansionId to first key if available
+        const firstKey = Object.keys(data.expansionIdToName)[0] || "";
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -29,14 +65,16 @@ export default function Home() {
 
         <div className="mb-6">
           <h2 className="font-bold mb-2">Collection Counts by Expansion</h2>
-          {Object.keys(countsByExpansion).length === 0 ? (
+          {loading ? (
+            <div className="text-sm">Loading...</div>
+          ) : Object.keys(countsByExpansion).length === 0 ? (
             <div className="text-sm">No data found.</div>
           ) : (
             <div className="flex flex-col gap-4">
               {Object.entries(countsByExpansion).map(([expansionId, counts]) => (
                 <div key={expansionId} className="border rounded p-3">
                   <div className="font-semibold mb-1">
-                    Expansion ID: {expansionId}
+                    Expansion: {expansionIdToName[expansionId] || expansionId}    
                   </div>
                   <ul className="list-disc pl-5 text-sm">
                     <li>Pets: {counts.pets}</li>
@@ -50,6 +88,11 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        <ExpansionMappingForm
+          expansionIdToName={expansionIdToName}
+          loading={loading}
+        />
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
