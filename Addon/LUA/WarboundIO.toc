@@ -11,6 +11,8 @@ Data/VignetteData.lua
 Data/VendorData.lua
 Data/LootData.lua
 Data/BattlePetData.lua
+Data/ItemIdExpansionMapping.lua
+Data/MountItemIdMapping.lua
 Tools/AutoRepairVendor.lua
 Tools/Base90.lua
 API/WarboundAPI.lua

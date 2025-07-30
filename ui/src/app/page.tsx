@@ -11,15 +11,6 @@ type CollectionCounts = {
   recipes: number;
 };
 
-const collectionTypeOptions = [
-  { value: "I", label: "Item" }, 
-  { value: "P", label: "Pet" },
-  { value: "T", label: "Toy" },
-  { value: "M", label: "Mount" },
-  { value: "A", label: "Appearance" },
-  { value: "R", label: "Recipe" },
-];
-
 export default function Home() {
   // --- State for fetched data ---
   const [countsByExpansion, setCountsByExpansion] = useState<Record<string, CollectionCounts>>({});
@@ -33,8 +24,6 @@ export default function Home() {
       .then(data => {
         setCountsByExpansion(data.countsByExpansion);
         setExpansionIdToName(data.expansionIdToName);
-        // Set default expansionId to first key if available
-        const firstKey = Object.keys(data.expansionIdToName)[0] || "";
         setLoading(false);
       });
   }, []);

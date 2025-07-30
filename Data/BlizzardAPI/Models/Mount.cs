@@ -21,6 +21,7 @@ public sealed class Mount
     [MaxLength(63)]
     public string SourceType { get; set; } = string.Empty;
 
+    public int ItemId { get; set; }
     public int CreatureDisplayId { get; set; } = -1;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;

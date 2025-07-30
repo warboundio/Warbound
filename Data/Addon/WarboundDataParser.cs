@@ -1,8 +1,11 @@
 #pragma warning disable CA1310, SYSLIB1045, IDE0028, CA1866, CS8600, IDE0010, CS1847, IDE0011, CA1847
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Data.BlizzardAPI;
+using Data.BlizzardAPI.Models;
 
 namespace Data.Addon;
 
@@ -35,6 +38,99 @@ public class WarboundDataParser
             }
         }
         return _lines.Length;
+    }
+
+    public Dictionary<int, int> GetItemIdToMountIdMapping()
+    {
+        Dictionary<int, int> mapping = new();
+
+        for (int i = 0; i < _lines.Length; i++)
+        {
+            string line = _lines[i].Trim();
+            if (line.StartsWith("[\"dataMountItemIdMapping\"]"))
+            {
+                int eqIdx = line.IndexOf('=');
+                if (eqIdx >= 0)
+                {
+                    string value = line[(eqIdx + 1)..].Trim().Trim(',', '"');
+                    string[] pairs = value.Split('|', StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (string pair in pairs)
+                    {
+                        string[] parts = pair.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length == 2 &&
+                            int.TryParse(parts[0], out int itemId) &&
+                            int.TryParse(parts[1], out int mountId))
+                        {
+                            mapping[itemId] = mountId;
+                        }
+                    }
+                }
+            }
+        }
+
+        return mapping;
+    }
+
+    public List<ObjectExpansionMapping> GetItemExpansionMappings()
+    {
+        List<ObjectExpansionMapping> mappings = [];
+
+        for (int i = 0; i < _lines.Length; i++)
+        {
+            string line = _lines[i].Trim();
+            if (line.StartsWith("[\"dataExpansionItemIdMapping\"]"))
+            {
+                int eqIdx = line.IndexOf('=');
+                if (eqIdx >= 0)
+                {
+                    string value = line[(eqIdx + 1)..].Trim().Trim(',', '"');
+                    int idx = 0;
+                    while (idx < value.Length)
+                    {
+                        int start = value.IndexOf('|', idx);
+                        if (start == -1) break;
+                        int end = value.IndexOf('|', start + 1);
+                        if (end == -1) break;
+                        int nextPipe = value.IndexOf('|', end + 1);
+                        int expansionId = int.Parse(value.Substring(start + 1, end - start - 1));
+                        int itemsStart = end + 1;
+                        int itemsEnd = nextPipe != -1 ? nextPipe : value.Length;
+                        string itemsSection = value[itemsStart..itemsEnd];
+                        string[] itemIds = itemsSection.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string itemIdStr in itemIds)
+                        {
+                            if (int.TryParse(itemIdStr, out int itemId))
+                            {
+                                mappings.Add(new ObjectExpansionMapping
+                                {
+                                    Id = itemId,
+                                    CollectionType = 'I',
+                                    ExpansionId = expansionId
+                                });
+                            }
+                        }
+                        idx = itemsEnd;
+                    }
+                }
+            }
+        }
+
+        using BlizzardAPIContext context = new();
+        Dictionary<int, int> expansionsByLuaId = context.JournalExpansions.ToDictionary(e => e.ExpansionIdLUA, e => e.Id);
+
+        List<ObjectExpansionMapping> filteredMappings = [];
+        foreach (ObjectExpansionMapping mapping in mappings)
+        {
+            if (mapping.ExpansionId == -1) continue;
+            if (expansionsByLuaId.TryGetValue(mapping.ExpansionId, out int expansionId))
+            {
+                mapping.ExpansionId = expansionId;
+                filteredMappings.Add(mapping);
+            }
+        }
+
+        return filteredMappings;
     }
 
     public List<NpcKillCount> GetNpcKills()
@@ -140,7 +236,7 @@ public class WarboundDataParser
             ZoneId = loc.ZoneId
         })];
 
-        return (itemSummaries, locationEntries);
+        return (itemSummaries.Where(o => o.NpcId > 0).ToList(), locationEntries.Where(o => o.NpcId > 0).ToList());
     }
 
     public List<Vendor> GetVendors()

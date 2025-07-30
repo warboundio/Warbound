@@ -20,7 +20,6 @@ export function getCollectionCountsByExpansion() {
     console.error("Missing zip file:", zipFilePath);
     return {};
   }
-  const expansionIdToName = getExpansionIdToNameMap();
   const result: Record<string, CollectionCounts> = {};
 
   try {

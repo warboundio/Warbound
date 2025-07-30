@@ -45,7 +45,12 @@ public class LUAPublisher
         Logging.Info(nameof(LUAPublisher), $"Published to: {targetDir}");
     }
 
-    public static string FindLuaSourcePath() => @"C:\Users\jason\source\repos\Warbound\Addon\LUA";
+    public static string FindLuaSourcePath()
+    {
+        string preferredPath = @"C:\Users\DUCA\Source\Repos\WarboundWB\Addon\LUA";
+        string fallbackPath = @"C:\Users\jason\source\repos\Warbound\Addon\LUA";
+        return Directory.Exists(preferredPath) ? preferredPath : fallbackPath;
+    }
 
     private void CopyDirectory(string sourceDir, string targetDir)
     {

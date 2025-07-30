@@ -14,6 +14,7 @@ public sealed class JournalExpansion
     [MaxLength(127)] public string Name { get; set; } = string.Empty;
     [MaxLength(2047)] public string DungeonIds { get; set; } = string.Empty;
     [MaxLength(2047)] public string RaidIds { get; set; } = string.Empty;
+    public int ExpansionIdLUA { get; set; } = -1;
     public ETLStateType Status { get; set; } = ETLStateType.NEEDS_ENRICHED;
     public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
 }

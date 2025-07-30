@@ -2,6 +2,7 @@ using Core.Logs;
 using Core.Tools;
 using Data.Addon;
 using Data.BlizzardAPI;
+using Data.BlizzardAPI.Models;
 
 namespace Addon;
 
@@ -40,11 +41,18 @@ public class AutoPublisher
         List<VendorItem> vendorItems = dataParser.GetVendorItems();
         List<PetBattleLocation> locations = dataParser.GetPetBattleLocations();
 
-        PersistDataToDatabase(npcKills, lootItemSummaries, lootLocationEntries, vendors, vendorItems, locations);
+        // only has data when WarboundItemExpansionMapping:Start() is called
+        List<ObjectExpansionMapping> mappings = dataParser.GetItemExpansionMappings();
+
+        // only has data when WarboundMountItemIdMapping:Start() is called
+        Dictionary<int, int> mountIdMapping = dataParser.GetItemIdToMountIdMapping();
+
+        PersistDataToDatabase(npcKills, lootItemSummaries, lootLocationEntries, vendors, vendorItems, locations, mappings, mountIdMapping);
     }
 
     private static void PersistDataToDatabase(List<NpcKillCount> npcKills, List<LootItemSummary> lootItemSummaries,
-        List<LootLocationEntry> lootLocationEntries, List<Vendor> vendors, List<VendorItem> vendorItems, List<PetBattleLocation> locations)
+        List<LootLocationEntry> lootLocationEntries, List<Vendor> vendors, List<VendorItem> vendorItems, List<PetBattleLocation> locations,
+        List<ObjectExpansionMapping> expansionMappings, Dictionary<int, int> mountIdMapping)
     {
         using BlizzardAPIContext context = new();
 
@@ -54,6 +62,8 @@ public class AutoPublisher
         PersistNpcKillCounts(context, npcKills);
         PersistVendors(context, vendors);
         PersistVendorItems(context, vendorItems);
+        PersistMappings(context, expansionMappings);
+        PersistMountItemIdMappings(context, mountIdMapping);
 
         context.SaveChanges();
     }
@@ -143,6 +153,30 @@ public class AutoPublisher
             }
 
             context.G_VendorItems.Add(vendorItem);
+        }
+    }
+
+    private static void PersistMappings(BlizzardAPIContext context, List<ObjectExpansionMapping> mappings)
+    {
+        HashSet<int> itemIdsAlreadyComplete = [.. context.ObjectExpansionMappings.Where(o => o.CollectionType == 'I').Select(k => k.Id)];
+
+        foreach (ObjectExpansionMapping mapping in mappings)
+        {
+            if (!itemIdsAlreadyComplete.Contains(mapping.Id))
+            {
+                context.ObjectExpansionMappings.Add(mapping);
+            }
+        }
+    }
+
+    private static void PersistMountItemIdMappings(BlizzardAPIContext context, Dictionary<int, int> itemIdMountMapping)
+    {
+        List<Mount> mounts = [.. context.Mounts.Where(o => o.ItemId == 0 && itemIdMountMapping.Values.Contains(o.Id))];
+
+        foreach (Mount mount in mounts)
+        {
+            mount.ItemId = itemIdMountMapping.FirstOrDefault(kvp => kvp.Value == mount.Id).Key;
+            context.Update(mount);
         }
     }
 

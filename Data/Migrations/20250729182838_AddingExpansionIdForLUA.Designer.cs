@@ -3,6 +3,7 @@ using System;
 using Data.BlizzardAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(BlizzardAPIContext))]
-    partial class BlizzardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250729182838_AddingExpansionIdForLUA")]
+    partial class AddingExpansionIdForLUA
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,9 +491,6 @@ namespace Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("CreatureDisplayId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ItemId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdatedUtc")
