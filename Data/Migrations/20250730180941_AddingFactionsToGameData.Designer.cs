@@ -3,6 +3,7 @@ using System;
 using Data.BlizzardAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(BlizzardAPIContext))]
-    partial class BlizzardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250730180941_AddingFactionsToGameData")]
+    partial class AddingFactionsToGameData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,7 +131,7 @@ namespace Data.Migrations
                     b.Property<int>("Y")
                         .HasColumnType("integer");
 
-                    b.HasKey("QuestId", "IsStart", "FactionId");
+                    b.HasKey("QuestId", "IsStart");
 
                     b.ToTable("g_quest_location", "wow");
                 });
@@ -175,9 +178,6 @@ namespace Data.Migrations
                     b.Property<int>("VendorId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("FactionId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Cost")
                         .HasColumnType("integer");
 
@@ -189,10 +189,13 @@ namespace Data.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("character varying(7)");
 
+                    b.Property<int>("FactionId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("ItemId", "VendorId", "FactionId");
+                    b.HasKey("ItemId", "VendorId");
 
                     b.ToTable("g_vendor_item", "wow");
                 });

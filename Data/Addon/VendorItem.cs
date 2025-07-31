@@ -9,6 +9,7 @@ public class VendorItem
 {
     public int ItemId { get; set; }
     public int VendorId { get; set; }
+    public int FactionId { get; set; }
     public int Quantity { get; set; }
 
     [EncodedField(3)]

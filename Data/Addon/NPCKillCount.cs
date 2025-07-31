@@ -9,5 +9,6 @@ public class NpcKillCount
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int NpcId { get; set; }
+    [MaxLength(127)] public string Name { get; set; } = "UNKNOWN";
     public int Count { get; set; }
 }

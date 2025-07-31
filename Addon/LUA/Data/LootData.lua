@@ -15,7 +15,7 @@ WarboundEventManager:On("LOOT_OPENED", function()
         if link then
             local itemID = tonumber(link:match("item:(%d+):")) or 0
             local srcInfo = { GetLootSourceInfo(slot) }
-            WarboundLogger:Debug(string.format("Raw GUID from slot %d: %s", slot, tostring(srcInfo[i])))
+            --WarboundLogger:Debug(string.format("Raw GUID from slot %d: %s", slot, tostring(srcInfo[i])))
 
             for i = 1, #srcInfo, 2 do
                 local guid = srcInfo[i]
@@ -42,14 +42,18 @@ WarboundEventManager:On("LOOT_OPENED", function()
 end)
 
 WarboundEventManager:On("COMBAT_LOG_EVENT_UNFILTERED", function()
-    local _, subevent, _, _, _, _, _, destGUID = CombatLogGetCurrentEventInfo()
+    local _, subevent, _, _, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
     if subevent == "PARTY_KILL" then
         local _, _, _, _, _, npcID = strsplit("-", destGUID)
         npcID = tonumber(npcID) or 0
-        WarboundIO.dataKill[npcID] = (WarboundIO.dataKill[npcID] or 0) + 1
+
+        -- Create or update entry
+        WarboundIO.dataKill[npcID] = WarboundIO.dataKill[npcID] or { name = destName or "Unknown", count = 0 }
+        WarboundIO.dataKill[npcID].count = WarboundIO.dataKill[npcID].count + 1
+
         WarboundLogger:Debug(string.format(
-            "Killed NPC %d, total kills: %d",
-            npcID, WarboundIO.dataKill[npcID]
+            "Killed NPC %d (%s), total kills: %d",
+            npcID, destName or "Unknown", WarboundIO.dataKill[npcID].count
         ))
     end
 end)

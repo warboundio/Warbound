@@ -27,7 +27,6 @@ public class BlizzardAPIContext : DbContext
     public DbSet<QuestArea> QuestAreas => Set<QuestArea>();
     public DbSet<Quest> Quests => Set<Quest>();
     public DbSet<JournalInstanceMedia> JournalInstanceMedias => Set<JournalInstanceMedia>();
-    public DbSet<ObjectExpansionMapping> ObjectExpansionMappings => Set<ObjectExpansionMapping>();
     public DbSet<AuctionRecord> AuctionRecords => Set<AuctionRecord>();
     public DbSet<LootItemSummary> G_LootItemSummaries => Set<LootItemSummary>();
     public DbSet<LootLocationEntry> G_LootLocationEntries => Set<LootLocationEntry>();
@@ -35,6 +34,7 @@ public class BlizzardAPIContext : DbContext
     public DbSet<PetBattleLocation> G_PetBattleLocations => Set<PetBattleLocation>();
     public DbSet<Vendor> G_Vendors => Set<Vendor>();
     public DbSet<VendorItem> G_VendorItems => Set<VendorItem>();
+    public DbSet<QuestLocation> G_QuestLocations => Set<QuestLocation>();
 
     public BlizzardAPIContext() : base(CreateOptions()) { }
 
@@ -42,9 +42,9 @@ public class BlizzardAPIContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId });
+        modelBuilder.Entity<VendorItem>().HasKey(v => new { v.ItemId, v.VendorId, v.FactionId });
         modelBuilder.Entity<LootItemSummary>().HasKey(l => new { l.NpcId, l.ItemId });
         modelBuilder.Entity<LootLocationEntry>().HasKey(l => new { l.NpcId, l.X, l.Y, l.ZoneId });
-        modelBuilder.Entity<ObjectExpansionMapping>().HasKey(o => new { o.Id, o.CollectionType });
+        modelBuilder.Entity<QuestLocation>().HasKey(q => new { q.QuestId, q.IsStart, q.FactionId });
     }
 }

@@ -3,6 +3,7 @@ using Core.Tools;
 using Data.Addon;
 using Data.BlizzardAPI;
 using Data.BlizzardAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Addon;
 
@@ -33,6 +34,8 @@ public class AutoPublisher
 
     private static void ParseSavedVariables(string path)
     {
+        BackupFile(path);
+
         Logging.Info(nameof(AutoPublisher), $"Detected change in saved variables file: {path}");
         WarboundDataParser dataParser = new(path);
         List<NpcKillCount> npcKills = dataParser.GetNpcKills();
@@ -40,19 +43,29 @@ public class AutoPublisher
         List<Vendor> vendors = dataParser.GetVendors();
         List<VendorItem> vendorItems = dataParser.GetVendorItems();
         List<PetBattleLocation> locations = dataParser.GetPetBattleLocations();
-
-        // only has data when WarboundItemExpansionMapping:Start() is called
-        List<ObjectExpansionMapping> mappings = dataParser.GetItemExpansionMappings();
+        List<QuestLocation> questLocations = dataParser.GetQuestLocations();
 
         // only has data when WarboundMountItemIdMapping:Start() is called
         Dictionary<int, int> mountIdMapping = dataParser.GetItemIdToMountIdMapping();
 
-        PersistDataToDatabase(npcKills, lootItemSummaries, lootLocationEntries, vendors, vendorItems, locations, mappings, mountIdMapping);
+        PersistDataToDatabase(npcKills, lootItemSummaries, lootLocationEntries, vendors, vendorItems, locations, mountIdMapping, questLocations);
+    }
+
+    private static void BackupFile(string sourceFilePath)
+    {
+        const string BACKUP_PATH = @"C:\Applications\Warbound\SVBackups";
+        if (!Directory.Exists(BACKUP_PATH)) { Directory.CreateDirectory(BACKUP_PATH); }
+
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string backupFileName = $"{timestamp}{Guid.NewGuid()}.lua";
+        string backupFilePath = Path.Combine(BACKUP_PATH, backupFileName);
+
+        File.Copy(sourceFilePath, backupFilePath, overwrite: true);
     }
 
     private static void PersistDataToDatabase(List<NpcKillCount> npcKills, List<LootItemSummary> lootItemSummaries,
         List<LootLocationEntry> lootLocationEntries, List<Vendor> vendors, List<VendorItem> vendorItems, List<PetBattleLocation> locations,
-        List<ObjectExpansionMapping> expansionMappings, Dictionary<int, int> mountIdMapping)
+        Dictionary<int, int> mountIdMapping, List<QuestLocation> questLocations)
     {
         using BlizzardAPIContext context = new();
 
@@ -62,8 +75,28 @@ public class AutoPublisher
         PersistNpcKillCounts(context, npcKills);
         PersistVendors(context, vendors);
         PersistVendorItems(context, vendorItems);
-        PersistMappings(context, expansionMappings);
         PersistMountItemIdMappings(context, mountIdMapping);
+        PersistQuestLocations(questLocations);
+
+        context.SaveChanges();
+    }
+
+    private static void PersistQuestLocations(List<QuestLocation> questLocations)
+    {
+        using BlizzardAPIContext context = new();
+        var existingKeys = context.G_QuestLocations
+            .Select(q => new { q.QuestId, q.IsStart })
+            .ToHashSet();
+
+        foreach (QuestLocation location in questLocations)
+        {
+            var key = new { location.QuestId, location.IsStart };
+            if (!existingKeys.Contains(key))
+            {
+                context.G_QuestLocations.Add(location);
+                existingKeys.Add(key);
+            }
+        }
 
         context.SaveChanges();
     }
@@ -136,16 +169,18 @@ public class AutoPublisher
     private static void PersistVendorItems(BlizzardAPIContext context, List<VendorItem> vendorItems)
     {
         HashSet<int> processedVendorIds = [];
+        // Ensure vendorItems are distinct by their composite key (VendorId, ItemId)
+        List<VendorItem> distinctVendorItems = [.. vendorItems
+            .GroupBy(vi => new { vi.VendorId, vi.ItemId })
+            .Select(g => g.First())];
 
-        foreach (VendorItem vendorItem in vendorItems)
+        foreach (VendorItem vendorItem in distinctVendorItems)
         {
             if (!processedVendorIds.Contains(vendorItem.VendorId))
             {
                 List<VendorItem> existingItems =
                 [
-                    .. context.G_VendorItems
-                                        .Where(vi => vi.VendorId == vendorItem.VendorId)
-,
+                    .. context.G_VendorItems.Where(vi => vi.VendorId == vendorItem.VendorId)
                 ];
 
                 context.G_VendorItems.RemoveRange(existingItems);
@@ -153,19 +188,6 @@ public class AutoPublisher
             }
 
             context.G_VendorItems.Add(vendorItem);
-        }
-    }
-
-    private static void PersistMappings(BlizzardAPIContext context, List<ObjectExpansionMapping> mappings)
-    {
-        HashSet<int> itemIdsAlreadyComplete = [.. context.ObjectExpansionMappings.Where(o => o.CollectionType == 'I').Select(k => k.Id)];
-
-        foreach (ObjectExpansionMapping mapping in mappings)
-        {
-            if (!itemIdsAlreadyComplete.Contains(mapping.Id))
-            {
-                context.ObjectExpansionMappings.Add(mapping);
-            }
         }
     }
 

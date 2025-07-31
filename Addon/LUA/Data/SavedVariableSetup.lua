@@ -22,6 +22,7 @@ WarboundEventManager:On("ADDON_LOADED", function(addonName)
         dataBattlePetLocations = {},
         dataExpansionItemIdMapping = '',
         dataMountItemIdMapping = '',
+        dataNpcQuests = {},
     }
 
     WarboundLogger:Log("SavedVariables cleared on load")

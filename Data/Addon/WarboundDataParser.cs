@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Data.BlizzardAPI;
-using Data.BlizzardAPI.Models;
 
 namespace Data.Addon;
 
@@ -72,88 +70,62 @@ public class WarboundDataParser
         return mapping;
     }
 
-    public List<ObjectExpansionMapping> GetItemExpansionMappings()
+    public List<NpcKillCount> GetNpcKills()
     {
-        List<ObjectExpansionMapping> mappings = [];
+        List<NpcKillCount> list = [];
+        bool inSection = false;
+        NpcKillCount current = null;
 
         for (int i = 0; i < _lines.Length; i++)
         {
             string line = _lines[i].Trim();
-            if (line.StartsWith("[\"dataExpansionItemIdMapping\"]"))
+
+            if (!inSection)
             {
-                int eqIdx = line.IndexOf('=');
-                if (eqIdx >= 0)
+                if (line.StartsWith("[\"dataKill\"]"))
                 {
-                    string value = line[(eqIdx + 1)..].Trim().Trim(',', '"');
-                    int idx = 0;
-                    while (idx < value.Length)
-                    {
-                        int start = value.IndexOf('|', idx);
-                        if (start == -1) break;
-                        int end = value.IndexOf('|', start + 1);
-                        if (end == -1) break;
-                        int nextPipe = value.IndexOf('|', end + 1);
-                        int expansionId = int.Parse(value.Substring(start + 1, end - start - 1));
-                        int itemsStart = end + 1;
-                        int itemsEnd = nextPipe != -1 ? nextPipe : value.Length;
-                        string itemsSection = value[itemsStart..itemsEnd];
-                        string[] itemIds = itemsSection.Split(';', StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string itemIdStr in itemIds)
-                        {
-                            if (int.TryParse(itemIdStr, out int itemId))
-                            {
-                                mappings.Add(new ObjectExpansionMapping
-                                {
-                                    Id = itemId,
-                                    CollectionType = 'I',
-                                    ExpansionId = expansionId
-                                });
-                            }
-                        }
-                        idx = itemsEnd;
-                    }
+                    inSection = true;
+                    continue;
                 }
             }
-        }
 
-        using BlizzardAPIContext context = new();
-        Dictionary<int, int> expansionsByLuaId = context.JournalExpansions.ToDictionary(e => e.ExpansionIdLUA, e => e.Id);
-
-        List<ObjectExpansionMapping> filteredMappings = [];
-        foreach (ObjectExpansionMapping mapping in mappings)
-        {
-            if (mapping.ExpansionId == -1) continue;
-            if (expansionsByLuaId.TryGetValue(mapping.ExpansionId, out int expansionId))
+            if (inSection)
             {
-                mapping.ExpansionId = expansionId;
-                filteredMappings.Add(mapping);
-            }
-        }
-
-        return filteredMappings;
-    }
-
-    public List<NpcKillCount> GetNpcKills()
-    {
-        List<NpcKillCount> list = new();
-
-        for (int i = 0; i < _lines.Length; i++)
-        {
-            if (_lines[i].Trim().StartsWith("[\"dataKill\"]"))
-            {
-                int end = GetSectionEnd(i);
-                for (int j = i + 1; j < end; j++)
+                if (line.StartsWith("[") && line.Contains("] = {"))
                 {
-                    string line = _lines[j].Trim();
-                    if (line.StartsWith("[") && line.Contains("="))
+                    int open = line.IndexOf('[') + 1;
+                    int close = line.IndexOf(']');
+                    if (int.TryParse(line[open..close], out int npcId))
                     {
-                        string[] parts = line.Split('=');
-                        if (int.TryParse(parts[0].Trim('[', ']', ' '), out int npcID) &&
-                            int.TryParse(parts[1].Trim().TrimEnd(','), out int count))
-                        {
-                            list.Add(new NpcKillCount { NpcId = npcID, Count = count });
-                        }
+                        current = new NpcKillCount { NpcId = npcId };
                     }
+                }
+                else if (line.StartsWith("},")) // end of current kill entry
+                {
+                    if (current != null && current.Count > 0)
+                    {
+                        list.Add(current);
+                    }
+                    current = null;
+                }
+                else if (current != null && line.Contains("="))
+                {
+                    string[] parts = line.Split('=');
+                    string key = parts[0].Trim('[', ']', '"', ' ');
+                    string val = parts[1].Trim().Trim(',', '"');
+
+                    switch (key)
+                    {
+                        case "name": current.Name = val; break;
+                        case "count":
+                            if (int.TryParse(val, out int parsed)) current.Count = parsed;
+                            break;
+                    }
+                }
+
+                if (line.StartsWith("[\"data") && !line.StartsWith("[\"dataKill\""))
+                {
+                    break; // Exited dataKill section
                 }
             }
         }
@@ -336,6 +308,7 @@ public class WarboundDataParser
                                 case "cost": entry.Cost = parsed; break;
                                 case "costID": entry.CostId = parsed; break;
                                 case "vendorID": entry.VendorId = parsed; break;
+                                case "factionID": entry.FactionId = parsed; break;
                             }
                         }
                         else if (key == "costType") entry.CostType = val;
@@ -345,6 +318,83 @@ public class WarboundDataParser
         }
 
         return list;
+    }
+
+    public List<QuestLocation> GetQuestLocations()
+    {
+        List<QuestLocation> list = [];
+        bool inSection = false;
+        QuestLocation current = null;
+
+        for (int i = 0; i < _lines.Length; i++)
+        {
+            string line = _lines[i].Trim();
+
+            if (!inSection)
+            {
+                if (line.StartsWith("[\"dataNpcQuests\"]"))
+                {
+                    inSection = true;
+                    continue;
+                }
+            }
+
+            if (inSection)
+            {
+                if (line.StartsWith("{"))
+                {
+                    current = new QuestLocation();
+                }
+                else if (line.StartsWith("},") && current != null)
+                {
+                    list.Add(current);
+                    current = null;
+                }
+                else if (current != null && line.Contains("="))
+                {
+                    string[] parts = line.Split('=');
+                    string key = parts[0].Trim('[', ']', '"', ' ');
+                    string val = parts[1].Trim().Trim(',', '"');
+
+                    switch (key)
+                    {
+                        case "npcName":
+                            current.NpcName = val;
+                            break;
+                        case "mapID":
+                            current.MapId = int.Parse(val);
+                            break;
+                        case "isStart":
+                            current.IsStart = val == "true";
+                            break;
+                        case "y":
+                            if (float.TryParse(val, out float y))
+                                current.Y = (int)(y * 10);
+                            break;
+                        case "questID":
+                            current.QuestId = int.Parse(val);
+                            break;
+                        case "factionID":
+                            current.FactionId = int.Parse(val);
+                            break;
+                        case "x":
+                            if (float.TryParse(val, out float x))
+                                current.X = (int)(x * 10);
+                            break;
+                        case "npcID":
+                            current.NpcId = int.Parse(val);
+                            break;
+                    }
+                }
+
+                if (line.StartsWith("[\"data") && !line.StartsWith("[\"dataNpcQuests\""))
+                {
+                    break;
+                }
+            }
+        }
+
+        return [.. list.Where(o => o.QuestId != 0)];
     }
 
     public List<PetBattleLocation> GetPetBattleLocations()

@@ -32,13 +32,12 @@ public sealed class WarcraftData
     public Dictionary<int, QuestArea> QuestAreas { get; private set; } = [];
     public Dictionary<int, Quest> Quests { get; private set; } = [];
     public Dictionary<int, JournalInstanceMedia> JournalInstanceMedias { get; private set; } = [];
-    public Dictionary<string, ObjectExpansionMapping> ObjectExpansionMappings { get; private set; } = [];
     public Dictionary<(int NpcId, int ItemId), LootItemSummary> G_LootItemSummaries { get; private set; } = [];
     public Dictionary<(int NpcId, int X, int Y, int ZoneId), LootLocationEntry> G_LootLocationEntries { get; private set; } = [];
     public Dictionary<int, NpcKillCount> G_NpcKillCounts { get; private set; } = [];
     public Dictionary<int, PetBattleLocation> G_PetBattleLocations { get; private set; } = [];
     public Dictionary<int, Vendor> G_Vendors { get; private set; } = [];
-    public Dictionary<int, VendorItem> G_VendorItems { get; private set; } = [];
+    public Dictionary<int, List<VendorItem>> G_VendorItems { get; private set; } = [];
     public Dictionary<int, List<AuctionRecord>> G_Auctions { get; private set; } = [];
 
     private bool _isLoaded;
@@ -80,6 +79,6 @@ public sealed class WarcraftData
         G_NpcKillCounts = context.G_NpcKillCounts.ToDictionary(x => x.NpcId);
         G_PetBattleLocations = context.G_PetBattleLocations.ToDictionary(x => x.PetSpeciesId);
         G_Vendors = context.G_Vendors.ToDictionary(x => x.NpcId);
-        G_VendorItems = context.G_VendorItems.ToDictionary(x => x.VendorId);
+        G_VendorItems = context.G_VendorItems.GroupBy(x => x.VendorId).ToDictionary(g => g.Key, g => g.ToList());
     }
 }

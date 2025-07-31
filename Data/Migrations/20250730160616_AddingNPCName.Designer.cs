@@ -3,6 +3,7 @@ using System;
 using Data.BlizzardAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(BlizzardAPIContext))]
-    partial class BlizzardAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20250730160616_AddingNPCName")]
+    partial class AddingNPCName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +111,6 @@ namespace Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnOrder(1);
 
-                    b.Property<int>("FactionId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MapId")
                         .HasColumnType("integer");
 
@@ -128,7 +128,7 @@ namespace Data.Migrations
                     b.Property<int>("Y")
                         .HasColumnType("integer");
 
-                    b.HasKey("QuestId", "IsStart", "FactionId");
+                    b.HasKey("QuestId", "IsStart");
 
                     b.ToTable("g_quest_location", "wow");
                 });
@@ -175,9 +175,6 @@ namespace Data.Migrations
                     b.Property<int>("VendorId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("FactionId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Cost")
                         .HasColumnType("integer");
 
@@ -192,7 +189,7 @@ namespace Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("ItemId", "VendorId", "FactionId");
+                    b.HasKey("ItemId", "VendorId");
 
                     b.ToTable("g_vendor_item", "wow");
                 });
@@ -555,6 +552,22 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("mount", "wow");
+                });
+
+            modelBuilder.Entity("Data.BlizzardAPI.Models.ObjectExpansionMapping", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<char>("CollectionType")
+                        .HasColumnType("character(1)");
+
+                    b.Property<int>("ExpansionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id", "CollectionType");
+
+                    b.ToTable("object_expansion", "wow");
                 });
 
             modelBuilder.Entity("Data.BlizzardAPI.Models.Pet", b =>

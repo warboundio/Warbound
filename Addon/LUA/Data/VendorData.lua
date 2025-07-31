@@ -47,6 +47,7 @@ function WarboundScanVendor()
             itemID = itemID,
             quantity = quantity,
             cost = cost,
+            factionID = WarboundAPI:GetPlayerFaction(),
             costID = costID,
             costType = costType
         }
